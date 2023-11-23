@@ -1,0 +1,24 @@
+{
+  "name": "mythcarver-a-worldbuilding-app",
+  "version": "1.0.0",
+  "description": "An app for Dungeon Masters and Game Masters alike to organise and maintain notes on wolrds and campaigns.",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js"
+  },
+  "author": "Duncan W. Saul",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-mongo-sanitize": "^2.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.1",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.9.7",
+    "postman": "^0.2.0"
+  }
+}
