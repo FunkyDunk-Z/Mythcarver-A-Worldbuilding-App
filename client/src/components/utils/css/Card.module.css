@@ -1,0 +1,68 @@
+@import '../../../Global.css';
+
+.container.card {
+  cursor: pointer;
+  border: 1px solid black;
+  place-self: center;
+  margin: 0.5rem;
+  height: 100px;
+  width: 100px;
+}
+
+.container.card:hover {
+  background-color: var(--hover-primary);
+  border-color: var(--primary-color);
+}
+
+.cardName {
+  font-weight: bold;
+  font-size: 1.1rem;
+  justify-self: center;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.container.card.small {
+  height: 150px;
+  width: 150px;
+}
+.container.card.small.landscape {
+  height: 100px;
+  width: 150px;
+}
+.container.card.small.portrait {
+  height: 150px;
+  width: 120px;
+}
+
+.container.card.medium {
+  height: 250px;
+  width: 250px;
+  .cardName {
+    font-size: 1.4rem;
+  }
+}
+.container.card.medium.landscape {
+  height: 200px;
+  width: 250px;
+}
+.container.card.medium.portrait {
+  height: 250px;
+  width: 220px;
+}
+
+.container.card.large {
+  height: 350px;
+  width: 350px;
+  .cardName {
+    font-size: 1.8rem;
+  }
+}
+.container.card.large.landscape {
+  height: 300px;
+  width: 350px;
+}
+.container.card.large.portrait {
+  height: 350px;
+  width: 320px;
+}

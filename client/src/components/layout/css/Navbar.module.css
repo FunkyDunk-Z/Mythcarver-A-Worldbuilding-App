@@ -1,0 +1,69 @@
+@import '../../../Global.css';
+
+.container.navbar {
+  grid-template-columns: repeat(3, 1fr);
+  position: relative;
+  justify-self: end;
+  align-self: center;
+  padding-right: 1rem;
+}
+
+.container.navbar.mobile {
+  position: absolute;
+  grid-template-columns: auto;
+  top: 100%;
+  left: -220px;
+  height: max-content;
+  width: 200px;
+  padding: 0;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+
+  transform: translateX(0%);
+  transition: 0.3s ease-in-out;
+}
+
+.container.navbar.open {
+  transform: translateX(109%);
+  transition: 0.3s ease-in-out;
+}
+
+/* NAV BUTTON */
+
+.burgerIcon {
+  position: fixed;
+  margin: 0.7rem;
+  width: 30px;
+  height: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  top: 20px;
+  left: 10px;
+}
+
+.line {
+  width: 100%;
+  height: 2px;
+  background-color: black;
+}
+
+.open .line:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+
+.open .line:nth-child(2) {
+  opacity: 0;
+}
+
+.open .line:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+@media (min-width: 768px) {
+  .burgerIcon {
+    display: none;
+  }
+}

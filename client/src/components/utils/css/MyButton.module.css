@@ -1,0 +1,79 @@
+@import '../../App.css';
+
+.btn {
+  display: grid;
+  cursor: pointer;
+  background: none;
+  border-width: 1px;
+  min-width: 60px;
+  min-height: 20px;
+  padding: 0.2rem;
+  place-content: center;
+
+  font-family: inherit;
+  font-size: 1rem;
+
+  align-self: inherit;
+  justify-self: inherit;
+}
+.btn:hover {
+  border-color: var(--primary-color);
+  background-color: var(--hover);
+  border-width: 1px;
+}
+
+.btn.dropdown {
+  cursor: pointer;
+  font-size: 1.5rem;
+  font-family: inherit;
+  width: max-content;
+
+  border-style: none;
+  background-color: rgba(255, 255, 255, 0);
+}
+.btn.dropdown:hover {
+  color: var(--primary-color);
+}
+.btn.dropdown::after {
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+  border-left-color: black; /* Adjust arrow color */
+  margin-left: 5px; /* Adjust arrow spacing */
+  transition: transform 0.3s ease; /* Transition for smooth rotation */
+}
+
+/* Rotate arrow when dropdown is open */
+.btn.dropdown.open::after {
+  transform: rotate(90deg); /* Rotate arrow by 90 degrees */
+}
+
+.btn.formSubmit {
+  border: solid;
+  border-width: 1px;
+  height: 30px;
+  width: max-content;
+}
+.btn.formSubmit:hover {
+  border-width: 2px;
+  border-color: var(--primary-color);
+}
+
+.btn.hpHeal {
+  min-height: fit-content;
+  max-height: 40px;
+  width: 80px;
+}
+.btn.hpHeal:hover {
+  background-color: var(--heal);
+}
+.btn.hpDamage {
+  min-height: fit-content;
+  max-height: 40px;
+  width: 80px;
+}
+.btn.hpDamage:hover {
+  background-color: var(--damage);
+}

@@ -1,0 +1,16 @@
+@import '../../../Global.css';
+
+.container.header {
+  position: relative;
+
+  grid-template-columns: auto;
+
+  height: 80px;
+  border-bottom: 1px solid black;
+}
+
+@media (min-width: 768px) {
+  .container.header {
+    grid-template-columns: auto 1fr;
+  }
+}

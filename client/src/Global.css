@@ -1,0 +1,59 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --primary-color: rgb(110, 60, 120);
+  --hover-primary: rgb(110, 60, 120, 0.5);
+  --heal: rgb(80, 138, 78);
+  --damage: rgb(138, 78, 78);
+  --doc-height: 100%;
+}
+
+body {
+  box-sizing: border-box;
+  overflow-x: auto;
+
+  cursor: default;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+  font-family: inherit;
+  width: max-content;
+  font-size: 1.2rem;
+  padding: 0.3rem;
+  align-self: center;
+}
+a:hover {
+  color: var(--primary-color);
+}
+
+li {
+  list-style: none;
+}
+
+.container {
+  display: grid;
+}
+
+.container.root {
+  /* height: 100vh; */
+  height: var(--doc-height);
+  grid-template-rows: auto 1fr auto;
+}
+
+.logo {
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  place-self: center;
+}
