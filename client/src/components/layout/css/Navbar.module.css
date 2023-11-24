@@ -6,25 +6,31 @@
   justify-self: end;
   align-self: center;
   padding-right: 1rem;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(4px);
 }
 
 .container.navbar.mobile {
   position: absolute;
   grid-template-columns: auto;
   top: 100%;
-  left: -220px;
+  left: -225px;
   height: max-content;
   width: 200px;
-  padding: 0;
-  border-right: 1px solid black;
-  border-bottom: 1px solid black;
+  padding: 10px;
+  border: 1px solid black;
+  z-index: 100;
 
   transform: translateX(0%);
   transition: 0.3s ease-in-out;
 }
 
+.logoutBtn {
+  justify-self: center;
+}
+
 .container.navbar.open {
-  transform: translateX(109%);
+  transform: translateX(101%);
   transition: 0.3s ease-in-out;
 }
 

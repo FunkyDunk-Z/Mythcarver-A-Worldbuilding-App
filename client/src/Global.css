@@ -7,7 +7,7 @@
 
 :root {
   --primary-color: rgb(110, 60, 120);
-  --hover-primary: rgb(110, 60, 120, 0.5);
+  --primary-hover: rgb(110, 60, 120, 0.5);
   --heal: rgb(80, 138, 78);
   --damage: rgb(138, 78, 78);
   --doc-height: 100%;

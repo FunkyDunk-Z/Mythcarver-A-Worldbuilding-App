@@ -1,6 +1,8 @@
 import styles from './css/Navbar.module.css'
 import { Link, useLocation } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
+import { useLogout } from '../../hooks/useLogout'
+import MyButton from '../utils/MyButton'
 
 function Navbar(props) {
   // const navRef = useRef()
@@ -9,6 +11,7 @@ function Navbar(props) {
   const [isMobile, setIsMobile] = useState(mobile)
   const [isActive, setIsActive] = useState(false)
   const { pathname } = useLocation()
+  const { logout } = useLogout()
 
   useEffect(() => {
     function handleSize() {
@@ -43,6 +46,11 @@ function Navbar(props) {
     setIsActive(!isActive)
   }
 
+  const handleClick = () => {
+    toggleNavBtn()
+    logout()
+  }
+
   return (
     <>
       <div
@@ -68,6 +76,9 @@ function Navbar(props) {
         <Link to={'/codex'} onClick={toggleNavBtn}>
           Codex
         </Link>
+        <div className={styles.logoutBtn}>
+          <MyButton handleClick={handleClick} label="Logout" />
+        </div>
       </div>
     </>
   )
