@@ -1,16 +1,29 @@
 @import '../../../Global.css';
 
 .container.header {
-  position: relative;
+  position: sticky;
+  top: 0;
+  height: 80px;
+
+  background-color: white;
 
   grid-template-columns: auto;
 
   height: 80px;
   border-bottom: 1px solid black;
+
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 500ms;
 }
 
-@media (min-width: 768px) {
+.container.header.scroll {
+  top: -80px;
+}
+
+@media (min-width: 900px) {
   .container.header {
+    position: relative;
     grid-template-columns: auto 1fr;
   }
 }

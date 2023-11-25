@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styles from './Form.module.css'
-import { useForgotPassword } from '../hooks/useForgotPassword'
-import MyButton from '../components/utils/MyButton'
+import { useForgotPassword } from '../../hooks/useForgotPassword'
+import MyButton from '../../components/utils/MyButton'
 
 function ForgotPassword() {
   const [formData, setFormData] = useState({

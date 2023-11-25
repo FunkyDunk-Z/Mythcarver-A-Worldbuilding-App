@@ -5,7 +5,10 @@ import { useLogin } from '../../hooks/useLogin'
 
 function Login(props) {
   const cName = props.pageName ? styles[props.pageName] : ''
-  const [formData, setFormData] = useState({})
+  const [formData, setFormData] = useState({
+    email: 'dunc@gmail.com',
+    password: '123456789',
+  })
   const { login, error, isLoading } = useLogin()
 
   const handleChange = (e) => {

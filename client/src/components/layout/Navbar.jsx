@@ -2,12 +2,14 @@ import styles from './css/Navbar.module.css'
 import { Link, useLocation } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
 import { useLogout } from '../../hooks/useLogout'
+import { useScrollDirection } from '../../hooks/useScrollDirection'
 import MyButton from '../utils/MyButton'
 
 function Navbar(props) {
   // const navRef = useRef()
+  const scrollDirection = useScrollDirection()
   const cName = props.pageName ? styles[props.pageName] : ''
-  const mobile = window.innerWidth < 768
+  const mobile = window.innerWidth < 900
   const [isMobile, setIsMobile] = useState(mobile)
   const [isActive, setIsActive] = useState(false)
   const { pathname } = useLocation()
@@ -15,7 +17,7 @@ function Navbar(props) {
 
   useEffect(() => {
     function handleSize() {
-      if (window.innerWidth >= 768) {
+      if (window.innerWidth >= 900) {
         setIsActive(false)
         setIsMobile(false)
       } else {
@@ -28,6 +30,12 @@ function Navbar(props) {
       window.removeEventListener('resize', handleSize)
     }
   }, [])
+
+  useEffect(() => {
+    if (scrollDirection === 'down') {
+      setIsActive(false)
+    }
+  })
 
   useEffect(() => {
     setIsActive(false)

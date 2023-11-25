@@ -7,6 +7,10 @@ function Codex(props) {
   return (
     <div className={` ${styles.container} ${cName}`}>
       <Card pageName="card" size="large" />
+      <Card pageName="card" size="large" />
+      <Card pageName="card" size="large" />
+      <Card pageName="card" size="large" />
+      <Card pageName="card" size="large" />
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import './Global.css'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { useAuthContext } from './hooks/useAuthContext'
 
 // Layout
@@ -7,6 +7,9 @@ import Header from './components/layout/Header'
 import Footer from './components/layout/Footer'
 
 // Authentication
+import Login from './components/forms/Login'
+import SignUp from './components/forms/SignUp'
+import ForgotPassword from './components/forms/ForgotPassword'
 
 // Pages
 import Home from './pages/Home'
@@ -48,24 +51,17 @@ function App() {
   }
 
   return (
-    <>
-      <div className="container root">
-        <BrowserRouter>
-          <Header pageName="header" />
-          <Routes>
-            <Route
-              path="/"
-              element={<LoadingComponent component={<Home />} />}
-            />
-            <Route
-              path="/codex"
-              element={<LoadingComponent component={<Codex />} />}
-            />
-          </Routes>
-          <Footer pageName="footer" />
-        </BrowserRouter>
-      </div>
-    </>
+    <div className="container root">
+      <Header pageName="header" />
+      <Routes>
+        <Route path="/" element={<LoadingComponent component={<Home />} />} />
+        <Route
+          path="/codex"
+          element={<LoadingComponent component={<Codex />} />}
+        />
+      </Routes>
+      <Footer pageName="footer" />
+    </div>
   )
 }
 

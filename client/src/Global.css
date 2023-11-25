@@ -10,7 +10,7 @@
   --primary-hover: rgb(110, 60, 120, 0.5);
   --heal: rgb(80, 138, 78);
   --damage: rgb(138, 78, 78);
-  --doc-height: 100%;
+  --blur: rgba(255, 255, 255, 0.5);
 }
 
 body {
@@ -41,14 +41,17 @@ li {
   list-style: none;
 }
 
+#root {
+  height: 100vh;
+}
+
 .container {
   display: grid;
 }
 
 .container.root {
-  /* height: 100vh; */
-  height: var(--doc-height);
   grid-template-rows: auto 1fr auto;
+  height: 100%;
 }
 
 .logo {
