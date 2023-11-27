@@ -17,6 +17,9 @@ import Dashboard from './pages/Dashboard'
 import Codex from './pages/Codex'
 import MyAccount from './pages/MyAccount'
 
+// Routes
+import CategoryRoutes from './routes/CategoryRoutes'
+
 // Components
 import NotFound from './components/utils/NotFound'
 
@@ -77,10 +80,8 @@ function App() {
           }
         />
         <Route
-          path="/codex"
-          element={
-            <LoadingComponent component={<Codex pageName={'codex'} />} />
-          }
+          path="/codex/*"
+          element={<LoadingComponent component={<CategoryRoutes />} />}
         />
         <Route
           path="/my-account"
