@@ -42,6 +42,9 @@ export const AuthContextProvider = ({ children }) => {
         setIsLoggedIn(false)
         dispatch({ type: 'LOGOUT' })
         localStorage.removeItem('user')
+        if (error.response.status === 500) {
+          console.log('Server Error')
+        }
         console.error('User is not logged in')
       } finally {
         setIsLoading(false)
