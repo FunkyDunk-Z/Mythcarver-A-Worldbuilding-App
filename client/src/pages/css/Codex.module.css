@@ -1,5 +1,17 @@
 @import '../../Global.css';
 
 .container.codex {
-  grid-template-rows: auto 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+@media (min-width: 1024px) {
+  .container.codex {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .container.codex {
+    margin: 3rem;
+  }
 }

@@ -7,10 +7,11 @@
   margin: 0.5rem;
   height: 100px;
   width: 100px;
+  background-color: white;
 }
 
 .container.card:hover {
-  background-color: var(--hover-primary);
+  background-color: var(--primary-hover);
   border-color: var(--primary-color);
 }
 
@@ -26,6 +27,7 @@
   height: 150px;
   width: 150px;
 }
+
 .container.card.small.landscape {
   height: 100px;
   width: 150px;

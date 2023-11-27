@@ -11,7 +11,7 @@ function Header(props) {
 
   return (
     <div className={` ${styles.container} ${cName} ${styles[direction]}`}>
-      <img className="logo" src={Logo} alt="" />
+      <img className={styles.logo} src={Logo} alt="" />
       <Navbar pageName="navbar" />
     </div>
   )

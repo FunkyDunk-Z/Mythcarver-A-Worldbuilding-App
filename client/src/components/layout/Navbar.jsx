@@ -1,12 +1,11 @@
 import styles from './css/Navbar.module.css'
 import { Link, useLocation } from 'react-router-dom'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { useLogout } from '../../hooks/useLogout'
 import { useScrollDirection } from '../../hooks/useScrollDirection'
 import MyButton from '../utils/MyButton'
 
 function Navbar(props) {
-  // const navRef = useRef()
   const scrollDirection = useScrollDirection()
   const cName = props.pageName ? styles[props.pageName] : ''
   const mobile = window.innerWidth < 900
@@ -40,15 +39,6 @@ function Navbar(props) {
   useEffect(() => {
     setIsActive(false)
   }, [pathname])
-
-  // useEffect(() => {
-  //   const handler = (e) => {
-  //     if (!navRef.current.contains(e.target)) {
-  //       setIsActive(false)
-  //     }
-  //   }
-  //   window.addEventListener('mousedown', handler)
-  // })
 
   const toggleNavBtn = () => {
     setIsActive(!isActive)

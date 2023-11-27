@@ -76,4 +76,9 @@
   .burgerIcon {
     display: none;
   }
+  .container.navbar {
+    grid-template-columns: repeat(4, 1fr);
+    padding-right: 0;
+    place-items: center;
+  }
 }

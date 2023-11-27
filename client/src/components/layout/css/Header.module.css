@@ -21,9 +21,16 @@
   top: -80px;
 }
 
+.logo {
+  place-self: center;
+}
+
 @media (min-width: 900px) {
   .container.header {
     position: relative;
     grid-template-columns: auto 1fr;
+  }
+  .logo {
+    padding: 0.5rem;
   }
 }
