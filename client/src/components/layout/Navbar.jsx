@@ -79,10 +79,13 @@ function Navbar(props) {
         }
       >
         <Link to={'/'} onClick={toggleNavBtn}>
-          Home
+          Dashboard
         </Link>
         <Link to={'/codex'} onClick={toggleNavBtn}>
           Codex
+        </Link>
+        <Link to={'/my-account'} onClick={toggleNavBtn}>
+          My Account
         </Link>
         <div className={styles.logoutBtn}>
           <MyButton handleClick={handleClick} label="Logout" />

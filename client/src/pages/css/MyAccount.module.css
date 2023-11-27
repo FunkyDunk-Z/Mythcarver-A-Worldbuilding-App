@@ -1,0 +1,12 @@
+@import '../../Global.css';
+
+.container.myAccount {
+  height: max-content;
+  width: max-content;
+  border: 1px solid black;
+  place-self: center;
+}
+
+.container.info {
+  padding: 1rem;
+}

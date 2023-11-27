@@ -1,22 +1,23 @@
-import { useAuthContext } from "./useAuthContext";
-import axios from "axios";
+import { useAuthContext } from './useAuthContext'
+import axios from 'axios'
 
 export const useLogout = () => {
-  const { dispatch } = useAuthContext();
+  const { dispatch, setIsLoggedIn } = useAuthContext()
 
   const logout = async () => {
     try {
-      const response = await axios.post("/api/v1/users/logout");
+      const response = await axios.post('/api/v1/users/logout')
 
       if (response.status === 200) {
-        localStorage.removeItem("user");
+        localStorage.removeItem('user')
 
-        dispatch({ type: "LOGOUT" });
+        dispatch({ type: 'LOGOUT' })
+        setIsLoggedIn(false)
       }
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
-  return { logout };
-};
+  return { logout }
+}

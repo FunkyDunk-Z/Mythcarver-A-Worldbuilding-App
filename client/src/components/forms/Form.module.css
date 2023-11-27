@@ -4,10 +4,7 @@
   grid-template-columns: 1fr;
   grid-template-rows: auto 1fr;
 
-  min-height: min-content;
   width: 300px;
-
-  border: 1px solid black;
 }
 
 .form {
@@ -28,6 +25,7 @@
 
 .label {
   place-self: center;
+  font-size: 1.3rem;
 }
 
 .btn {
@@ -44,8 +42,7 @@
 }
 
 .link {
-  text-align: center;
-  width: max-content;
+  justify-self: center;
 }
 
 .error {

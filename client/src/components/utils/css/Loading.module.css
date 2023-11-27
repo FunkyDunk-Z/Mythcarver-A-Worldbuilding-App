@@ -1,9 +1,0 @@
-@import '../../../Global.css';
-
-.container.loading {
-  place-self: center;
-}
-
-.alert {
-  place-self: center;
-}

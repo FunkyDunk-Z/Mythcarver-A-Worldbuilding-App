@@ -4,11 +4,9 @@ import axios from 'axios'
 
 export const useSignUp = () => {
   const [myError, setMyError] = useState(null)
-  const [isLoading, setIsLoading] = useState(null)
-  const { dispatch } = useAuthContext()
+  const { dispatch, setIsLoggedIn } = useAuthContext()
 
   const signUp = async (data) => {
-    setIsLoading(true)
     setMyError(null)
 
     try {
@@ -21,16 +19,14 @@ export const useSignUp = () => {
 
         localStorage.setItem('user', JSON.stringify(user))
         dispatch({ type: 'LOGIN', payload: user })
-        setIsLoading(false)
+        setIsLoggedIn(true)
       } else {
-        setIsLoading(false)
         setMyError(response.data.error.message)
       }
     } catch (error) {
       setMyError(error.response.data.message)
-      setIsLoading(false)
     }
   }
 
-  return { signUp, isLoading, myError }
+  return { signUp, myError }
 }

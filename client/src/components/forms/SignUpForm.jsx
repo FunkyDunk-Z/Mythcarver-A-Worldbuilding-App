@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import styles from './Form.module.css'
 import MyButton from '../utils/MyButton'
 import { useSignUp } from '../../hooks/useSignUp'
 
 function SignUp(props) {
   const cName = props.pageName ? styles[props.pageName] : ''
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -36,6 +38,8 @@ function SignUp(props) {
       password: '',
       passwordConfirm: '',
     })
+
+    navigate('/')
   }
 
   return (
@@ -101,7 +105,10 @@ function SignUp(props) {
           value={formData.password}
           onChange={handleChange}
         ></input>
-        <label className={styles.label} htmlFor="passwordConfirm">
+        <label
+          className={styles.label}
+          htmlFor="passwordConfirm"
+        >
           Password Confirm:
         </label>
         <input
@@ -119,8 +126,13 @@ function SignUp(props) {
             label="Sign Up"
           />
 
-          {myError && <div className={styles.error}>{myError}</div>}
+          {myError && (
+            <div className={styles.error}>{myError}</div>
+          )}
         </div>
+        <Link className="link" to={'/login'}>
+          Already have an account? Login here
+        </Link>
       </form>
     </div>
   )

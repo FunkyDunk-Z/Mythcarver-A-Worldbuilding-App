@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import styles from './Form.module.css'
 import { useForgotPassword } from '../../hooks/useForgotPassword'
-import MyButton from '../../components/utils/MyButton'
+import MyButton from '../utils/MyButton'
 
-function ForgotPassword() {
+function ForgotPassword(props) {
+  const cName = props.pageName ? styles[props.pageName] : ''
   const [formData, setFormData] = useState({
     email: '',
   })
@@ -28,9 +30,9 @@ function ForgotPassword() {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${cName}`}>
       <h3 className={styles.formTitle}>Forgot Password?</h3>
-      <form className={styles.containerForm} onSubmit={handleSubmit}>
+      <form className={styles.form} onSubmit={handleSubmit}>
         <label htmlFor="email" className={styles.label}>
           Email:
         </label>
@@ -45,13 +47,20 @@ function ForgotPassword() {
           value={formData.email}
           required
         ></input>
-        <div>
+        <div className={styles.btn}>
           <span>{message && <p className={styles.message}>{message}</p>}</span>
-          <MyButton handleClick={handleSubmit} isDisabled={isLoading}>
-            Submit
-          </MyButton>
+          <MyButton
+            handleClick={handleSubmit}
+            isDisabled={isLoading}
+            label={'Confirm'}
+            theme=""
+          />
+
           {error && <p className={styles.error}>{error}</p>}
         </div>
+        <Link className={styles.link} to={'/login'}>
+          Login
+        </Link>
       </form>
     </div>
   )

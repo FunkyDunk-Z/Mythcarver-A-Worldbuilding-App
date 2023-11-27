@@ -9,7 +9,6 @@ function Header(props) {
   const cName = props.pageName ? styles[props.pageName] : ''
   const direction = scrollDirection === 'down' ? 'scroll' : ''
 
-  console.log(direction)
   return (
     <div className={` ${styles.container} ${cName} ${styles[direction]}`}>
       <img className="logo" src={Logo} alt="" />

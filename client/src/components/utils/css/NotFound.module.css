@@ -1,0 +1,19 @@
+@import '../../../Global.css';
+
+.container.notFound {
+  grid-template-rows: auto 1fr;
+  border: 1px solid black;
+  place-self: center;
+  margin: 1rem;
+  padding: 1rem;
+}
+
+.img {
+  place-self: center;
+}
+
+.text {
+  font-weight: lighter;
+  text-align: center;
+  place-self: center;
+}

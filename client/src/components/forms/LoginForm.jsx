@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import styles from './Form.module.css'
-import MyButton from '../../components/utils/MyButton'
+import MyButton from '../utils/MyButton'
 import { useLogin } from '../../hooks/useLogin'
 
-function Login(props) {
+function LoginForm(props) {
   const cName = props.pageName ? styles[props.pageName] : ''
   const [formData, setFormData] = useState({
     email: 'dunc@gmail.com',
@@ -32,7 +33,7 @@ function Login(props) {
 
   return (
     <div className={`${styles.container} ${cName}`}>
-      <h3 className={styles.formTitle}>Login</h3>
+      <h1 className={styles.formTitle}>Login</h1>
       <form onSubmit={handleLogin} className={`${styles.form}`}>
         <label htmlFor="email-login" className={styles.label}>
           Email:
@@ -70,8 +71,14 @@ function Login(props) {
           {error && <p className={styles.error}>{error}</p>}
         </div>
       </form>
+      <Link className={styles.link} to={'/forgot-password'}>
+        Forgot Password?
+      </Link>
+      <Link className={styles.link} to={'/sign-up'}>
+        Sign Up Here
+      </Link>
     </div>
   )
 }
 
-export default Login
+export default LoginForm

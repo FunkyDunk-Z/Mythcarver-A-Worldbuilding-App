@@ -16,6 +16,7 @@ export const authReducer = (state, action) => {
 
 export const AuthContextProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [state, dispatch] = useReducer(authReducer, {
     user: null,
   })
@@ -33,24 +34,41 @@ export const AuthContextProvider = ({ children }) => {
         const user = res.data.data.user
 
         if (res.status === 200) {
-          setIsLoading(false)
+          setIsLoggedIn(true)
           localStorage.setItem('user', JSON.stringify(user))
           dispatch({ type: 'LOGIN', payload: user })
         }
       } catch (error) {
-        setIsLoading(false)
+        setIsLoggedIn(false)
         dispatch({ type: 'LOGOUT' })
         localStorage.removeItem('user')
         console.error('User is not logged in')
+      } finally {
+        setIsLoading(false)
       }
     }
     fetchUser()
   }, [])
 
-  // console.log("AuthContext state: ", state, isLoading);
+  // console.log(
+  //   // 'AuthContext state: ',
+  //   state,
+  //   'isLoggedIn? :',
+  //   isLoggedIn,
+  //   'isLoading? :',
+  //   isLoading
+  // )
 
   return (
-    <AuthContext.Provider value={{ ...state, dispatch, isLoading }}>
+    <AuthContext.Provider
+      value={{
+        ...state,
+        dispatch,
+        isLoading,
+        setIsLoggedIn,
+        isLoggedIn,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   )
