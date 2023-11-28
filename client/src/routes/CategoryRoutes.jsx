@@ -11,13 +11,13 @@ import Species from '../pages/categories/Species'
 export default function CategoryRoutes() {
   return (
     <Routes>
-      <Route index element={<Codex />} />
-      <Route path="campaigns" element={<Campaigns />} />
-      <Route path="characters" element={<Characters />} />
-      <Route path="factions" element={<Factions />} />
-      <Route path="locations" element={<Locations />} />
-      <Route path="nations" element={<Nations />} />
-      <Route path="species" element={<Species />} />
+      <Route index element={<Codex pageName="codex" />} />
+      <Route path="campaigns" element={<Campaigns pageName="camaigns" />} />
+      <Route path="characters" element={<Characters pageName="characters" />} />
+      <Route path="factions" element={<Factions pageName="factions" />} />
+      <Route path="locations" element={<Locations pageName="locations" />} />
+      <Route path="nations" element={<Nations pageName="nations" />} />
+      <Route path="species" element={<Species pageName="species" />} />
     </Routes>
   )
 }

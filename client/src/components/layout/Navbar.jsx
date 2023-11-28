@@ -3,9 +3,11 @@ import { Link, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useLogout } from '../../hooks/useLogout'
 import { useScrollDirection } from '../../hooks/useScrollDirection'
+import { useAuthContext } from '../../hooks/useAuthContext'
 import MyButton from '../utils/MyButton'
 
 function Navbar(props) {
+  const { isLoggedIn } = useAuthContext()
   const scrollDirection = useScrollDirection()
   const cName = props.pageName ? styles[props.pageName] : ''
   const mobile = window.innerWidth < 900
@@ -52,7 +54,11 @@ function Navbar(props) {
   return (
     <>
       <div
-        className={`${styles.burgerIcon} ${isActive ? styles.open : ''}`}
+        className={
+          isLoggedIn
+            ? `${styles.burgerIcon} ${isActive ? styles.open : ''}`
+            : ''
+        }
         onClick={toggleNavBtn}
       >
         <span className={styles.line}></span>

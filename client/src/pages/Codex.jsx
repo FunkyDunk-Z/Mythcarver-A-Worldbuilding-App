@@ -9,24 +9,45 @@ function Codex(props) {
       <Card
         pageName="card"
         size="medium"
+        cardType="landscape"
         cardName="Campaigns"
         link="campaigns"
       />
       <Card
         pageName="card"
         size="medium"
+        cardType="landscape"
         cardName="Characters"
         link="characters"
       />
-      <Card pageName="card" size="medium" cardName="Factions" link="factions" />
       <Card
         pageName="card"
         size="medium"
+        cardType="landscape"
+        cardName="Factions"
+        link="factions"
+      />
+      <Card
+        pageName="card"
+        size="medium"
+        cardType="landscape"
         cardName="Locations"
         link="locations"
       />
-      <Card pageName="card" size="medium" cardName="Nations" link="nations" />
-      <Card pageName="card" size="medium" cardName="Species" link="species" />
+      <Card
+        pageName="card"
+        size="medium"
+        cardType="landscape"
+        cardName="Nations"
+        link="nations"
+      />
+      <Card
+        pageName="card"
+        size="medium"
+        cardType="landscape"
+        cardName="Species"
+        link="species"
+      />
     </div>
   )
 }

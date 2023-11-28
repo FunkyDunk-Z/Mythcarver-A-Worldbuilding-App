@@ -32,6 +32,8 @@ function App() {
     const authUrl =
       url === 'login' || url === 'sign-up' || url === 'forgot-password'
 
+    console.log(url)
+
     if (isLoading) {
       return <LoadingPage />
     }

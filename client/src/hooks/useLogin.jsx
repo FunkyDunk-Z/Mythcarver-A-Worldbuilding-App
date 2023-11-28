@@ -11,23 +11,19 @@ export const useLogin = () => {
     setError(null)
 
     try {
-      const response = await axios.post(
-        '/api/v1/users/login',
-        data,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          withCredentials: true,
-        }
-      )
+      const response = await axios.post('/api/v1/users/login', data, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      })
       if (response.status === 200) {
         const user = response.data.data.user
 
         localStorage.setItem('user', JSON.stringify(user))
         dispatch({ type: 'LOGIN', payload: user })
         setIsLoggedIn(true)
-        redirect('/')
+        // redirect('/')
       } else {
         setError(response.data.error)
       }
