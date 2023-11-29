@@ -1,118 +1,18 @@
 @import '../../../Global.css';
 
 .container.card {
-  cursor: pointer;
+  border-radius: 0.5rem;
+  overflow: hidden;
   border: 1px solid black;
-  place-self: center;
+}
+
+.container.card > :not(img) {
+  justify-self: center;
   margin: 0.5rem;
-  height: 100px;
-  width: 100px;
-  background-color: white;
 }
 
-.container.card:hover {
-  background-color: var(--primary-hover);
-  border-color: var(--primary-color);
-  .circle {
-    background-color: white;
-  }
-}
-
-.cardName {
-  font-weight: bold;
-  font-size: 1.1rem;
-  justify-self: center;
-  padding: 0.5rem;
-  text-align: center;
-}
-
-.container.card.small {
-  height: 180px;
-  width: 180px;
-}
-
-.container.card.small.landscape {
-  height: 100px;
-  width: 150px;
-}
-.container.card.small.portrait {
+.image {
+  width: 100%;
   height: 150px;
-  width: 120px;
-}
-
-.container.card.medium {
-  height: 250px;
-  width: 250px;
-  .cardName {
-    font-size: 1.4rem;
-  }
-}
-.container.card.medium.landscape {
-  height: 200px;
-  width: 350px;
-  background-color: aquamarine;
-}
-.container.card.medium.portrait {
-  height: 250px;
-  width: 220px;
-}
-
-.container.card.large {
-  height: 350px;
-  width: 350px;
-  .cardName {
-    font-size: 1.8rem;
-  }
-}
-.container.card.large.landscape {
-  height: 300px;
-  width: 350px;
-}
-.container.card.large.portrait {
-  height: 350px;
-  width: 320px;
-}
-
-.circle {
-  height: 80px;
-  width: 80px;
-  background-color: var(--primary-hover);
-  border-radius: 50%;
-  border-style: solid;
-  border-width: 1px;
-  border-color: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  justify-self: center;
-  z-index: 1;
-}
-
-.plus {
-  position: relative;
-  height: 2px;
-  width: 50px;
-  background-color: var(--primary-color);
-}
-.plus::before,
-.plus::after {
-  content: '';
-  position: absolute;
-  width: inherit;
-  height: inherit;
-  background-color: inherit;
-}
-
-.plus::before {
-  transform: rotate(90deg);
-}
-
-.plus::before,
-.plus::after {
-  top: calc(50%, 5px);
-}
-
-.plus::after {
-  transform: rotate(0deg);
+  object-fit: cover;
 }

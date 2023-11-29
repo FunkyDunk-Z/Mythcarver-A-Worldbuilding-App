@@ -7,79 +7,57 @@ function Codex(props) {
   return (
     <div className={` ${styles.container} ${cName}`}>
       <Card
-        pageName="card"
-        size="medium"
-        cardType="landscape"
+        imgLink="https://picsum.photos/200/300/?random"
         cardName="Campaigns"
         link="campaigns"
       />
       <Card
-        pageName="card"
-        size="medium"
-        cardType="landscape"
+        imgLink="https://picsum.photos/200/300/?random"
         cardName="Characters"
         link="characters"
       />
       <Card
-        pageName="card"
-        size="medium"
-        cardType="landscape"
+        imgLink="https://picsum.photos/200/300/?random"
         cardName="Factions"
         link="factions"
       />
       <Card
-        pageName="card"
-        size="medium"
-        cardType="landscape"
+        imgLink="https://picsum.photos/200/300/?random"
         cardName="Locations"
         link="locations"
       />
       <Card
-        pageName="card"
-        size="medium"
-        cardType="landscape"
+        imgLink="https://picsum.photos/200/300/?random"
         cardName="Nations"
         link="nations"
       />
       <Card
-        pageName="card"
-        size="medium"
-        cardType="landscape"
+        imgLink="https://picsum.photos/200/300/?random"
         cardName="Species"
         link="species"
       />
       <Card
-        pageName="card"
-        size="medium"
-        cardType="landscape"
+        imgLink="https://picsum.photos/200/300/?random"
         cardName="Species"
         link="species"
       />
       <Card
-        pageName="card"
-        size="medium"
-        cardType="landscape"
+        imgLink="https://picsum.photos/200/300/?random"
         cardName="Species"
         link="species"
       />
       <Card
-        pageName="card"
-        size="medium"
-        cardType="landscape"
+        imgLink="https://picsum.photos/200/300/?random"
         cardName="Species"
         link="species"
       />
       <Card
-        pageName="card"
-        size="medium"
-        cardType="landscape"
+        imgLink="https://picsum.photos/200/300/?random"
         cardName="Species"
         link="species"
       />
       <Card
-        pageName="card"
-        size="medium"
-        cardType="landscape"
+        imgLink="https://picsum.photos/200/300/?random"
         cardName="Species"
         link="species"
       />

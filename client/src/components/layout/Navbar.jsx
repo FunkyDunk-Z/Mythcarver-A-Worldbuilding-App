@@ -29,8 +29,7 @@ function Navbar() {
   useEffect(() => {
     if (scrollDirection === 'down') {
       setIsActive(false)
-      setIsOpen('closed')
-      // setIsOpen('')
+      setIsOpen('')
     }
   })
 

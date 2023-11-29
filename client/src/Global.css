@@ -15,9 +15,11 @@
 }
 
 body {
+  font-family: Georgia, 'Times New Roman', Times, serif;
   box-sizing: border-box;
   overflow-y: auto;
   overflow-x: auto;
+  line-height: 1.5;
 
   cursor: default;
 }
@@ -41,6 +43,11 @@ a:hover {
 
 li {
   list-style: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
 }
 
 .container {

@@ -9,7 +9,7 @@
   padding: 1rem;
   place-items: center;
 
-  @media (max-width: 900px) {
+  @media (max-width: 899px) {
     position: fixed;
     width: 180px;
     top: 80px;

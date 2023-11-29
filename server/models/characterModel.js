@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 
-const characterTypes = ['player character', 'npc']
+const characterTypes = ['player', 'npc']
 
 const abilityNames = [
   'strength',
@@ -41,6 +41,10 @@ const senseNames = [
 ]
 
 const characterSchema = new Schema({
+  createdBy: {
+    type: Schema.ObjectId,
+    ref: 'User',
+  },
   characterName: {
     type: String,
     required: true,

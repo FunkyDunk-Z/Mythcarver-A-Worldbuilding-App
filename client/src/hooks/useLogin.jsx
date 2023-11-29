@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { redirect } from 'react-router-dom'
 import { useAuthContext } from './useAuthContext'
 import axios from 'axios'
 
@@ -23,7 +22,6 @@ export const useLogin = () => {
         localStorage.setItem('user', JSON.stringify(user))
         dispatch({ type: 'LOGIN', payload: user })
         setIsLoggedIn(true)
-        // redirect('/')
       } else {
         setError(response.data.error)
       }

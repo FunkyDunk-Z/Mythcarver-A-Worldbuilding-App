@@ -34,7 +34,7 @@ const codexSchema = new Schema({
   characters: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Characters',
+      ref: 'Character',
     },
   ],
   locations: [
@@ -51,13 +51,13 @@ const codexSchema = new Schema({
   ],
 })
 
-// codexSchema.pre(/^find/, function (next) {
-//   this.populate({
-//     path: 'species',
-//     select: '-__v ',
-//   })
-//   next()
-// })
+codexSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'characters',
+    select: '-__v ',
+  })
+  next()
+})
 
 const Codex = mongoose.model('Codex', codexSchema)
 
