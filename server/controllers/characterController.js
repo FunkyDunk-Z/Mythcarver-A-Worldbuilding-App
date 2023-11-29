@@ -1,6 +1,6 @@
 const crudOps = require('../utils/crudOps')
 
-const Character = require('../models/characters/characterModel')
+const Character = require('../models/characterModel')
 
 exports.getAllCharacters = crudOps.getAll(Character)
 exports.getCharacter = crudOps.getOne(Character)

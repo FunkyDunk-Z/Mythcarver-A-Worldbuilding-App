@@ -7,12 +7,12 @@ const router = express.Router()
 router.use(authController.protect)
 
 router
-  .route('/player')
+  .route('/')
   .get(characterController.getAllCharacters)
   .post(characterController.createCharacter)
 
 router
-  .route('/player/:id')
+  .route('/:id')
   .get(characterController.getCharacter)
   .patch(characterController.updateCharacter)
   .delete(characterController.deleteCharacter)

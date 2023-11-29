@@ -7,6 +7,7 @@ const userRouter = require('./routes/userRoutes')
 const codexRouter = require('./routes/codexRoutes')
 const speciesRouter = require('./routes/speciesRoutes')
 const characterRouter = require('./routes/characterRoutes')
+const traitRouter = require('./routes/traitRoutes')
 
 const app = express()
 
@@ -30,5 +31,6 @@ app.use('/api/v1/users', userRouter)
 app.use('/api/v1/codex', codexRouter)
 app.use('/api/v1/species', speciesRouter)
 app.use('/api/v1/characters', characterRouter)
+app.use('/api/v1/traits', traitRouter)
 
 module.exports = app

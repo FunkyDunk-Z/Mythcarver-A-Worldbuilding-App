@@ -1,20 +1,22 @@
 @import '../../../Global.css';
 
 .container.header {
+  grid-template-columns: auto 1fr;
   position: sticky;
   top: 0;
   height: 80px;
+  z-index: 10;
 
+  border-bottom: 1px solid black;
   background-color: white;
 
-  grid-template-columns: auto;
-
-  height: 80px;
-  border-bottom: 1px solid black;
-
   transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 500ms;
+  transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition-duration: 200ms;
+
+  @media (max-width: 900px) {
+    grid-template-columns: auto;
+  }
 }
 
 .container.header.scroll {
@@ -22,15 +24,9 @@
 }
 
 .logo {
+  cursor: pointer;
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
   place-self: center;
-}
-
-@media (min-width: 900px) {
-  .container.header {
-    position: relative;
-    grid-template-columns: auto 1fr;
-  }
-  .logo {
-    padding: 0.5rem;
-  }
 }

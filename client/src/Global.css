@@ -16,6 +16,7 @@
 
 body {
   box-sizing: border-box;
+  overflow-y: auto;
   overflow-x: auto;
 
   cursor: default;
@@ -42,20 +43,12 @@ li {
   list-style: none;
 }
 
-#root {
-  height: 100dvh;
-}
-
 .container {
   display: grid;
 }
 
 .container.root {
   grid-template-rows: auto 1fr auto;
-  height: 100%;
-}
-.logo {
-  height: 60px;
-  width: 60px;
-  border-radius: 50%;
+  min-height: 100vh;
+  min-height: 100svh;
 }

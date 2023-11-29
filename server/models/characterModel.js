@@ -198,6 +198,10 @@ const characterSchema = new Schema({
       default: 0,
     },
   },
+  hasDarkvision: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 // PROFICIENCY

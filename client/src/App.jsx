@@ -24,15 +24,13 @@ import CategoryRoutes from './routes/CategoryRoutes'
 import NotFound from './components/utils/NotFound'
 
 function App() {
-  const { isLoggedIn, isLoading, user } = useAuthContext()
+  const { isLoading, user } = useAuthContext()
 
   function LoadingComponent({ component }) {
     const url = window.location.href.split('/')[3]
 
     const authUrl =
       url === 'login' || url === 'sign-up' || url === 'forgot-password'
-
-    console.log(url)
 
     if (isLoading) {
       return <LoadingPage />

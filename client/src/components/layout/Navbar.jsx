@@ -3,16 +3,12 @@ import { Link, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useLogout } from '../../hooks/useLogout'
 import { useScrollDirection } from '../../hooks/useScrollDirection'
-import { useAuthContext } from '../../hooks/useAuthContext'
 import MyButton from '../utils/MyButton'
 
-function Navbar(props) {
-  const { isLoggedIn } = useAuthContext()
+function Navbar() {
   const scrollDirection = useScrollDirection()
-  const cName = props.pageName ? styles[props.pageName] : ''
-  const mobile = window.innerWidth < 900
-  const [isMobile, setIsMobile] = useState(mobile)
   const [isActive, setIsActive] = useState(false)
+  const [isOpen, setIsOpen] = useState('')
   const { pathname } = useLocation()
   const { logout } = useLogout()
 
@@ -20,9 +16,7 @@ function Navbar(props) {
     function handleSize() {
       if (window.innerWidth >= 900) {
         setIsActive(false)
-        setIsMobile(false)
-      } else {
-        setIsMobile(true)
+        setIsOpen('')
       }
     }
 
@@ -35,15 +29,24 @@ function Navbar(props) {
   useEffect(() => {
     if (scrollDirection === 'down') {
       setIsActive(false)
+      setIsOpen('closed')
+      // setIsOpen('')
     }
   })
 
   useEffect(() => {
     setIsActive(false)
+    setIsOpen('')
   }, [pathname])
 
   const toggleNavBtn = () => {
     setIsActive(!isActive)
+
+    if (!isOpen || isOpen === 'closed') {
+      setIsOpen('opened')
+    } else {
+      setIsOpen('closed')
+    }
   }
 
   const handleClick = () => {
@@ -54,11 +57,7 @@ function Navbar(props) {
   return (
     <>
       <div
-        className={
-          isLoggedIn
-            ? `${styles.burgerIcon} ${isActive ? styles.open : ''}`
-            : ''
-        }
+        className={`${styles.burgerIcon} ${isActive ? styles.open : ''}`}
         onClick={toggleNavBtn}
       >
         <span className={styles.line}></span>
@@ -66,13 +65,7 @@ function Navbar(props) {
         <span className={styles.line}></span>
       </div>
       <div
-        className={
-          isMobile
-            ? `${styles.container} ${cName} ${styles['mobile']} ${
-                isActive ? styles.open : ''
-              }`
-            : `${styles.container} ${cName}`
-        }
+        className={`${styles.container} ${styles['navbar']} ${styles[isOpen]}`}
       >
         <Link to={'/'} onClick={toggleNavBtn}>
           Dashboard
@@ -83,9 +76,7 @@ function Navbar(props) {
         <Link to={'/my-account'} onClick={toggleNavBtn}>
           My Account
         </Link>
-        <div className={styles.logoutBtn}>
-          <MyButton handleClick={handleClick} label="Logout" />
-        </div>
+        <MyButton handleClick={handleClick} label="Logout" />
       </div>
     </>
   )

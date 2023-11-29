@@ -1,8 +1,18 @@
 const mongoose = require('mongoose')
-const modelTimestamp = require('../middleware/modelTimestamp')
+// const modelTimestamp = require('../middleware/modelTimestamp')
 const addToUserCodex = require('../middleware/addToUserCodex')
 
 const Schema = mongoose.Schema
+
+const sizes = [
+  'tiny',
+  'small',
+  'medium',
+  'large',
+  'huge',
+  'gargantuan',
+  'colossal',
+]
 
 const speciesSchema = new Schema({
   createdBy: {
@@ -15,13 +25,26 @@ const speciesSchema = new Schema({
     required: true,
     unique: true,
   },
-  description: {
-    type: String,
-    required: true,
-  },
+  subSpecies: [
+    {
+      type: Schema.ObjectId,
+      ref: 'Species',
+    },
+  ],
+  articles: [
+    {
+      articleName: {
+        type: String,
+      },
+      articleContent: {
+        type: String,
+      },
+    },
+  ],
   size: {
     type: String,
     required: true,
+    enum: sizes,
   },
   speed: {
     type: Number,
@@ -33,15 +56,11 @@ const speciesSchema = new Schema({
       ref: 'Trait',
     },
   ],
-  origins: {
-    type: String,
-    default: '',
-  },
   lifeSpan: {
-    type: String,
+    type: Number,
     required: true,
   },
-  image: String,
+  portrait: String,
 })
 
 // mongoose.plugin(modelTimestamp)

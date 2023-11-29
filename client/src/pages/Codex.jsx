@@ -48,6 +48,41 @@ function Codex(props) {
         cardName="Species"
         link="species"
       />
+      <Card
+        pageName="card"
+        size="medium"
+        cardType="landscape"
+        cardName="Species"
+        link="species"
+      />
+      <Card
+        pageName="card"
+        size="medium"
+        cardType="landscape"
+        cardName="Species"
+        link="species"
+      />
+      <Card
+        pageName="card"
+        size="medium"
+        cardType="landscape"
+        cardName="Species"
+        link="species"
+      />
+      <Card
+        pageName="card"
+        size="medium"
+        cardType="landscape"
+        cardName="Species"
+        link="species"
+      />
+      <Card
+        pageName="card"
+        size="medium"
+        cardType="landscape"
+        cardName="Species"
+        link="species"
+      />
     </div>
   )
 }
