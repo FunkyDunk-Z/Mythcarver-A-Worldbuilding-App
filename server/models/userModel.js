@@ -2,8 +2,6 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const crypto = require('crypto')
 
-const Codex = require('./codexModel')
-
 const userSchema = new mongoose.Schema(
   {
     firstName: {
@@ -50,10 +48,12 @@ const userSchema = new mongoose.Schema(
       default: true,
       select: false,
     },
-    codex: {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: 'Codex',
-    },
+    codex: [
+      {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'Codex',
+      },
+    ],
   },
   {
     toJSON: { virtuals: true },
@@ -84,13 +84,14 @@ userSchema.pre(/^find/, function (next) {
   next()
 })
 
-userSchema.pre('save', async function (next) {
-  const { _id } = await Codex.create({ user: this._id })
+// userSchema.pre('save', async function (next) {
+//   const { _id } = await Codex.create({ createdBy: this._id })
 
-  this.set('codex', _id)
+//   // this.set('codex', _id)
+//   this.codex.addToSet(_id)
 
-  next()
-})
+//   next()
+// })
 
 userSchema.methods.correctPassword = async function (
   candidatePassword,
@@ -134,6 +135,7 @@ userSchema.methods.getUserInfo = function () {
     codex: this.codex,
   }
 }
+
 const User = mongoose.model('User', userSchema)
 
 module.exports = User

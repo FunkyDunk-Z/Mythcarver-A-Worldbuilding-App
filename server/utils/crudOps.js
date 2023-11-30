@@ -16,7 +16,16 @@ exports.createOne = (Model) => async (req, res, next) => {
 
 exports.getAll = (Model) => async (req, res, next) => {
   try {
-    const doc = await Model.find()
+    const user = req.params.id
+    const docs = await Model.find()
+    let doc = []
+
+    for (let i = 0; i < docs.length; i++) {
+      console.log(docs[i].createdBy.toString(), user)
+      if (docs[i].createdBy.toString() === user) {
+        doc = docs[i]
+      }
+    }
 
     if (!doc) {
       return next(new AppError('No Documents found', 404))

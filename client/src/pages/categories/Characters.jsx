@@ -11,13 +11,12 @@ function Characters() {
   const [error, setError] = useState(null)
   const [playerCharacters, setPlayerCharacters] = useState([])
   const [npcs, setNpcs] = useState([])
-
-  console.log('players: ', playerCharacters, 'npcs: ', npcs)
+  const userId = user.id
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get('/api/v1/characters', {
+        const res = await axios.get('/api/v1/characters', userId, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -57,7 +56,7 @@ function Characters() {
 
   return (
     <div className={`${styles.container} ${styles['characters']}`}>
-      <h1 className={styles.header}>Player Characters</h1>
+      <h1 className={styles.sectionTitle}>Player Characters</h1>
       <div className={`${styles.container} ${styles['gallery']}`}>
         {playerCharacters.map((el, i) => {
           return (
@@ -71,7 +70,7 @@ function Characters() {
           )
         })}
       </div>
-      <h1 className={styles.header}>Npcs</h1>
+      <h1 className={styles.sectionTitle}>Npcs</h1>
       <div className={`${styles.container} ${styles['gallery']}`}>
         {npcs.map((el, i) => {
           return (

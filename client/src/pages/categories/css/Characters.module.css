@@ -12,3 +12,7 @@
   margin-inline: auto;
   gap: 1rem;
 }
+
+.sectionTitle {
+  justify-self: center;
+}
