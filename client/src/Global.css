@@ -8,7 +8,7 @@
 :root {
   --primary-color: rgb(110, 60, 120);
   --secondary-color: rgb(60, 69, 120);
-  --primary-hover: rgb(110, 60, 120, 0.5);
+  --primary-hover: rgba(78, 54, 83, 0.733);
   --heal: rgb(80, 138, 78);
   --damage: rgb(138, 78, 78);
   --blur: rgba(255, 255, 255, 0.5);
