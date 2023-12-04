@@ -7,9 +7,9 @@ function MyButton(props) {
       onClick={props.handleClick}
       disabled={props.isDisabled}
       className={`${styles.btn} ${styles[props.theme]}`}
-      aria-controls={props.label} // Set aria-label with the label text
-      aria-disabled={props.isDisabled} // Reflect button's disabled state to assistive technologies
-      role="button" // Specify the role as a button for screen readers
+      aria-controls={props.label}
+      aria-disabled={props.isDisabled}
+      role="button"
     >
       {props.label}
     </button>

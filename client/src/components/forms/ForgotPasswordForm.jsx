@@ -30,7 +30,7 @@ function ForgotPassword() {
 
   return (
     <div className={`${styles.container} ${styles['form']}`}>
-      <h3 className={styles.formTitle}>Forgot Password?</h3>
+      {/* <h3 className={styles.formTitle}>Forgot Password?</h3> */}
       <form className={styles.form} onSubmit={handleSubmit}>
         <label htmlFor="email" className={styles.label}>
           Email:
@@ -51,7 +51,7 @@ function ForgotPassword() {
           <MyButton
             handleClick={handleSubmit}
             isDisabled={isLoading}
-            label={'Confirm'}
+            label={'Forgot Password'}
             theme=""
           />
 

@@ -32,7 +32,7 @@ function LoginForm() {
 
   return (
     <div className={`${styles.container} ${styles['form']}`}>
-      <h1 className={styles.formTitle}>Login</h1>
+      {/* <h3 className={styles.formTitle}>Login</h3> */}
       <form onSubmit={handleLogin} className={`${styles.form}`}>
         <label htmlFor="email-login" className={styles.label}>
           Email:

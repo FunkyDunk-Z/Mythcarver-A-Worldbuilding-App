@@ -43,7 +43,7 @@ function SignUp() {
 
   return (
     <div className={`${styles.container} ${styles['form']}`}>
-      <h3 className={styles.formTitle}>Sign Up</h3>
+      {/* <h3 className={styles.formTitle}>Sign Up</h3> */}
       <form onSubmit={handleSignUp} className={styles.form}>
         <label className={styles.label} htmlFor="firstName">
           First Name:

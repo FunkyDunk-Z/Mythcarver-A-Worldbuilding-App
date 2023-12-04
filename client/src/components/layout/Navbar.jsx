@@ -6,13 +6,13 @@ import { useScrollDirection } from '../../hooks/useScrollDirection'
 import MyButton from '../utils/MyButton'
 
 function Navbar() {
-  const scrollDirection = useScrollDirection()
+  const mobile = window.innerWidth < 900
+  const [isMobile, setIsMobile] = useState(mobile)
   const [isActive, setIsActive] = useState(false)
   const [isOpen, setIsOpen] = useState('')
-  const mobile = window.innerWidth < 900
-  const [isMobile, setIsMobile] = useState(false)
   const { pathname } = useLocation()
   const { logout } = useLogout()
+  const scrollDirection = useScrollDirection()
 
   const storedUserData = localStorage.getItem('user')
   const userData = JSON.parse(storedUserData)
@@ -49,7 +49,7 @@ function Navbar() {
   const toggleNavBtn = () => {
     setIsActive(!isActive)
 
-    if (mobile) {
+    if (isMobile) {
       if (!isOpen || isOpen === 'closed') {
         setIsOpen('opened')
       } else {

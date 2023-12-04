@@ -1,13 +1,16 @@
 import styles from './css/Characters.module.css'
 
-import { useAuthContext } from '../../hooks/useAuthContext'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { useAuthContext } from '../../hooks/useAuthContext'
 
 import Card from '../../components/utils/Card'
+import MyButton from '../../components/utils/MyButton'
 
 function Characters() {
   const { user } = useAuthContext()
+  const navigate = useNavigate()
   const [error, setError] = useState(null)
   const [playerCharacters, setPlayerCharacters] = useState([])
   const [npcs, setNpcs] = useState([])
@@ -54,8 +57,13 @@ function Characters() {
     fetchData()
   }, [])
 
+  const handleClick = () => {
+    navigate('/create/character')
+  }
+
   return (
     <div className={`${styles.container} ${styles['characters']}`}>
+      <MyButton handleClick={handleClick} label="Create New Character" />
       <h1 className={styles.sectionTitle}>Player Characters</h1>
       <div className={`${styles.container} ${styles['gallery']}`}>
         {playerCharacters.map((el, i) => {

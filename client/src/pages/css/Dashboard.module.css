@@ -4,3 +4,8 @@
 .container.dashboard {
   height: max-content;
 }
+
+button {
+  justify-self: center;
+  margin-top: 1rem;
+}

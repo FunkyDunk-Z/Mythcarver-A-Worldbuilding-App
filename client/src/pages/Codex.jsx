@@ -1,7 +1,5 @@
 import styles from './css/Codex.module.css'
 
-import { useParams } from 'react-router-dom'
-
 import Card from '../components/utils/Card'
 
 function Codex() {
