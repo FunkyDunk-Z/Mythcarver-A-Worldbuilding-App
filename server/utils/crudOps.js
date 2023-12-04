@@ -23,7 +23,7 @@ exports.getAll = (Model) => async (req, res, next) => {
     for (let i = 0; i < docs.length; i++) {
       console.log(docs[i].createdBy.toString(), user)
       if (docs[i].createdBy.toString() === user) {
-        doc = docs[i]
+        doc.push(docs[i])
       }
     }
 

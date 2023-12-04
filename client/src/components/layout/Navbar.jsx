@@ -9,14 +9,22 @@ function Navbar() {
   const scrollDirection = useScrollDirection()
   const [isActive, setIsActive] = useState(false)
   const [isOpen, setIsOpen] = useState('')
+  const mobile = window.innerWidth < 900
+  const [isMobile, setIsMobile] = useState(false)
   const { pathname } = useLocation()
   const { logout } = useLogout()
+
+  const storedUserData = localStorage.getItem('user')
+  const userData = JSON.parse(storedUserData)
 
   useEffect(() => {
     function handleSize() {
       if (window.innerWidth >= 900) {
         setIsActive(false)
         setIsOpen('')
+        setIsMobile(false)
+      } else {
+        setIsMobile(true)
       }
     }
 
@@ -41,10 +49,12 @@ function Navbar() {
   const toggleNavBtn = () => {
     setIsActive(!isActive)
 
-    if (!isOpen || isOpen === 'closed') {
-      setIsOpen('opened')
-    } else {
-      setIsOpen('closed')
+    if (mobile) {
+      if (!isOpen || isOpen === 'closed') {
+        setIsOpen('opened')
+      } else {
+        setIsOpen('closed')
+      }
     }
   }
 
@@ -66,14 +76,11 @@ function Navbar() {
       <div
         className={`${styles.container} ${styles['navbar']} ${styles[isOpen]}`}
       >
-        <Link to={'/'} onClick={toggleNavBtn}>
+        <Link className={styles.link} to={'/'} onClick={toggleNavBtn}>
           Dashboard
         </Link>
-        <Link to={'/codex'} onClick={toggleNavBtn}>
-          Codex
-        </Link>
-        <Link to={'/my-account'} onClick={toggleNavBtn}>
-          My Account
+        <Link className={styles.link} to={'/my-account'} onClick={toggleNavBtn}>
+          {userData.username}
         </Link>
         <MyButton handleClick={handleClick} label="Logout" />
       </div>

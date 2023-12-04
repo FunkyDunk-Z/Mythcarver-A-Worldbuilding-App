@@ -21,7 +21,6 @@ export const AuthContextProvider = ({ children }) => {
     user: null,
   })
 
-  console.log(state)
   useEffect(() => {
     const fetchUser = async () => {
       try {

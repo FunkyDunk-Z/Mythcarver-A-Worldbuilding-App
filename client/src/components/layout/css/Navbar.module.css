@@ -18,6 +18,10 @@
 
     background-color: white;
     grid-template-columns: auto;
+
+    .link {
+      justify-self: start;
+    }
   }
 }
 

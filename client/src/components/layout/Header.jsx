@@ -6,10 +6,9 @@ import { useAuthContext } from '../../hooks/useAuthContext'
 
 import Navbar from './Navbar'
 
-function Header(props) {
+function Header() {
   const scrollDirection = useScrollDirection()
-  const { isLoggedIn } = useAuthContext()
-  const cName = props.pageName ? styles[props.pageName] : ''
+  const { isLoggedIn, state } = useAuthContext()
   const direction = scrollDirection === 'down' ? 'scroll' : ''
   const navigate = useNavigate()
 
@@ -20,7 +19,7 @@ function Header(props) {
   return (
     <div
       id="header"
-      className={`${styles.container} ${cName} ${styles[direction]}`}
+      className={`${styles.container} ${styles['header']} ${styles[direction]}`}
     >
       <img className={styles.logo} src={Logo} alt="" onClick={handleNavigate} />
       {isLoggedIn ? <Navbar pageName="navbar" /> : ''}

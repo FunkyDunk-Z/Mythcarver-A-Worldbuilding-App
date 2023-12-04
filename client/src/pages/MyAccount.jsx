@@ -1,12 +1,11 @@
 import styles from './css/MyAccount.module.css'
 
-function MyAccount(props) {
-  const cName = props.pageName ? styles[props.pageName] : ''
+function MyAccount() {
   const storedUserData = localStorage.getItem('user')
   const userData = JSON.parse(storedUserData)
 
   return (
-    <div className={`${styles.container} ${cName}`}>
+    <div className={`${styles.container} ${styles['myAccount']}`}>
       <div className={`${styles.container} ${styles.info}`}>
         <h3>Basic info</h3>
         <p>First Name : {userData ? userData.firstName : ''}</p>

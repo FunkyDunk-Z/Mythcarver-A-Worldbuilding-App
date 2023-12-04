@@ -4,8 +4,7 @@ import styles from './Form.module.css'
 import { useForgotPassword } from '../../hooks/useForgotPassword'
 import MyButton from '../utils/MyButton'
 
-function ForgotPassword(props) {
-  const cName = props.pageName ? styles[props.pageName] : ''
+function ForgotPassword() {
   const [formData, setFormData] = useState({
     email: '',
   })
@@ -30,7 +29,7 @@ function ForgotPassword(props) {
   }
 
   return (
-    <div className={`${styles.container} ${cName}`}>
+    <div className={`${styles.container} ${styles['form']}`}>
       <h3 className={styles.formTitle}>Forgot Password?</h3>
       <form className={styles.form} onSubmit={handleSubmit}>
         <label htmlFor="email" className={styles.label}>

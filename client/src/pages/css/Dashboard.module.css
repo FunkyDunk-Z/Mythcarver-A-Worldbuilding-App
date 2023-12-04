@@ -1,2 +1,6 @@
 @import '../../Global.css';
 @import '../../Global.css';
+
+.container.dashboard {
+  height: max-content;
+}

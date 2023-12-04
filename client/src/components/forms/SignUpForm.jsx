@@ -4,8 +4,7 @@ import styles from './Form.module.css'
 import MyButton from '../utils/MyButton'
 import { useSignUp } from '../../hooks/useSignUp'
 
-function SignUp(props) {
-  const cName = props.pageName ? styles[props.pageName] : ''
+function SignUp() {
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
     firstName: '',
@@ -43,7 +42,7 @@ function SignUp(props) {
   }
 
   return (
-    <div className={`${styles.container} ${cName}`}>
+    <div className={`${styles.container} ${styles['form']}`}>
       <h3 className={styles.formTitle}>Sign Up</h3>
       <form onSubmit={handleSignUp} className={styles.form}>
         <label className={styles.label} htmlFor="firstName">
@@ -105,10 +104,7 @@ function SignUp(props) {
           value={formData.password}
           onChange={handleChange}
         ></input>
-        <label
-          className={styles.label}
-          htmlFor="passwordConfirm"
-        >
+        <label className={styles.label} htmlFor="passwordConfirm">
           Password Confirm:
         </label>
         <input
@@ -126,9 +122,7 @@ function SignUp(props) {
             label="Sign Up"
           />
 
-          {myError && (
-            <div className={styles.error}>{myError}</div>
-          )}
+          {myError && <div className={styles.error}>{myError}</div>}
         </div>
         <Link className="link" to={'/login'}>
           Already have an account? Login here

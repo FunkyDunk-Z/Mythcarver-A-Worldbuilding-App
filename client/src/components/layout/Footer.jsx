@@ -1,9 +1,8 @@
 import styles from './css/Footer.module.css'
 
-function Footer(props) {
-  const cName = props.pageName ? styles[props.pageName] : ''
+function Footer() {
   return (
-    <div className={` ${styles.container} ${cName}`}>
+    <div className={` ${styles.container} ${styles['footer']}`}>
       <p className={styles.copyright}>
         @copyright Mythcarver - A Worldbuilding App
       </p>

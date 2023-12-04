@@ -14,7 +14,6 @@ import SignUpForm from './components/forms/SignUpForm'
 // Pages
 import LoadingPage from './pages/LoadingPage'
 import Dashboard from './pages/Dashboard'
-import Codex from './pages/Codex'
 import MyAccount from './pages/MyAccount'
 
 // Routes
@@ -22,9 +21,22 @@ import CategoryRoutes from './routes/CategoryRoutes'
 
 // Components
 import NotFound from './components/utils/NotFound'
+import { useEffect, useState } from 'react'
 
 function App() {
   const { isLoading, user } = useAuthContext()
+  const [codexRoutes, setCodexRoutes] = useState([])
+
+  useEffect(() => {
+    if (!user) {
+      return
+    }
+    let routes = []
+    user.codex.map((el, i) => {
+      routes.push(el._id)
+    })
+    setCodexRoutes(routes)
+  }, [user])
 
   function LoadingComponent({ component }) {
     const url = window.location.href.split('/')[3]
@@ -37,11 +49,11 @@ function App() {
     }
 
     if (!user && !authUrl) {
-      return <Navigate to={'/login'} />
+      return <Navigate to={'/login'} replace={true} />
     }
 
     if (user && authUrl) {
-      return <Navigate to={'/'} />
+      return <Navigate to={'/'} replace={true} />
     }
 
     return component
@@ -53,49 +65,34 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={
-            <LoadingComponent
-              component={<Dashboard pageName={'dashboard'} />}
-            />
-          }
+          element={<LoadingComponent component={<Dashboard />} />}
         />
         <Route
           path="/login"
-          element={
-            <LoadingComponent component={<LoginForm pageName={'form'} />} />
-          }
+          element={<LoadingComponent component={<LoginForm />} />}
         />
         <Route
           path="/sign-up"
-          element={
-            <LoadingComponent component={<SignUpForm pageName={'form'} />} />
-          }
+          element={<LoadingComponent component={<SignUpForm />} />}
         />
         <Route
           path="/forgot-password"
-          element={
-            <LoadingComponent
-              component={<ForgotPasswordForm pageName={'form'} />}
-            />
-          }
+          element={<LoadingComponent component={<ForgotPasswordForm />} />}
         />
-        <Route
-          path="/codex/*"
-          element={<LoadingComponent component={<CategoryRoutes />} />}
-        />
+        {codexRoutes.map((codexID) => (
+          <Route
+            key={codexID}
+            path={`/codex/:${codexID}/*`}
+            element={<LoadingComponent component={<CategoryRoutes />} />}
+          />
+        ))}
         <Route
           path="/my-account"
-          element={
-            <LoadingComponent
-              component={<MyAccount pageName={'myAccount'} />}
-            />
-          }
+          element={<LoadingComponent component={<MyAccount />} />}
         />
         <Route
           path="*"
-          element={
-            <LoadingComponent component={<NotFound pageName={'notFound'} />} />
-          }
+          element={<LoadingComponent component={<NotFound />} />}
         />
       </Routes>
       <Footer pageName="footer" />

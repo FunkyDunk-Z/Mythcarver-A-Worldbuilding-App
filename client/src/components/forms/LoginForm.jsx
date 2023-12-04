@@ -4,8 +4,7 @@ import styles from './Form.module.css'
 import MyButton from '../utils/MyButton'
 import { useLogin } from '../../hooks/useLogin'
 
-function LoginForm(props) {
-  const cName = props.pageName ? styles[props.pageName] : ''
+function LoginForm() {
   const [formData, setFormData] = useState({
     email: 'dunc@gmail.com',
     password: '123456789',
@@ -32,7 +31,7 @@ function LoginForm(props) {
   }
 
   return (
-    <div className={`${styles.container} ${cName}`}>
+    <div className={`${styles.container} ${styles['form']}`}>
       <h1 className={styles.formTitle}>Login</h1>
       <form onSubmit={handleLogin} className={`${styles.form}`}>
         <label htmlFor="email-login" className={styles.label}>

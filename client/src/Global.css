@@ -59,3 +59,11 @@ img {
   min-height: 100vh;
   min-height: 100svh;
 }
+
+.container.gallery {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+  width: min(100% - 2rem, 85rem);
+  margin: 1rem;
+  margin-inline: auto;
+  gap: 1rem;
+}

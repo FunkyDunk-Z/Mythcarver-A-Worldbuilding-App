@@ -1,8 +1,12 @@
 import styles from './css/LoadingPage.module.css'
+import Spinner from '../components/utils/Spinner'
 
-function LoadingPage(props) {
-  const cName = props.pageName ? styles[props.pageName] : ''
-  return <div className={` ${styles.container} ${cName}`}></div>
+function LoadingPage() {
+  return (
+    <div className={` ${styles.container} ${styles['loadingPage']}`}>
+      <Spinner />
+    </div>
+  )
 }
 
 export default LoadingPage

@@ -81,6 +81,11 @@ userSchema.pre('save', function (next) {
 userSchema.pre(/^find/, function (next) {
   this.find({ active: { $ne: false } })
 
+  this.populate({
+    path: 'codex',
+    select: '-__v -createdBy ',
+  })
+
   next()
 })
 
