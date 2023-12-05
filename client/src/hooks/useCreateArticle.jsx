@@ -8,9 +8,10 @@ export const useCreateArticle = () => {
 
   const createNew = async (data, fetchPath) => {
     setMyError(null)
+    console.log(data, fetchPath)
 
     try {
-      const response = await axios.post(`api/v1/${fetchPath}`, data, {
+      const response = await axios.post(`/api/v1/${fetchPath}`, data, {
         headers: { 'Content-Type': 'application/json' },
       })
 
