@@ -6,11 +6,8 @@
   border: 1px solid black;
   cursor: pointer;
   height: max-content;
-}
-
-.container.card > :not(img, a) {
-  justify-self: center;
-  margin: 0.5rem;
+  /* max-width: 300px; */
+  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.4);
 }
 
 .image {
@@ -21,6 +18,7 @@
 
 .cardName {
   font-weight: lighter;
+  text-align: center;
 }
 
 .container.card:hover {

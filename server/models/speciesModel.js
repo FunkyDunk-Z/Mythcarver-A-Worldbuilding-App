@@ -5,13 +5,13 @@ const addToUserCodex = require('../middleware/addToUserCodex')
 const Schema = mongoose.Schema
 
 const sizes = [
-  'tiny',
-  'small',
-  'medium',
-  'large',
-  'huge',
-  'gargantuan',
-  'colossal',
+  'Tiny',
+  'Small',
+  'Medium',
+  'Large',
+  'Huge',
+  'Gargantuan',
+  'Colossal',
 ]
 
 const speciesSchema = new Schema({
@@ -25,6 +25,10 @@ const speciesSchema = new Schema({
     required: true,
     unique: true,
   },
+  isSubSpecies: {
+    type: Boolean,
+    default: false,
+  },
   subSpecies: [
     {
       type: Schema.ObjectId,
@@ -33,12 +37,9 @@ const speciesSchema = new Schema({
   ],
   articles: [
     {
-      articleName: {
-        type: String,
-      },
-      articleContent: {
-        type: String,
-      },
+      _id: false,
+      articleName: String,
+      articleContent: String,
     },
   ],
   size: {
@@ -56,8 +57,8 @@ const speciesSchema = new Schema({
       ref: 'Trait',
     },
   ],
-  lifeSpan: {
-    type: Number,
+  lifespan: {
+    type: String,
     required: true,
   },
   portrait: String,

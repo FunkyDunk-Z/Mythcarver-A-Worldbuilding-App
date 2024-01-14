@@ -1,9 +1,7 @@
 const mongoose = require('mongoose')
 
 const baseItemSchema = new mongoose.Schema({
-  schemaVersion: {
-    type: Number,
-  },
+  schemaVersion: Number,
   itemName: {
     type: String,
     required: true,

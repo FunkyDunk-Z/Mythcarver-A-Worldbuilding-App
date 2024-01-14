@@ -3,16 +3,16 @@ const baseItemSchema = require('./itemBaseSchema')
 
 const containerEnum = ['pouch', 'backpack', 'chest', 'safe', 'industrial']
 const refModelEnum = [
-  'Weapon',
-  'Shield',
-  'Armour',
-  'Apparel',
-  'Resource',
-  'Material',
-  'Component',
-  'Miscellaneous',
   'Alchemy',
+  'Apparel',
+  'Armour',
+  'Component',
+  'Material',
+  'Miscellaneous',
+  'Resource',
+  'Shield',
   'Tool',
+  'Weapon',
 ]
 
 const containerSchema = mongoose.Schema({

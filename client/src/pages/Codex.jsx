@@ -1,5 +1,7 @@
 import styles from './css/Codex.module.css'
 
+import Image from '../assets/Campaigns.webp'
+
 import Card from '../components/utils/Card'
 
 function Codex() {
@@ -23,7 +25,8 @@ function Codex() {
         return (
           <Card
             key={el}
-            imgLink="https://picsum.photos/200/300/?random"
+            // imgLink="https://picsum.photos/200/300/?random"
+            imgLink={Image}
             cardName={capitalizedElement}
             link={el}
           />

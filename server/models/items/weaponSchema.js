@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const baseItemSchema = require('./itemBaseSchema')
+const baseItemSchema = require('./baseItemSchema')
 
 const damageEnum = ['1d4', '1d6', '1d8', '1d10', '1d12']
 

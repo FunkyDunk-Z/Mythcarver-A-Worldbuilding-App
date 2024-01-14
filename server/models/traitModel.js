@@ -3,6 +3,8 @@ const addToUserCodex = require('../middleware/addToUserCodex')
 
 const Schema = mongoose.Schema
 
+const traitTypes = ['item', 'species']
+
 const traitSchema = new Schema({
   createdBy: {
     type: Schema.ObjectId,
@@ -13,8 +15,11 @@ const traitSchema = new Schema({
     type: String,
     required: true,
   },
-  description: {
+  description: String,
+  abilityMod: Number,
+  traitType: {
     type: String,
+    enum: traitTypes,
   },
 })
 

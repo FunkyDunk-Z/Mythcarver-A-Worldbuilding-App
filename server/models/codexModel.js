@@ -9,9 +9,7 @@ const codexSchema = new Schema({
     ref: 'User',
     required: true,
   },
-  codexName: {
-    type: String,
-  },
+  codexName: String,
   species: [
     {
       type: Schema.ObjectId,

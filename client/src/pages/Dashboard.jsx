@@ -17,7 +17,10 @@ function Dashboard() {
 
   return (
     <div className={`${styles.container} ${styles['dashboard']}`}>
-      <MyButton handleClick={navToCreateCharacter} label="Create New Character" />
+      <MyButton
+        handleClick={navToCreateCharacter}
+        label="Create New Character"
+      />
       <MyButton handleClick={navToCreateSpecies} label="Create New Species" />
       <div className={`${styles.container} ${styles['gallery']}`}>
         {codex.map((el, i) => {

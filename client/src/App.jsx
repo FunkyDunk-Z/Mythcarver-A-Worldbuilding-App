@@ -1,6 +1,9 @@
-import './Global.css'
+import { useEffect, useState } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useAuthContext } from './hooks/useAuthContext'
+
+// css global
+import './Global.css'
 
 // Layout
 import Header from './components/layout/Header'
@@ -22,22 +25,21 @@ import CreateRoutes from './routes/CreateRoutes'
 
 // Components
 import NotFound from './components/utils/NotFound'
-import { useEffect, useState } from 'react'
 
 function App() {
   const { isLoading, user } = useAuthContext()
   const [codexRoutes, setCodexRoutes] = useState([])
 
-  useEffect(() => {
-    if (!user) {
-      return
-    }
-    let routes = []
-    user.codex.map((el, i) => {
-      routes.push(el._id)
-    })
-    setCodexRoutes(routes)
-  }, [user])
+  // useEffect(() => {
+  //   if (!user) {
+  //     return
+  //   }
+  //   let routes = []
+  //   user.codex.map((el, i) => {
+  //     routes.push(el._id)
+  //   })
+  //   setCodexRoutes(routes)
+  // }, [user])
 
   function LoadingComponent({ component }) {
     const url = window.location.href.split('/')[3]

@@ -14,6 +14,13 @@ export const authReducer = (state, action) => {
   }
 }
 
+const offlineUser = {
+  username: 'FunkyDunk-Z',
+  firstName: 'Duncan',
+  lastName: 'Saul',
+  email: 'dunc@gmail.com',
+}
+
 export const AuthContextProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -43,6 +50,7 @@ export const AuthContextProvider = ({ children }) => {
         dispatch({ type: 'LOGOUT' })
         localStorage.removeItem('user')
         if (error.response.status === 500) {
+          localStorage.setItem('user', JSON.stringify(offlineUser))
           console.log('Server Error')
         }
         console.error('User is not logged in')
@@ -62,15 +70,24 @@ export const AuthContextProvider = ({ children }) => {
   //   isLoading
   // )
 
+  const values = {
+    ...state,
+    dispatch,
+    isLoading,
+    setIsLoggedIn,
+    isLoggedIn,
+  }
+
   return (
     <AuthContext.Provider
-      value={{
-        ...state,
-        dispatch,
-        isLoading,
-        setIsLoggedIn,
-        isLoggedIn,
-      }}
+      // value={{
+      //   ...state,
+      //   dispatch,
+      //   isLoading,
+      //   setIsLoggedIn,
+      //   isLoggedIn,
+      // }}
+      value={values}
     >
       {children}
     </AuthContext.Provider>

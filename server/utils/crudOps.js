@@ -2,6 +2,7 @@ const AppError = require('./appError')
 
 exports.createOne = (Model) => async (req, res, next) => {
   try {
+    console.log(req.user._id)
     const doc = await Model.create(req.body)
 
     res.status(201).json({
@@ -16,13 +17,12 @@ exports.createOne = (Model) => async (req, res, next) => {
 
 exports.getAll = (Model) => async (req, res, next) => {
   try {
-    const user = req.params.id
+    const user = req.user._id
     const docs = await Model.find()
     let doc = []
 
     for (let i = 0; i < docs.length; i++) {
-      console.log(docs[i].createdBy.toString(), user)
-      if (docs[i].createdBy.toString() === user) {
+      if (docs[i].createdBy.toString() === user.toString()) {
         doc.push(docs[i])
       }
     }

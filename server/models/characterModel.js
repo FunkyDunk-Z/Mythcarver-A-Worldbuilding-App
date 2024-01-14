@@ -77,12 +77,8 @@ const characterSchema = new Schema({
         type: String,
         enum: abilityNames,
       },
-      abilityScore: {
-        type: Number,
-      },
-      abilityMod: {
-        type: Number,
-      },
+      abilityScore: Number,
+      abilityMod: Number,
       savingThrow: {
         _id: false,
         savingThrowMod: {
@@ -118,9 +114,7 @@ const characterSchema = new Schema({
         type: Boolean,
         default: false,
       },
-      skillMod: {
-        type: Number,
-      },
+      skillMod: Number,
       hasAdvantage: {
         type: Boolean,
         default: false,
@@ -134,21 +128,15 @@ const characterSchema = new Schema({
         type: String,
         enum: senseNames,
       },
-      skill: {
-        type: String,
-      },
-      senseMod: {
-        type: Number,
-      },
+      skillRequired: String,
+      senseMod: Number,
       hasAdvantage: {
         type: Boolean,
         default: false,
       },
     },
   ],
-  proficiency: {
-    type: Number,
-  },
+  proficiency: Number,
   initiative: {
     type: Number,
     hasAdvantage: {
@@ -274,7 +262,7 @@ characterSchema.pre('save', function (next) {
   }, {})
 
   this.senses.forEach((sense) => {
-    const senseMod = skillMods[sense.skill]
+    const senseMod = skillMods[sense.skillRequired]
 
     sense.senseMod = senseMod
   })
