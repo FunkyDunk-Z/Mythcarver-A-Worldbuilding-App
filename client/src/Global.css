@@ -9,6 +9,7 @@
   --primary-color: rgb(110, 60, 120);
   --secondary-color: rgb(60, 69, 120);
   --primary-hover: rgba(115, 60, 126, 0.6);
+  --background-dark: rgb(44, 44, 44);
   --heal: rgb(80, 138, 78);
   --damage: rgb(138, 78, 78);
   --blur: rgba(255, 255, 255, 0.5);
@@ -20,8 +21,9 @@ body {
   overflow-y: auto;
   overflow-x: auto;
   line-height: 1.5;
-
   cursor: default;
+  color: white;
+  user-select: none;
 }
 
 body::-webkit-scrollbar {
@@ -30,7 +32,7 @@ body::-webkit-scrollbar {
 
 a {
   text-decoration: none;
-  color: black;
+  color: white;
   font-family: inherit;
   width: max-content;
   font-size: 1.2rem;
@@ -46,8 +48,8 @@ li {
 }
 
 img {
-  max-width: 100%;
   display: block;
+  max-width: 100%;
 }
 
 .container {
@@ -58,12 +60,11 @@ img {
   grid-template-rows: auto 1fr auto;
   min-height: 100vh;
   min-height: 100svh;
+  background-color: var(--background-dark);
 }
 
-.container.gallery {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
-  width: min(100% - 2rem, 85rem);
-  margin: 1rem;
-  margin-inline: auto;
+.gallery {
+  display: grid;
   gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }

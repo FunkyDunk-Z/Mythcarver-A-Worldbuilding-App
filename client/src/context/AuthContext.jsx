@@ -14,13 +14,6 @@ export const authReducer = (state, action) => {
   }
 }
 
-const offlineUser = {
-  username: 'FunkyDunk-Z',
-  firstName: 'Duncan',
-  lastName: 'Saul',
-  email: 'dunc@gmail.com',
-}
-
 export const AuthContextProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -61,15 +54,6 @@ export const AuthContextProvider = ({ children }) => {
     fetchUser()
   }, [])
 
-  // console.log(
-  //   // 'AuthContext state: ',
-  //   state,
-  //   'isLoggedIn? :',
-  //   isLoggedIn,
-  //   'isLoading? :',
-  //   isLoading
-  // )
-
   const values = {
     ...state,
     dispatch,
@@ -78,18 +62,5 @@ export const AuthContextProvider = ({ children }) => {
     isLoggedIn,
   }
 
-  return (
-    <AuthContext.Provider
-      // value={{
-      //   ...state,
-      //   dispatch,
-      //   isLoading,
-      //   setIsLoggedIn,
-      //   isLoggedIn,
-      // }}
-      value={values}
-    >
-      {children}
-    </AuthContext.Provider>
-  )
+  return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>
 }

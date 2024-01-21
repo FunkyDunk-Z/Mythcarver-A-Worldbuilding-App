@@ -28,18 +28,6 @@ import NotFound from './components/utils/NotFound'
 
 function App() {
   const { isLoading, user } = useAuthContext()
-  const [codexRoutes, setCodexRoutes] = useState([])
-
-  // useEffect(() => {
-  //   if (!user) {
-  //     return
-  //   }
-  //   let routes = []
-  //   user.codex.map((el, i) => {
-  //     routes.push(el._id)
-  //   })
-  //   setCodexRoutes(routes)
-  // }, [user])
 
   function LoadingComponent({ component }) {
     const url = window.location.href.split('/')[3]
@@ -82,13 +70,15 @@ function App() {
           path="/forgot-password"
           element={<LoadingComponent component={<ForgotPasswordForm />} />}
         />
-        {codexRoutes.map((codexID) => (
-          <Route
-            key={codexID}
-            path={`/codex/:${codexID}/*`}
-            element={<LoadingComponent component={<CategoryRoutes />} />}
-          />
-        ))}
+        {user
+          ? user.codex.map((el, i) => (
+              <Route
+                key={i}
+                path={`/codex/:${el._id}/*`}
+                element={<LoadingComponent component={<CategoryRoutes />} />}
+              />
+            ))
+          : ''}
         <Route
           path="/create/*"
           element={<LoadingComponent component={<CreateRoutes />} />}

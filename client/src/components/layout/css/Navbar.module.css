@@ -16,7 +16,7 @@
     left: -214px;
     border: 1px solid black;
 
-    background-color: white;
+    background-color: var(--background-dark);
     grid-template-columns: auto;
 
     .link {
@@ -57,7 +57,7 @@
   margin: 0.7rem;
   width: 30px;
   height: 20px;
-  background-color: rgba(255, 255, 255);
+  background-color: var(--background-dark);
   border-radius: 50%;
   padding: 12px;
 
@@ -76,7 +76,7 @@
 .line {
   width: 100%;
   height: 2px;
-  background-color: black;
+  background-color: white;
 }
 
 .open .line:nth-child(1) {

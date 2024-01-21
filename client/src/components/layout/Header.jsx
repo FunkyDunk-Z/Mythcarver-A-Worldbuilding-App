@@ -21,7 +21,10 @@ function Header() {
       id="header"
       className={`${styles.container} ${styles['header']} ${styles[direction]}`}
     >
-      <img className={styles.logo} src={Logo} alt="" onClick={handleNavigate} />
+      <h1 className={styles.logoName} onClick={handleNavigate}>
+        Mythcarver
+      </h1>
+      {/* <img className={styles.logo} src={Logo} alt="" onClick={handleNavigate} /> */}
       {isLoggedIn ? <Navbar pageName="navbar" /> : ''}
     </div>
   )

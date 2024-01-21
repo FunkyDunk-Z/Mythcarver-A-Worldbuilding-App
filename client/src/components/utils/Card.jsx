@@ -1,5 +1,6 @@
-import styles from './css/Card.module.css'
 import { useNavigate } from 'react-router-dom'
+
+import styles from './css/Card.module.css'
 
 function Card(props) {
   const navigate = useNavigate()
@@ -13,7 +14,7 @@ function Card(props) {
       onClick={handleClick}
     >
       <img className={styles.image} src={props.imgLink} alt="" />
-      <h1 className={styles.cardName}>{props.cardName}</h1>
+      <p className={styles.cardName}>{props.cardName}</p>
     </div>
   )
 }

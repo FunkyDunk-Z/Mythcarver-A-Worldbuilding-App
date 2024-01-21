@@ -1,10 +1,6 @@
 @import '../../Global.css';
 
 .container.dashboard {
-  height: max-content;
-}
-
-button {
-  justify-self: center;
+  margin-inline: auto;
   margin-top: 1rem;
 }
