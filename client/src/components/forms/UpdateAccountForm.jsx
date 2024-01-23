@@ -1,20 +1,21 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import styles from './Form.module.css'
-import MyButton from '../utils/MyButton'
-import { useSignUp } from '../../hooks/useSignUp'
+import { Link } from 'react-router-dom'
 
-function SignUpForm() {
-  const navigate = useNavigate()
+import { useUpdateAccount } from '../../hooks/useUpdateAccount'
+import MyButton from '../utils/MyButton'
+import styles from './Form.module.css'
+
+function UpdateAccountForm(props) {
+  const user = props.user
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    username: '',
-    password: '',
-    passwordConfirm: '',
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    username: user.username,
+    profilePicture: user.profilePicture,
   })
-  const { signUp, myError, isLoading } = useSignUp()
+
+  const { updateAccount, myError } = useUpdateAccount()
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -24,27 +25,16 @@ function SignUpForm() {
     }))
   }
 
-  const handleSignUp = async (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault()
 
-    await signUp(formData)
+    await updateAccount(formData)
 
-    setFormData({
-      firstName: '',
-      lastName: '',
-      email: '',
-      username: '',
-      password: '',
-      passwordConfirm: '',
-    })
-
-    navigate('/')
+    props.setUpdateActive(false)
   }
-
   return (
     <div className={`${styles.container} ${styles['form']}`}>
-      {/* <h3 className={styles.formTitle}>Sign Up</h3> */}
-      <form onSubmit={handleSignUp} className={styles.form}>
+      <form onSubmit={handleUpdate} className={styles.form}>
         <label className={styles.label} htmlFor="firstName">
           First Name:
         </label>
@@ -93,43 +83,14 @@ function SignUpForm() {
           value={formData.email}
           onChange={handleChange}
         ></input>
-        <label className={styles.label} htmlFor="password">
-          Password:
-        </label>
-        <input
-          className={styles.input}
-          type="password"
-          name="password"
-          id="password"
-          value={formData.password}
-          onChange={handleChange}
-        ></input>
-        <label className={styles.label} htmlFor="passwordConfirm">
-          Password Confirm:
-        </label>
-        <input
-          className={styles.input}
-          type="password"
-          name="passwordConfirm"
-          id="passwordConfirm"
-          value={formData.passwordConfirm}
-          onChange={handleChange}
-        ></input>
         <div className={styles.btn}>
-          <MyButton
-            handleClick={handleSignUp}
-            isDisabled={isLoading}
-            label="Sign Up"
-          />
+          <MyButton handleClick={handleUpdate} label="Save" />
 
           {myError && <div className={styles.error}>{myError}</div>}
         </div>
-        <Link className="link" to={'/login'}>
-          Already have an account? Login here
-        </Link>
       </form>
     </div>
   )
 }
 
-export default SignUpForm
+export default UpdateAccountForm

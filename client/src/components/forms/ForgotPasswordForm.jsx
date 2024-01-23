@@ -4,7 +4,7 @@ import styles from './Form.module.css'
 import { useForgotPassword } from '../../hooks/useForgotPassword'
 import MyButton from '../utils/MyButton'
 
-function ForgotPassword() {
+function ForgotPasswordForm() {
   const [formData, setFormData] = useState({
     email: '',
   })
@@ -65,4 +65,4 @@ function ForgotPassword() {
   )
 }
 
-export default ForgotPassword
+export default ForgotPasswordForm

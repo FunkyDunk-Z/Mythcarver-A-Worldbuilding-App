@@ -34,14 +34,10 @@
 .input.article {
   cursor: text;
   resize: none;
-  /* overflow: hidden; */
   font-family: inherit;
   font-size: inherit;
   min-height: 150px;
 }
-/* .input.article::-webkit-scrollbar {
-  width: 12px;
-} */
 
 .label {
   justify-self: center;
@@ -50,8 +46,7 @@
 
 .btn {
   display: grid;
-  place-self: center;
-  place-content: center;
+  justify-content: center;
   padding: 0.3rem;
 }
 

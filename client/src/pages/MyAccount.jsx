@@ -1,18 +1,48 @@
+import { useState } from 'react'
+import { useAuthContext } from '../hooks/useAuthContext'
+
+import UpdateAccountForm from '../components/forms/UpdateAccountForm'
+
+import MyButton from '../components/utils/MyButton'
+import PlaceholderPortrait from '../assets/PlaceholderPortrait.png'
+
 import styles from './css/MyAccount.module.css'
 
 function MyAccount() {
-  const storedUserData = localStorage.getItem('user')
-  const userData = JSON.parse(storedUserData)
+  const [updateActive, setUpdateActive] = useState(false)
+  const { user } = useAuthContext()
+
+  const handleClick = () => {
+    setUpdateActive(!updateActive)
+  }
 
   return (
     <div className={`${styles.container} ${styles['myAccount']}`}>
-      <div className={`${styles.container} ${styles.info}`}>
-        <h3>Basic info</h3>
-        <p>First Name : {userData ? userData.firstName : ''}</p>
-        <p>Last Name : {userData ? userData.lastName : ''}</p>
-        <p>Username : {userData ? userData.username : ''}</p>
-        <p>Email : {userData ? userData.email : ''}</p>
-      </div>
+      <>
+        <img
+          className={styles.profilePicture}
+          src={!user.profilePicture ? PlaceholderPortrait : user.profilePicture}
+          alt=""
+        />
+        {updateActive ? <MyButton label="upload" theme="upload" /> : ''}
+      </>
+      <h1>Basic info</h1>
+
+      {!updateActive ? (
+        <div className={`${styles.container} ${styles.info}`}>
+          <p>First Name : {user.firstName}</p>
+          <p>Last Name : {user.lastName}</p>
+          <p>Username : {user.username}</p>
+          <p>Email : {user.email}</p>
+        </div>
+      ) : (
+        <UpdateAccountForm user={user} setUpdateActive={setUpdateActive} />
+      )}
+
+      <MyButton
+        label={!updateActive ? 'Update' : 'Cancel'}
+        handleClick={handleClick}
+      />
     </div>
   )
 }

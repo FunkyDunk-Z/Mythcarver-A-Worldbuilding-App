@@ -2,7 +2,7 @@ const AppError = require('./appError')
 
 exports.createOne = (Model) => async (req, res, next) => {
   try {
-    console.log(req.user._id)
+    // console.log(req.user._id)
     const doc = await Model.create(req.body)
 
     res.status(201).json({

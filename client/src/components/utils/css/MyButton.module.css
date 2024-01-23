@@ -21,3 +21,7 @@
   color: white;
   /* box-shadow: 0px 6px 8px 0px rgba(157, 71, 165, 0.4); */
 }
+
+.btn.upload {
+  margin-bottom: 1rem;
+}

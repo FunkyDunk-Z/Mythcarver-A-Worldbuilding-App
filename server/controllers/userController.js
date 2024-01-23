@@ -26,7 +26,8 @@ exports.updateMyAccount = async (req, res, next) => {
     'firstName',
     'lastName',
     'username',
-    'email'
+    'email',
+    'profilePicture'
   )
 
   const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {

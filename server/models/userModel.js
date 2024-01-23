@@ -138,6 +138,7 @@ userSchema.methods.getUserInfo = function () {
     firstName: this.firstName,
     lastName: this.lastName,
     codex: this.codex,
+    profilePicture: this.profilePicture,
   }
 }
 

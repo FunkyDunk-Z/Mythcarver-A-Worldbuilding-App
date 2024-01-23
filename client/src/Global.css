@@ -52,6 +52,11 @@ img {
   max-width: 100%;
 }
 
+/* temporary h1 styling, need correct fonts */
+h1 {
+  font-weight: lighter;
+}
+
 .container {
   display: grid;
 }
@@ -67,4 +72,11 @@ img {
   display: grid;
   gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.profilePicture {
+  border-radius: 50%;
+  height: 150px;
+  aspect-ratio: 1;
+  margin: 1rem;
 }
