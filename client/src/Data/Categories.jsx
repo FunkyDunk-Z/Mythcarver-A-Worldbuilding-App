@@ -23,6 +23,12 @@ const Categories = [
   {
     categoryName: 'Items',
   },
+  {
+    categoryName: 'Bestairy',
+  },
+  {
+    categoryName: 'History & Lore',
+  },
 ]
 
 const sortedCategories = Categories.sort((a, b) =>

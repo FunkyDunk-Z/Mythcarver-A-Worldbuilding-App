@@ -1,11 +1,12 @@
 @import '../../Global.css';
 
 .container.myAccount {
+  position: relative;
   height: max-content;
   width: max-content;
   place-self: center;
   justify-items: center;
-  /* gap: 0.5rem; */
+  gap: 0.5rem;
   margin: 1rem;
 }
 

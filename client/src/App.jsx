@@ -20,6 +20,7 @@ import Dashboard from './pages/Dashboard'
 import MyAccount from './pages/MyAccount'
 
 // Routes
+import MyAccountRoutes from './routes/MyAccountRoutes'
 import CategoryRoutes from './routes/CategoryRoutes'
 import CreateRoutes from './routes/CreateRoutes'
 
@@ -84,8 +85,8 @@ function App() {
           element={<LoadingComponent component={<CreateRoutes />} />}
         />
         <Route
-          path="/my-account"
-          element={<LoadingComponent component={<MyAccount />} />}
+          path="/my-account/*"
+          element={<LoadingComponent component={<MyAccountRoutes />} />}
         />
         <Route
           path="*"

@@ -9,6 +9,8 @@ export const authReducer = (state, action) => {
       return { user: action.payload }
     case 'LOGOUT':
       return { user: null }
+    case 'UPDATE_USER':
+      return { user: { ...state.user, ...action.payload } }
     default:
       return state
   }
@@ -31,7 +33,7 @@ export const AuthContextProvider = ({ children }) => {
           withCredentials: true,
         })
 
-        const user = res.data.data.user
+        const user = res.data.user
 
         if (res.status === 200) {
           setIsLoggedIn(true)

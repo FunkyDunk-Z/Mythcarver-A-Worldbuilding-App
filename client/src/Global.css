@@ -50,6 +50,7 @@ li {
 img {
   display: block;
   max-width: 100%;
+  pointer-events: none;
 }
 
 /* temporary h1 styling, need correct fonts */
@@ -74,9 +75,15 @@ h1 {
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
-.profilePicture {
+.avatar {
+  object-fit: cover;
   border-radius: 50%;
-  height: 150px;
+  height: 250px;
   aspect-ratio: 1;
+  justify-self: center;
+  outline: 3px solid var(--primary-color);
+}
+
+.avatar.preview {
   margin: 1rem;
 }

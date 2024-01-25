@@ -12,6 +12,7 @@ function Dashboard() {
     <div className={`${styles.container} ${styles['dashboard']}`}>
       <div>
         {user.codex.map((el, i) => {
+          console.log(el)
           return (
             <Card
               key={i}

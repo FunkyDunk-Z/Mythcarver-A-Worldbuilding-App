@@ -4,10 +4,19 @@ const bcrypt = require('bcryptjs')
 const crypto = require('crypto')
 const AppError = require('../utils/appError')
 const Email = require('../utils/email')
+const cloudinary = require('cloudinary').v2
+
+const Codex = require('../models/codexModel')
 
 const createToken = (_id) => {
   return jwt.sign({ _id }, process.env.JWT_SECRET, { expiresIn: '90d' })
 }
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET,
+})
 
 // ----------Sign Up -----------
 
@@ -25,6 +34,13 @@ const signUp = async (req, res, next) => {
     return res.status(400).json({ message: 'Please fill out all fields' })
   }
 
+  const result = await cloudinary.uploader.upload(
+    process.env.USER_DEFAULT_AVATAR,
+    {
+      public_id: email.split('@')[0],
+    }
+  )
+
   try {
     const newUser = await User.create({
       firstName: req.body.firstName,
@@ -33,7 +49,14 @@ const signUp = async (req, res, next) => {
       username: req.body.username,
       password: req.body.password,
       passwordConfirm: req.body.passwordConfirm,
+      avatarURL: result.secure_url,
     })
+
+    const userCodex = await Codex.create({
+      createdBy: newUser._id,
+      codexName: `${newUser.username}'s Codex`,
+    })
+    newUser.codex = userCodex
 
     const accessToken = createToken(newUser.id)
 
@@ -52,9 +75,7 @@ const signUp = async (req, res, next) => {
     res.status(201).json({
       status: 'success',
       accessToken,
-      data: {
-        user: newUser.getUserInfo(),
-      },
+      user: newUser.getUserInfo(),
     })
   } catch (error) {
     return next(new AppError(error))
@@ -99,9 +120,7 @@ const login = async (req, res, next) => {
     res.status(200).json({
       status: 'success',
       accessToken,
-      data: {
-        user: user.getUserInfo(),
-      },
+      user: user.getUserInfo(),
     })
   } catch (error) {
     console.log('Error during user retrieval:', error)
@@ -133,9 +152,7 @@ const isLoggedIn = async (req, res, next) => {
 
     res.status(200).json({
       status: 'success',
-      data: {
-        user: user.getUserInfo(),
-      },
+      user: user.getUserInfo(),
     })
   } catch (error) {
     return next()
@@ -258,9 +275,7 @@ const resetPassword = async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     accessToken,
-    data: {
-      user,
-    },
+    user,
   })
 }
 
@@ -296,9 +311,7 @@ const updatePassword = async (req, res, next) => {
     res.status(200).json({
       status: 'success',
       accessToken,
-      data: {
-        user,
-      },
+      user,
     })
   } catch (error) {
     return next(new AppError(error))

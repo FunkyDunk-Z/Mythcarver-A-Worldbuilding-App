@@ -1,6 +1,13 @@
 const User = require('../models/userModel')
 const crudOps = require('../utils/crudOps')
 const AppError = require('../utils/appError')
+const cloudinary = require('cloudinary').v2
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET,
+})
 
 const filterObj = (obj, ...allowedFields) => {
   const newObj = {}
@@ -17,8 +24,16 @@ exports.getMyAccount = async (req, res, next) => {
 }
 
 exports.updateMyAccount = async (req, res, next) => {
-  if (req.body.password || req.body.password) {
+  if (req.body.password || req.body.passwordConfirm) {
     return next(new AppError('Please use update my password', 400))
+  }
+  const { email } = req.body
+
+  if (req.body.avatarURL) {
+    const result = await cloudinary.uploader.upload(req.body.avatarURL, {
+      public_id: email.split('@')[0],
+    })
+    req.body.avatarURL = result.secure_url
   }
 
   const filteredBody = filterObj(
@@ -27,7 +42,7 @@ exports.updateMyAccount = async (req, res, next) => {
     'lastName',
     'username',
     'email',
-    'profilePicture'
+    'avatarURL'
   )
 
   const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {

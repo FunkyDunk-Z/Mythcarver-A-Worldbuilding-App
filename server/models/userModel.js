@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema(
       },
       select: false,
     },
-    profilePicture: String,
+    avatarURL: String,
     passwordChangedAt: Date,
     passwordResetToken: String,
     passwordResetExpiresIn: Date,
@@ -89,15 +89,6 @@ userSchema.pre(/^find/, function (next) {
   next()
 })
 
-// userSchema.pre('save', async function (next) {
-//   const { _id } = await Codex.create({ createdBy: this._id })
-
-//   // this.set('codex', _id)
-//   this.codex.addToSet(_id)
-
-//   next()
-// })
-
 userSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword
@@ -138,7 +129,7 @@ userSchema.methods.getUserInfo = function () {
     firstName: this.firstName,
     lastName: this.lastName,
     codex: this.codex,
-    profilePicture: this.profilePicture,
+    avatarURL: this.avatarURL,
   }
 }
 

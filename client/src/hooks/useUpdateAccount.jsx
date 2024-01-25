@@ -14,7 +14,7 @@ export const useUpdateAccount = () => {
         '/api/v1/users/update-my-account',
         data,
         {
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'multipart/form-data' },
         }
       )
 
@@ -22,7 +22,7 @@ export const useUpdateAccount = () => {
         const user = response.data.user
 
         localStorage.setItem('user', JSON.stringify(user))
-        dispatch({ type: 'LOGIN', payload: user })
+        dispatch({ type: 'UPDATE_USER', payload: user })
       } else {
         setMyError(response)
       }

@@ -15,7 +15,7 @@ export const useSignUp = () => {
       })
 
       if (response.status === 201) {
-        const user = response.data.data.user
+        const user = response.data.user
 
         localStorage.setItem('user', JSON.stringify(user))
         dispatch({ type: 'LOGIN', payload: user })

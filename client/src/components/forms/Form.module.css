@@ -1,17 +1,16 @@
-.container.form {
-  justify-self: center;
-  align-self: center;
-  display: grid;
-  grid-template-columns: 1fr;
+@import '../../Global.css';
 
-  width: 300px;
+.container.form {
+  margin-inline: auto;
+  align-self: center;
+  grid-template-columns: 1fr;
 }
 
 .form {
   display: grid;
-  align-self: start;
   gap: 0.5rem;
   margin: 0.5rem;
+  justify-items: center;
 }
 
 .input {
@@ -40,7 +39,6 @@
 }
 
 .label {
-  justify-self: center;
   font-size: 1.5rem;
 }
 
@@ -48,6 +46,7 @@
   display: grid;
   justify-content: center;
   padding: 0.3rem;
+  gap: 1rem;
 }
 
 .formName {
