@@ -1,14 +1,26 @@
 const User = require('../models/userModel')
 const crudOps = require('../utils/crudOps')
 const AppError = require('../utils/appError')
+// const multer = require('multer')
 const cloudinary = require('cloudinary').v2
 
+// // multer settings
+// const storage = multer.memoryStorage()
+// const upload = multer({
+//   storage: storage,
+//   limits: {
+//     fileSize: 100 * 1024 * 1024,
+//   },
+// }).single('avatarFile')
+
+// cloudinary settings
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_SECRET,
 })
 
+// copy an object
 const filterObj = (obj, ...allowedFields) => {
   const newObj = {}
   Object.keys(obj).forEach((el) => {
@@ -17,12 +29,14 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj
 }
 
+// get account
 exports.getMyAccount = async (req, res, next) => {
   req.params.id = req.user.id
 
   next()
 }
 
+//update account
 exports.updateMyAccount = async (req, res, next) => {
   if (req.body.password || req.body.passwordConfirm) {
     return next(new AppError('Please use update my password', 400))

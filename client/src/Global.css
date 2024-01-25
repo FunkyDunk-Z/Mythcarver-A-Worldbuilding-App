@@ -78,7 +78,7 @@ h1 {
 .avatar {
   object-fit: cover;
   border-radius: 50%;
-  height: 250px;
+  height: 300px;
   aspect-ratio: 1;
   justify-self: center;
   outline: 3px solid var(--primary-color);

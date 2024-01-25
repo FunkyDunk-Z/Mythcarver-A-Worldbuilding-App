@@ -54,6 +54,8 @@ function UpdateAccountForm(props) {
     formDataForUpdate.append('username', formData.username)
 
     if (avatar && avatar !== user.avatar) {
+      // const avatarFile = fileInputRef.current.files[0]
+      // formDataForUpdate.append('avatarFile', avatarFile)
       formDataForUpdate.append('avatarURL', avatar)
     }
 
