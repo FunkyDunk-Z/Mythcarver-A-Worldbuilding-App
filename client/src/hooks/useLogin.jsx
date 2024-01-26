@@ -17,7 +17,7 @@ export const useLogin = () => {
         withCredentials: true,
       })
       if (response.status === 200) {
-        const user = response.data.user
+        const { user } = response.data
 
         localStorage.setItem('user', JSON.stringify(user))
         dispatch({ type: 'LOGIN', payload: user })
