@@ -34,12 +34,15 @@ const signUp = async (req, res, next) => {
     return res.status(400).json({ message: 'Please fill out all fields' })
   }
 
+  console.log('got past security check')
+
   const result = await cloudinary.uploader.upload(
     process.env.USER_DEFAULT_AVATAR,
     {
       public_id: email.split('@')[0],
     }
   )
+  console.log(result) // Log the result for debugging
 
   try {
     const newUser = await User.create({
@@ -67,10 +70,10 @@ const signUp = async (req, res, next) => {
       secure: true,
     })
 
-    const url = `${req.protocol}://${req.get('host')}/dashboard`
-    const message = 'Welcome to Mythcarver !'
+    // const url = `${req.protocol}://${req.get('host')}/dashboard`
+    // const message = 'Welcome to Mythcarver !'
 
-    await new Email(newUser, url, message).sendWelcome()
+    // await new Email(newUser, url, message).sendWelcome()
 
     res.status(201).json({
       status: 'success',

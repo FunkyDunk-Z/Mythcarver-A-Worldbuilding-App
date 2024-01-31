@@ -3,7 +3,7 @@ import styles from './css/Codex.module.css'
 import Image from '../assets/Campaigns.webp'
 
 import Card from '../components/utils/Card'
-import Categories from '../Data/Categories'
+import Categories from '../data/Categories'
 
 function Codex() {
   return (

@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import styles from './Form.module.css'
 import { useForgotPassword } from '../../hooks/useForgotPassword'
 import MyButton from '../utils/MyButton'
+
+import styles from './Form.module.css'
 
 function ForgotPasswordForm() {
   const [formData, setFormData] = useState({
@@ -45,7 +46,7 @@ function ForgotPasswordForm() {
           onChange={handleChange}
           value={formData.email}
           required
-        ></input>
+        />
         <div className={styles.btn}>
           <span>{message && <p className={styles.message}>{message}</p>}</span>
           <MyButton

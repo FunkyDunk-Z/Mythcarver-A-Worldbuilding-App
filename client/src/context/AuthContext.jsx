@@ -10,9 +10,9 @@ export const authReducer = (state, action) => {
     case 'LOGOUT':
       return { user: null }
     case 'UPDATE_USER':
-      return { user: { ...state.user, ...action.payload } }
+      return { user: { ...action.payload } }
     default:
-      return state
+      throw new Error(`No action type: ${action.type}`)
   }
 }
 
@@ -26,16 +26,16 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.post('/api/v1/users/isLoggedIn', {
+        const { status, data } = await axios.post('/api/v1/users/isLoggedIn', {
           headers: {
             'Content-Type': 'application/json',
           },
           withCredentials: true,
         })
 
-        const user = res.data.user
+        const { user } = data
 
-        if (res.status === 200) {
+        if (status === 200) {
           setIsLoggedIn(true)
           localStorage.setItem('user', JSON.stringify(user))
           dispatch({ type: 'LOGIN', payload: user })
