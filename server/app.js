@@ -27,6 +27,18 @@ app.use(
 app.use(express.json({ limit: '100mb' }))
 app.use(cookieParser())
 
+app.get('/api/v1/', (req, res) => {
+  res.status(200).json({
+    routes: {
+      users: '/api/v1/users',
+      codex: '/api/v1/codex',
+      species: '/api/v1/species',
+      characters: '/api/v1/characters',
+      traits: '/api/v1/traits',
+    },
+  })
+})
+
 app.use('/api/v1/users', userRouter)
 app.use('/api/v1/codex', codexRouter)
 app.use('/api/v1/species', speciesRouter)
