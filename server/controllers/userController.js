@@ -1,6 +1,7 @@
 const User = require('../models/userModel')
 const crudOps = require('../utils/crudOps')
 const AppError = require('../utils/appError')
+const Codex = require('../models/codexModel')
 // const multer = require('multer')
 const cloudinary = require('cloudinary').v2
 
@@ -48,6 +49,17 @@ exports.updateMyAccount = async (req, res, next) => {
       public_id: email.split('@')[0],
     })
     req.body.avatarURL = result.secure_url
+  }
+
+  if (req.body.username) {
+    req.body.codex = await Codex.findByIdAndUpdate(
+      req.user.codex[0]._id,
+      { codexName: `${req.body.username}'s Codex` },
+      {
+        new: true,
+        runValidators: true,
+      }
+    )
   }
 
   const filteredBody = filterObj(

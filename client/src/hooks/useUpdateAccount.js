@@ -3,11 +3,11 @@ import { useAuthContext } from './useAuthContext'
 import axios from 'axios'
 
 export const useUpdateAccount = () => {
-  const [myError, setMyError] = useState(null)
+  const [accountError, setAccountError] = useState(null)
   const { dispatch } = useAuthContext()
 
   const updateAccount = async (data) => {
-    setMyError(null)
+    setAccountError(null)
 
     try {
       const response = await axios.patch(
@@ -19,17 +19,17 @@ export const useUpdateAccount = () => {
       )
 
       if (response.status === 200) {
-        const user = response.data.user
-
+        const { user } = response.data
+        localStorage.removeItem('user')
         localStorage.setItem('user', JSON.stringify(user))
         dispatch({ type: 'UPDATE_USER', payload: user })
       } else {
-        setMyError(response)
+        setAccountError(response)
       }
     } catch (error) {
-      setMyError(error.response)
+      setAccountError(error.response)
     }
   }
 
-  return { updateAccount, myError }
+  return { updateAccount, accountError }
 }

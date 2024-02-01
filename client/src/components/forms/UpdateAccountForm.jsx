@@ -1,13 +1,15 @@
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useAuthContext } from '../../hooks/useAuthContext'
 import { useUpdateAccount } from '../../hooks/useUpdateAccount'
 import MyButton from '../utils/MyButton'
+
 import styles from './Form.module.css'
 
-function UpdateAccountForm(props) {
+function UpdateAccountForm() {
   const navigate = useNavigate()
   const fileInputRef = useRef(null)
-  const user = props.user
+  const { user } = useAuthContext()
   const [avatar, setAvatar] = useState('')
   const [formData, setFormData] = useState({
     firstName: user.firstName,
@@ -16,7 +18,7 @@ function UpdateAccountForm(props) {
     username: user.username,
     avatarURL: user.avatarURL,
   })
-  const { updateAccount, myError } = useUpdateAccount()
+  const { updateAccount, accountError } = useUpdateAccount()
 
   useEffect(() => {
     if (user.avatar) {
@@ -47,6 +49,7 @@ function UpdateAccountForm(props) {
   const handleUpdate = async (e) => {
     e.preventDefault()
 
+    // TODO: why are we sending this as a form data, because of the avatar?
     const formDataForUpdate = new FormData()
     formDataForUpdate.append('firstName', formData.firstName)
     formDataForUpdate.append('lastName', formData.lastName)
@@ -162,7 +165,7 @@ function UpdateAccountForm(props) {
           <MyButton handleClick={handleUpdate} label="Save" />
           <MyButton handleClick={handleCancel} label="Cancel" />
 
-          {myError && <div className={styles.error}>{myError}</div>}
+          {accountError && <div className={styles.error}>{accountError}</div>}
         </div>
       </form>
     </div>

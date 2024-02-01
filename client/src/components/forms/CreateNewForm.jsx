@@ -1,27 +1,24 @@
-import styles from './Form.module.css'
-
-import { useCreateArticle } from '../../hooks/useCreateArticle'
 import { useState } from 'react'
+import { useCreateArticle } from '../../hooks/useCreateArticle'
 import MyButton from '../utils/MyButton'
 
-function CreateNewForm(props) {
-  const { createNew, isLoading, myError } = useCreateArticle()
-  const formSections = props.formSections
-  const { articles } = formSections[formSections.length - 1]
+import styles from './Form.module.css'
 
-  // console.log(articles)
+function CreateNewForm({ formSections, formData, fetchPath, formName }) {
+  const { createNew, isLoading, articleError } = useCreateArticle()
+  const { articles } = formSections[formSections.length - 1]
 
   const storedUserData = localStorage.getItem('user')
   const { id } = JSON.parse(storedUserData)
 
-  const [formData, setFormData] = useState({
+  const [currentFormData, setCurrentFormData] = useState({
     createdBy: id,
-    ...props.formData,
+    ...formData,
   })
 
   const handleChange = (e) => {
     const { name, value } = e.target
-    setFormData((prevFormData) => ({
+    setCurrentFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
     }))
@@ -30,19 +27,17 @@ function CreateNewForm(props) {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    await createNew(formData, props.fetchPath)
+    await createNew(currentFormData, fetchPath)
 
-    setFormData({
+    setCurrentFormData({
       createdBy: id,
-      ...props.formData,
+      ...formData,
     })
   }
 
-  console.log(formData)
-
   return (
     <form onSubmit={handleSubmit} className={`${styles.form}`}>
-      <h1 className={styles.formName}>{props.formName}</h1>
+      <h1 className={styles.formName}>{formName}</h1>
       {formSections.map((el, i) => {
         if (!el.articles)
           return (
@@ -58,7 +53,7 @@ function CreateNewForm(props) {
                 placeholder={el.placeholder}
                 autoComplete="off"
                 onChange={handleChange}
-                value={formData[el.inputId]}
+                value={currentFormData[el.inputId]}
                 required
               />
             </div>
@@ -78,7 +73,7 @@ function CreateNewForm(props) {
               placeholder={el.placeholder}
               autoComplete="off"
               onChange={handleChange}
-              value={formData[el.inputId]}
+              value={currentFormData[el.inputId]}
               required
               // contentEditable
             />
@@ -92,7 +87,7 @@ function CreateNewForm(props) {
           label={'Create'}
           theme=""
         />
-        {myError && <p className={styles.error}>{myError}</p>}
+        {articleError && <p className={styles.error}>{articleError}</p>}
       </div>
     </form>
   )
