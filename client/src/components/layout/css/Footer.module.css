@@ -1,10 +1,9 @@
-@import '../../../Global.css';
+@import "../../../Global.css";
 
-.container.footer {
-  height: 60px;
+.wrapper {
+  display: grid;
+  min-height: 60px;
+  justify-items: center;
+  align-items: center;
   border-top: 1px solid black;
-}
-
-.copyright {
-  place-self: center;
 }

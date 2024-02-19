@@ -1,6 +1,11 @@
-@import '../../Global.css';
+@import "../../Global.css";
 
-.container.dashboard {
-  margin-inline: auto;
-  margin-top: 1rem;
+.wrapper {
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  margin: 1rem;
+  gap: 1rem;
+  width: max-content;
+  justify-self: center;
 }
