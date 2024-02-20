@@ -17,12 +17,15 @@ import Footer from "./components/layout/Footer";
 // Routes
 import CodexRoutes from "./routes/CodexRoutes";
 
-// Pages
+// Errors
 import PageNotFound from "./pages/PageNotFound";
+import PageUnderConstruction from "./pages/PageUnderConstruction";
+
+// Pages
 import LoadingPage from "./pages/LoadingPage";
 import Dashboard from "./pages/Dashboard";
 import MyAccount from "./pages/MyAccount";
-import TurnTracker from "./pages/TurnTracker";
+// import TurnTracker from "./pages/TurnTracker";
 
 function App() {
   const { user, isLoading } = useAuthContext();
@@ -87,7 +90,7 @@ function App() {
           />
           <Route
             path="/turn-tracker"
-            element={<LoadingComponent component={<TurnTracker />} />}
+            element={<LoadingComponent component={<PageUnderConstruction />} />}
           />
           {user ? (
             <Route

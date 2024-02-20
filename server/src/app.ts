@@ -6,6 +6,7 @@ import env from './util/validateEnv'
 
 import userRouter from './routes/userRoutes'
 import codexRouter from './routes/codexRoutes'
+import characterRouter from './routes/characterRoutes'
 
 const app = express()
 
@@ -27,5 +28,6 @@ app.use(cookieParser())
 
 app.use('/api/v2/users', userRouter)
 app.use('/api/v2/codex', codexRouter)
+app.use('/api/v2/characters', characterRouter)
 
 export default app
