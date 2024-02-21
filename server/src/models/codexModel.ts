@@ -87,11 +87,13 @@ const codexSchema = new Schema<ICodex>({
 
 codexSchema.pre('save', async function (next) {
   try {
-    const user = await User.findById(this.createdBy)
+    if (this.isNew) {
+      const user = await User.findById(this.createdBy)
 
-    if (user) {
-      user.codex.push(this._id)
-      await user.save()
+      if (user) {
+        user.codex.push(this._id)
+        await user.save()
+      }
     }
 
     next()

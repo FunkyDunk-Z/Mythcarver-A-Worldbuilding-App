@@ -16,3 +16,19 @@ export const createOne =
       return next()
     }
   }
+
+export const createModel =
+  <T extends Document>(Model: Model<T>) =>
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const doc = await Model.create(req.body)
+
+      res.status(201).json({
+        status: 'success',
+        doc,
+      })
+    } catch (error) {
+      console.error(error)
+      return next()
+    }
+  }
