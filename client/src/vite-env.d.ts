@@ -13,11 +13,17 @@ interface AxiosError {
   errors: Record<string, string[]>
 }
 
+type CharacterType = {
+  characterName: string
+  characterType: string
+  _id: string
+}
+
 type CodexType = {
   _id: string
   codexName: string
   campaigns: string[]
-  characters: string[]
+  characters: CharacterType[]
   factions: string[]
   species: string[]
   traits: string[]

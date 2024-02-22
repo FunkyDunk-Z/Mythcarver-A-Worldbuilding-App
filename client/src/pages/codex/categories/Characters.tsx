@@ -1,17 +1,14 @@
 import { useAuthContext } from '../../../hooks/useAuthContext'
 
+import Card from '../../../components/utils/Card'
+import Image from '../../../assets/PlaceholderPortrait.png'
+
 import styles from './css/Characters.module.css'
 
 function Characters() {
   const { user } = useAuthContext()
   const url = window.location.href.split('/')[4]
-  const currentCodex = user?.codex.map((el) => {
-    if (el._id === url) {
-      return el
-    }
-  })
-
-  console.log(user, url, currentCodex)
+  const characters = user?.codex.filter((el) => url === el._id)[0].characters
 
   const handleCreate = () => {
     console.log('click')
@@ -20,6 +17,20 @@ function Characters() {
   return (
     <div className={styles.wrapper}>
       <button onClick={handleCreate}>Create Character</button>
+      <div className={styles.characterGallery}>
+        {characters
+          ? characters.map((el, i) => {
+              return (
+                <Card
+                  key={i}
+                  cardName={el.characterName}
+                  link={el._id}
+                  image={Image}
+                />
+              )
+            })
+          : null}
+      </div>
     </div>
   )
 }

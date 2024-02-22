@@ -1,5 +1,15 @@
 .wrapper {
   display: grid;
   margin: 1rem;
-  justify-content: center;
+  gap: 1rem;
+}
+
+.characterGallery {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+button {
+  justify-self: center;
 }
