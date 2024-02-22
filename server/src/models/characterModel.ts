@@ -57,6 +57,7 @@ type SpeedType = {
 
 interface CharacterType extends Document {
   createdBy: Types.ObjectId
+  codex: Types.ObjectId
   characterName: string
   characterType: string
   characterTitles: Types.ObjectId[]
@@ -116,6 +117,10 @@ const characterSchema = new Schema<CharacterType>({
   createdBy: {
     type: Schema.ObjectId,
     ref: 'User',
+  },
+  codex: {
+    type: Schema.ObjectId,
+    ref: 'Codex',
   },
   characterName: {
     type: String,
@@ -351,18 +356,23 @@ characterSchema.pre('save', function (next) {
 })
 
 characterSchema.pre('save', async function (next) {
-  const user = await User.findById(this.createdBy)
+  try {
+    const user = await User.findById(this.createdBy)
 
-  if (!user) {
+    if (!user) {
+      next()
+    }
+
+    const codex = await Codex.findById(this.codex)
+
+    codex?.characters.push(this._id)
+    await codex?.save()
+
+    next()
+  } catch (error) {
+    console.log(error)
     next()
   }
-
-  const codex = await Codex.findById(user?.codex[0])
-
-  codex?.characters.push(this._id)
-  await codex?.save()
-
-  next()
 })
 
 const Character = model<CharacterType>('Character', characterSchema)

@@ -1,89 +1,89 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { useAuthContext } from "../../hooks/useAuthContext";
-import { useCustomFetch } from "../../hooks/useCustomFetch";
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { useAuthContext } from '../../hooks/useAuthContext'
+import { useCustomFetch } from '../../hooks/useCustomFetch'
 
 // components
-import MyButton from "../utils/MyButton";
+import MyButton from '../utils/MyButton'
 
 // css
-import styles from "./css/Navbar.module.css";
+import styles from './css/Navbar.module.css'
 
 function Navbar() {
-  const { user } = useAuthContext();
-  const { customFetch } = useCustomFetch();
-  const mobile = window.innerWidth < 900;
-  const [isMobile, setIsMobile] = useState(mobile);
-  const [isActive, setIsActive] = useState(false);
-  const [isOpen, setIsOpen] = useState("");
+  const { user } = useAuthContext()
+  const { customFetch } = useCustomFetch()
+  const mobile = window.innerWidth < 900
+  const [isMobile, setIsMobile] = useState(mobile)
+  const [isActive, setIsActive] = useState(false)
+  const [openStatus, setOpenStatus] = useState('')
 
   useEffect(() => {
     function handleResize() {
       if (window.innerWidth >= 900) {
-        setIsActive(false);
-        setIsOpen("");
-        setIsMobile(false);
+        setIsActive(false)
+        setOpenStatus('')
+        setIsMobile(false)
       } else {
-        setIsMobile(true);
+        setIsMobile(true)
       }
     }
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize)
     return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
 
   const toggleNavBtn = () => {
-    setIsActive(!isActive);
+    setIsActive(!isActive)
 
     if (isMobile) {
-      if (!isOpen || isOpen === "closed") {
-        setIsOpen("opened");
+      if (!openStatus || openStatus === 'closed') {
+        setOpenStatus('opened')
       } else {
-        setIsOpen("closed");
+        setOpenStatus('closed')
       }
     }
-  };
+  }
 
   const handleLogout = () => {
-    toggleNavBtn();
+    toggleNavBtn()
     customFetch({
-      url: "/users/logout",
+      url: '/users/logout',
       credentials: false,
-      authType: "logout",
-      requestType: "POST",
-    });
-  };
+      authType: 'logout',
+      requestType: 'POST',
+    })
+  }
 
   return (
     <>
       <div
-        className={`${styles.burgerIcon} ${isActive ? styles.active : ""}`}
+        className={`${styles.burgerIcon} ${isActive ? styles.active : ''}`}
         onClick={toggleNavBtn}
       >
         <span className={styles.line}></span>
         <span className={styles.line}></span>
         <span className={styles.line}></span>
       </div>
-      <div className={`${styles.wrapper} ${styles[isOpen]}`}>
-        <Link to={"/"} onClick={toggleNavBtn} className={styles.link}>
+      <div className={`${styles.wrapper} ${styles[openStatus]}`}>
+        <Link to={'/'} onClick={toggleNavBtn} className={styles.link}>
           Dashboard
         </Link>
         <Link
-          to={"/turn-tracker"}
+          to={'/turn-tracker'}
           onClick={toggleNavBtn}
           className={styles.link}
         >
           Turn Tracker
         </Link>
-        <Link to={"/my-account"} onClick={toggleNavBtn} className={styles.link}>
+        <Link to={'/my-account'} onClick={toggleNavBtn} className={styles.link}>
           {user?.username}
         </Link>
         <MyButton handleClick={handleLogout}>Logout</MyButton>
       </div>
     </>
-  );
+  )
 }
 
-export default Navbar;
+export default Navbar

@@ -1,7 +1,7 @@
-import { Schema, model, Types, Document } from 'mongoose'
+import { Schema, model, Types, Document, Query } from 'mongoose'
 import User from './userModel'
 
-interface ICodex extends Document {
+interface CodexDocument extends Document {
   createdBy: Types.ObjectId
   codexName: string
   campaigns: Types.ObjectId[]
@@ -17,7 +17,7 @@ interface ICodex extends Document {
   lore: Types.ObjectId[]
 }
 
-const codexSchema = new Schema<ICodex>({
+const codexSchema = new Schema<CodexDocument>({
   createdBy: {
     type: Schema.Types.ObjectId,
     ref: 'User',
@@ -77,13 +77,16 @@ const codexSchema = new Schema<ICodex>({
   ],
 })
 
-// codexSchema.pre(/^find/, function (next) {
-//   this.populate({
-//     path: 'characters',
-//     select: '-__v ',
-//   })
-//   next()
-// })
+codexSchema.pre(
+  /^find/,
+  function (this: Query<CodexDocument[], CodexDocument>, next) {
+    this.populate({
+      path: 'characters',
+      select: 'characterName characterType',
+    })
+    next()
+  }
+)
 
 codexSchema.pre('save', async function (next) {
   try {
@@ -102,6 +105,6 @@ codexSchema.pre('save', async function (next) {
   }
 })
 
-const Codex = model<ICodex>('Codex', codexSchema)
+const Codex = model<CodexDocument>('Codex', codexSchema)
 
 export default Codex

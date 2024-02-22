@@ -1,5 +1,3 @@
-@import "../../../Global.css";
-
 .wrapper {
   display: grid;
   grid-template-columns: repeat(

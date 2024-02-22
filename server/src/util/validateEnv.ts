@@ -1,8 +1,8 @@
-import { cleanEnv } from 'envalid';
-import { port, str } from 'envalid/dist/validators';
+import { cleanEnv } from 'envalid'
+import { port, str } from 'envalid/dist/validators'
 
 export default cleanEnv(process.env, {
-  PORT: port(),
+  PORT: port() || 8000,
   DATABASE: str(),
   DATABASE_PASSWORD: str(),
   JWT_SECRET: str(),
@@ -18,4 +18,4 @@ export default cleanEnv(process.env, {
   CLOUDINARY_API_KEY: str(),
   CLOUDINARY_SECRET: str(),
   USER_DEFAULT_AVATAR: str(),
-});
+})

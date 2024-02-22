@@ -1,38 +1,16 @@
 const Categories = [
-  {
-    categoryName: "Campaigns",
-  },
-  {
-    categoryName: "Characters",
-  },
-  {
-    categoryName: "Factions",
-  },
-  {
-    categoryName: "Species",
-  },
-  {
-    categoryName: "Traits",
-  },
-  {
-    categoryName: "Nations",
-  },
-  {
-    categoryName: "Locations",
-  },
-  {
-    categoryName: "Items",
-  },
-  {
-    categoryName: "Bestairy",
-  },
-  {
-    categoryName: "History & Lore",
-  },
-];
+  'Campaigns',
+  'Characters',
+  'Factions',
+  'Species',
+  'Traits',
+  'Nations',
+  'Locations',
+  'Items',
+  'Bestairy',
+  'History & Lore',
+]
 
-const sortedCategories = Categories.sort((a, b) =>
-  a.categoryName.localeCompare(b.categoryName)
-);
+Categories.sort()
 
-export default sortedCategories;
+export default Categories
