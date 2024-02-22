@@ -1,29 +1,27 @@
-import { useAuthContext } from "../hooks/useAuthContext";
+import { useAuthContext } from '../hooks/useAuthContext'
 
-import Card from "../components/utils/Card";
-import Image from "../assets/Campaigns.webp";
+import Card from '../components/utils/Card'
+import Image from '../assets/Campaigns.webp'
 
-import styles from "./css/Dashboard.module.css";
+import styles from './css/Dashboard.module.css'
 
 function Dashboard() {
-  const { user } = useAuthContext();
+  const { user } = useAuthContext()
 
   return (
     <div className={styles.wrapper}>
-      <>
-        {user?.codex.map((el, i) => {
-          return (
-            <Card
-              key={i}
-              cardName={el.codexName}
-              image={Image}
-              link={`/codex/${el._id}`}
-            />
-          );
-        })}
-      </>
+      {user?.codex.map((el, i) => {
+        return (
+          <Card
+            key={i}
+            cardName={el.codexName}
+            image={Image}
+            link={`/codex/${el._id}`}
+          />
+        )
+      })}
     </div>
-  );
+  )
 }
 
-export default Dashboard;
+export default Dashboard

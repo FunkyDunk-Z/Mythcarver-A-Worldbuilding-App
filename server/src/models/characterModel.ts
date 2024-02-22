@@ -256,7 +256,7 @@ const characterSchema = new Schema<CharacterType>({
   speed: {
     walking: {
       type: Number,
-      default: 35,
+      default: 30,
     },
     swimming: {
       type: Number,

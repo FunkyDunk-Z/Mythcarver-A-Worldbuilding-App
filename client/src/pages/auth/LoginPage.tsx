@@ -1,46 +1,45 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { useCustomFetch } from "../../hooks/useCustomFetch";
-import { InputEventType, FormEventType } from "../../shared.types";
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { useCustomFetch } from '../../hooks/useCustomFetch'
 
 // components
-import MyButton from "../../components/utils/MyButton";
+import MyButton from '../../components/utils/MyButton'
 
 // css
-import styles from "./css/LoginPage.module.css";
+import styles from './css/LoginPage.module.css'
 
 function LoginPage() {
   const [formData, setFormData] = useState({
-    email: import.meta.env.VITE_EMAIL || "",
-    password: import.meta.env.VITE_PASSWORD || "",
-  });
+    email: import.meta.env.VITE_EMAIL || '',
+    password: import.meta.env.VITE_PASSWORD || '',
+  })
 
-  const { customFetch } = useCustomFetch();
+  const { customFetch } = useCustomFetch()
 
   const handleChange = (e: InputEventType) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
-    }));
-  };
+    }))
+  }
 
   const handleLogin = async (e: FormEventType) => {
-    e.preventDefault();
+    e.preventDefault()
 
     await customFetch({
       dataToSend: formData,
-      url: "users/login",
+      url: 'users/login',
       credentials: true,
-      authType: "login",
-      requestType: "POST",
-    });
+      authType: 'login',
+      requestType: 'POST',
+    })
 
     setFormData({
-      email: "",
-      password: "",
-    });
-  };
+      email: '',
+      password: '',
+    })
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -73,14 +72,14 @@ function LoginPage() {
         ></input>
         <MyButton type="submit">Login</MyButton>
       </form>
-      <Link className={styles.link} to={"/forgot-password"}>
+      <Link className={styles.link} to={'/forgot-password'}>
         Forgot Password?
       </Link>
-      <Link className={styles.link} to={"/sign-up"}>
+      <Link className={styles.link} to={'/sign-up'}>
         Sign Up Here
       </Link>
     </div>
-  );
+  )
 }
 
-export default LoginPage;
+export default LoginPage

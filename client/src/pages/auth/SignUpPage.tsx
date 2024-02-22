@@ -1,51 +1,50 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { useCustomFetch } from "../../hooks/useCustomFetch";
-import { InputEventType, FormEventType } from "../../shared.types";
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { useCustomFetch } from '../../hooks/useCustomFetch'
 
-import styles from "./css/SignUpPage.module.css";
+import styles from './css/SignUpPage.module.css'
 
 function SignUpPage() {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    username: "",
-    email: "",
-    password: "",
-    passwordConfirm: "",
-  });
-  const { customFetch } = useCustomFetch();
+    firstName: '',
+    lastName: '',
+    username: '',
+    email: '',
+    password: '',
+    passwordConfirm: '',
+  })
+  const { customFetch } = useCustomFetch()
 
   const handleChange = (e: InputEventType) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
-    }));
-  };
+    }))
+  }
 
   const handleSignUp = async (e: FormEventType) => {
-    e.preventDefault();
+    e.preventDefault()
 
     await customFetch({
       credentials: true,
-      requestType: "POST",
-      url: "users/sign-up",
-      authType: "signUp",
+      requestType: 'POST',
+      url: 'users/sign-up',
+      authType: 'signUp',
       dataToSend: formData,
-    });
+    })
 
     setFormData({
-      firstName: "",
-      lastName: "",
-      username: "",
-      email: "",
-      password: "",
-      passwordConfirm: "",
-    });
+      firstName: '',
+      lastName: '',
+      username: '',
+      email: '',
+      password: '',
+      passwordConfirm: '',
+    })
 
-    window.location.reload();
-  };
+    window.location.reload()
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -122,11 +121,11 @@ function SignUpPage() {
         ></input>
         <button type="submit">Create Account</button>
       </form>
-      <Link className="link" to={"/login"}>
+      <Link className="link" to={'/login'}>
         Already have an account? Login here
       </Link>
     </div>
-  );
+  )
 }
 
-export default SignUpPage;
+export default SignUpPage
