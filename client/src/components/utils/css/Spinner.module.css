@@ -1,4 +1,4 @@
-@import '../../../Global.css';
+@import "../../../Global.css";
 
 /* Spinner */
 .spinner {
@@ -15,7 +15,7 @@
   animation: rotation 1s linear infinite;
 }
 .spinner::after {
-  content: '';
+  content: "";
   box-sizing: border-box;
   position: absolute;
   left: 0;

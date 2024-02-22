@@ -1,30 +1,40 @@
 {
-  "name": "mythcarver-a-worldbuilding-app",
+  "name": "server",
   "version": "1.0.0",
-  "description": "An app for Dungeon Masters and Game Masters alike to organise and maintain notes on wolrds and campaigns.",
-  "main": "server.js",
+  "description": "",
+  "main": "dist/server.js",
   "scripts": {
-    "dev": "nodemon server.js"
+    "dev": "nodemon src/server.ts",
+    "build": "npx tsc"
   },
-  "author": "Duncan W. Saul",
+  "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
+    "bcrypt": "^5.1.1",
     "cloudinary": "^1.41.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.4.1",
+    "envalid": "^8.0.0",
     "express": "^4.18.2",
-    "express-mongo-sanitize": "^2.2.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.0.1",
+    "mongoose": "^8.1.1",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
-    "nodemailer": "^6.9.7",
-    "postman": "^0.2.0",
-    "sharp": "^0.33.2"
+    "postman": "^0.2.0"
   },
   "devDependencies": {
-    "nodemon": "^3.0.3"
+    "@types/bcrypt": "^5.0.2",
+    "@types/cookie-parser": "^1.4.6",
+    "@types/cors": "^2.8.17",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/morgan": "^1.9.9",
+    "@types/mongoose": "^5.11.97",
+    "@types/multer": "^1.4.11",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
   }
 }

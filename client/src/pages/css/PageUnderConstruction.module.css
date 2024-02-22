@@ -1,0 +1,8 @@
+.wrapper {
+  display: grid;
+  place-content: center;
+}
+
+.image {
+  place-self: center;
+}
