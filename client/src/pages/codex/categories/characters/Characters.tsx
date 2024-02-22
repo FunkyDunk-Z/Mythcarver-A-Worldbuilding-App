@@ -1,17 +1,19 @@
-import { useAuthContext } from '../../../hooks/useAuthContext'
+import { useAuthContext } from '../../../../hooks/useAuthContext'
+import { useNavigate } from 'react-router-dom'
 
-import Card from '../../../components/utils/Card'
-import Image from '../../../assets/PlaceholderPortrait.png'
+import Card from '../../../../components/utils/Card'
+import Image from '../../../../assets/PlaceholderPortrait.png'
 
 import styles from './css/Characters.module.css'
 
 function Characters() {
   const { user } = useAuthContext()
+  const navigate = useNavigate()
   const url = window.location.href.split('/')[4]
   const characters = user?.codex.filter((el) => url === el._id)[0].characters
 
   const handleCreate = () => {
-    console.log('click')
+    navigate('create')
   }
 
   return (
