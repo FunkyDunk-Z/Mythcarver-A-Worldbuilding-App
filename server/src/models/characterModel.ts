@@ -73,9 +73,10 @@ interface CharacterType extends Document {
   healthPoints: HealthPointsType
   speed: SpeedType
   hasDarkvision: boolean
+  portraitUrl: string
 }
 
-const characterTypes = ['player', 'npc']
+const characterTypes = ['Player', 'Npc']
 
 const abilityNames = [
   'strength',
@@ -272,6 +273,9 @@ const characterSchema = new Schema<CharacterType>({
   hasDarkvision: {
     type: Boolean,
     default: false,
+  },
+  portraitUrl: {
+    type: String,
   },
 })
 

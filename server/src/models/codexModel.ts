@@ -82,7 +82,7 @@ codexSchema.pre(
   function (this: Query<CodexDocument[], CodexDocument>, next) {
     this.populate({
       path: 'characters',
-      select: 'characterName characterType',
+      select: 'characterName characterType createdBy',
     })
     next()
   }

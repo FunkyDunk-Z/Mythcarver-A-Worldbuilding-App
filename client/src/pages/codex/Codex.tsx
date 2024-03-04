@@ -11,6 +11,7 @@ function Codex() {
       {Categories.map((el, i) => {
         const categoryName = el
           .toLowerCase()
+          .replace(/'/g, '-')
           .replace(/\s/g, '-')
           .replace(/&/g, 'and')
 

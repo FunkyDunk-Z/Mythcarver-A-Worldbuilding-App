@@ -16,7 +16,8 @@ function Dashboard() {
             key={i}
             cardName={el.codexName}
             image={Image}
-            link={`/codex/${el._id}`}
+            link={el.codexName}
+            codexId={el._id}
           />
         )
       })}

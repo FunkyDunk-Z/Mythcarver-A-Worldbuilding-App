@@ -1,0 +1,10 @@
+.wrapper {
+  display: grid;
+  gap: 0.5rem;
+  justify-items: center;
+}
+
+.wrapperBtn {
+  display: flex;
+  gap: 0.5rem;
+}

@@ -1,17 +1,14 @@
 import { Reducer } from 'react'
 
-export const authReducer: Reducer<IUserState, TAuthReducer> = (
+export const currentCodexReducer: Reducer<CodexIDType, CodexReducerType> = (
   state,
   action
 ) => {
   switch (action.type) {
-    case 'SET_USER': {
+    case 'SET_CURRENT_CODEX': {
       return action.payload
     }
-    case 'REFRESH_USER': {
-      return state
-    }
-    case 'CLEAR_USER': {
+    case 'CLEAR_CURRENT_CODEX': {
       return null
     }
     default:

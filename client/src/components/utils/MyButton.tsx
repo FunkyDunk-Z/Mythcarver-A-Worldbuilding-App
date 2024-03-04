@@ -1,18 +1,21 @@
-import { RefObject, ChangeEvent, MouseEvent } from "react";
+import { RefObject, ChangeEvent, MouseEvent, MouseEventHandler } from 'react'
 
-import styles from "./css/MyButton.module.css";
+import styles from './css/MyButton.module.css'
 
-type ButtonType = "button" | "submit" | "reset" | undefined;
+type ButtonType = 'button' | 'submit' | 'reset' | undefined
 
-type EventTypes = ChangeEvent | MouseEvent;
+type EventTypes =
+  | ChangeEvent
+  | MouseEvent
+  | MouseEventHandler<HTMLButtonElement>
 
 interface ButtonProps {
-  children: React.ReactNode;
-  handleClick?: (e?: EventTypes) => void;
-  isDisabled?: boolean;
-  theme?: string;
-  type?: ButtonType;
-  withRef?: RefObject<HTMLButtonElement>;
+  children: React.ReactNode
+  handleClick?: (e?: EventTypes) => void
+  isDisabled?: boolean
+  theme?: string
+  type?: ButtonType
+  withRef?: RefObject<HTMLButtonElement>
 }
 
 function MyButton({
@@ -23,7 +26,7 @@ function MyButton({
   type,
   withRef,
 }: ButtonProps) {
-  const defaultTheme = !theme ? "" : theme;
+  const defaultTheme = !theme ? '' : theme
   return (
     <button
       onClick={handleClick}
@@ -35,7 +38,7 @@ function MyButton({
     >
       {children}
     </button>
-  );
+  )
 }
 
-export default MyButton;
+export default MyButton

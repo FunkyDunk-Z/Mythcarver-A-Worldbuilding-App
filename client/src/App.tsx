@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import { useAuthContext } from './hooks/useAuthContext'
 import { useCustomFetch } from './hooks/useCustomFetch'
 import './Global.css'
@@ -27,8 +27,12 @@ import MyAccount from './pages/MyAccount'
 // import TurnTracker from "./pages/TurnTracker";
 
 function App() {
-  const { user, isLoading } = useAuthContext()
+  const { user, isLoading, dispatchCurrentCodexId } = useAuthContext()
   const { customFetch } = useCustomFetch()
+  const navigate = useNavigate()
+  const userCodexNames = user?.codex.map((el) => {
+    return el.codexName
+  })
 
   useEffect(() => {
     customFetch({
@@ -40,6 +44,38 @@ function App() {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  //----------Check for current codex-----------
+  useEffect(() => {
+    const url = window.location.href
+      .split('/')[3]
+      .split('-')
+      .map((el) => el.charAt(0).toUpperCase() + el.slice(1))
+      .join(' ')
+
+    // check if user has a codex
+    if (userCodexNames) {
+      const allowedUrls = [...userCodexNames, 'My Account', 'Turn Tracker']
+
+      // check if the url after the root is allowed
+      if (allowedUrls.includes(url)) {
+        // if we get this far, we check which user codex matches with the name in the url
+        const codexExists = user?.codex.find((codex) => codex.codexName === url)
+
+        // if a match we set the currentCodexId to the codex._id
+        if (codexExists) {
+          localStorage.setItem('currentCodexId', codexExists._id)
+          dispatchCurrentCodexId({
+            type: 'SET_CURRENT_CODEX',
+            payload: codexExists._id,
+          })
+        }
+      } else {
+        navigate('/')
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, dispatchCurrentCodexId, navigate])
 
   function LoadingComponent({ component }: { component: React.JSX.Element }) {
     const url = window.location.href.split('/')[3]
@@ -93,7 +129,7 @@ function App() {
           />
           {user ? (
             <Route
-              path="/codex/:id/*"
+              path=":id/*"
               element={<LoadingComponent component={<CodexRoutes />} />}
             />
           ) : (

@@ -1,11 +1,13 @@
 .wrapper {
   display: grid;
+  grid-template-rows: auto 1fr;
   margin: 1rem;
   gap: 1rem;
 }
 
 .characterGallery {
   display: grid;
+  height: max-content;
   gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }

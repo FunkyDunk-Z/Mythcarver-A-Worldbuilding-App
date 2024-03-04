@@ -56,3 +56,23 @@ export const getAll =
       return next()
     }
   }
+
+export const deleteOne =
+  <T extends Document>(Model: Model<T>) =>
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const data = await Model.findByIdAndDelete(req.params.id)
+
+      if (!data) {
+        return next()
+      }
+
+      res.status(204).json({
+        status: 'success',
+        data: null,
+      })
+    } catch (error) {
+      console.error(error)
+      return next()
+    }
+  }
