@@ -10,7 +10,7 @@ import MyButton from '../../../components/utils/MyButton'
 import styles from './css/CreateCharacter.module.css'
 
 function CreateCharacter() {
-  const { user, currentCodexId, setIsLoading } = useAuthContext()
+  const { user, currentCodexId } = useAuthContext()
   const navigate = useNavigate()
   const { customFetch } = useCustomFetch()
   const url = window.location.href.split('/')[3]
@@ -55,7 +55,6 @@ function CreateCharacter() {
       senses: senses,
     })
 
-    setIsLoading(true)
     navigate(`/${url}/characters`)
   }
 

@@ -3,13 +3,31 @@
 .wrapper {
   position: relative;
   display: grid;
-  border-radius: 0.5rem;
   overflow: hidden;
+  border-radius: 0.5rem;
   border: 1px solid black;
-  /* cursor: pointer; */
+  cursor: pointer;
   min-width: 100%;
   max-height: max-content;
   box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.4);
+}
+.wrapper:hover {
+  border-color: var(--primary-hover);
+
+  .image {
+    opacity: 0.7;
+  }
+}
+
+.wrapper.confirmDelete {
+  opacity: 0.7;
+  background-color: var(--primary-hover);
+}
+
+.wrapperDelete {
+  position: absolute;
+  top: 10%;
+  right: 5%;
 }
 
 .image {
@@ -30,26 +48,4 @@
 
 .characterType {
   text-align: center;
-}
-
-/* .wrapper:hover {
-  border-color: var(--primary-hover);
-
-  .image {
-    opacity: 0.7;
-  }
-} */
-
-.wrapperBtn {
-  display: grid;
-  grid-template-columns: repeat(3, auto);
-  gap: 0.5rem;
-  margin: 0.5rem;
-}
-
-.wrapperConfirmDelete {
-  display: grid;
-  grid-template-columns: repeat(2, auto);
-  gap: 0.5rem;
-  margin: 0.5rem;
 }

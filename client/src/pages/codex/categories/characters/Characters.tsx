@@ -29,7 +29,6 @@ function Characters() {
                   characterType={el.characterType}
                   link={el._id}
                   image={Image}
-                  objectId={el._id}
                 />
               )
             })
