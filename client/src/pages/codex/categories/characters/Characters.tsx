@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../../../hooks/useAuthContext'
 
 import Card from '../../../../components/utils/Card'
-import Image from '../../../../assets/PlaceholderPortrait.png'
+import Image from '../../../../assets/D&D.jpg'
 
 import styles from './css/Characters.module.css'
 
@@ -28,6 +28,7 @@ function Characters() {
                   cardName={el.characterName}
                   characterType={el.characterType}
                   link={el._id}
+                  docId={el._id}
                   image={Image}
                 />
               )

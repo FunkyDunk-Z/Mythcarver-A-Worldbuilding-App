@@ -7,15 +7,26 @@ type CardProps = {
   image: string
   cardName: string
   codexId?: string
+  docId?: string
   characterType?: string
 }
 
-function Card({ link, image, cardName, codexId, characterType }: CardProps) {
+function Card({
+  link,
+  image,
+  cardName,
+  codexId,
+  docId,
+  characterType,
+}: CardProps) {
   const navigate = useNavigate()
 
   const handleView = () => {
     if (codexId) {
       localStorage.setItem('currentCodexId', codexId)
+    }
+    if (docId) {
+      localStorage.setItem('currentDocId', docId)
     }
     const linkUrl = link?.replace(/\s/g, '-').toLowerCase()
 

@@ -1,7 +1,7 @@
 import { useAuthContext } from '../hooks/useAuthContext'
 
 import Card from '../components/utils/Card'
-import Image from '../assets/Campaigns.webp'
+import Image from '../assets/d20.jpg'
 
 import styles from './css/Dashboard.module.css'
 

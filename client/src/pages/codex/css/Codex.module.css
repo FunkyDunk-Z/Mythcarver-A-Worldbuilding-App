@@ -3,4 +3,8 @@
   gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   margin: 1rem;
+  align-items: start;
+  justify-self: center;
+  width: 90%;
+  height: max-content;
 }

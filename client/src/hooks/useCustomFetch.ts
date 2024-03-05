@@ -122,8 +122,6 @@ export const useCustomFetch = () => {
       }
 
       if (response.status === 201) {
-        // const { data } = response.data
-        // localStorage.setItem('reload', data._id)
         setIsLoading(true)
         window.location.reload()
       } else {
@@ -142,14 +140,12 @@ export const useCustomFetch = () => {
       if (axios.isAxiosError<AxiosError, Record<string, unknown>>(error)) {
         if (error.response?.status === 500) {
           dispatchUserState({ type: 'CLEAR_USER' })
-          localStorage.removeItem('user')
-          localStorage.removeItem('reload')
+          localStorage.clear()
           console.log("Can't connect to Server")
           setIsLoading(false)
         } else {
           dispatchUserState({ type: 'CLEAR_USER' })
-          localStorage.removeItem('user')
-          localStorage.removeItem('reload')
+          localStorage.clear()
           console.log('User not loggedd in')
           setIsLoading(false)
         }

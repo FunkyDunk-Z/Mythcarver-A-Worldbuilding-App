@@ -132,6 +132,7 @@ type CharacterType = {
   createdBy?: string
   codex?: string
   characterName: string
+  characterPortrait?: string
   characterType?: 'Player' | 'Npc'
   characterTitles?: string[]
   level: number
