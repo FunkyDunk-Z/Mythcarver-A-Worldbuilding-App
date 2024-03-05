@@ -133,7 +133,7 @@ type CharacterType = {
   codex?: string
   characterName: string
   characterPortrait?: string
-  characterType?: 'Player' | 'Npc'
+  characterType?: string
   characterTitles?: string[]
   level: number
   species?: string

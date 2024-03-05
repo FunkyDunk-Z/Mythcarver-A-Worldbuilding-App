@@ -105,8 +105,6 @@ export const useCustomFetch = () => {
         ) {
           const { user } = data
 
-          console.log('is logged in')
-
           localStorage.setItem('user', JSON.stringify(user))
           dispatchUserState({ type: 'SET_USER', payload: user })
           setIsLoading(false)

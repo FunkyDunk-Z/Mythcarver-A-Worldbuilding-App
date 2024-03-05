@@ -20,7 +20,7 @@ function CreateCharacter() {
     codex: currentCodexId,
     characterName: '',
     characterPortrait: '',
-    characterType: 'Npc',
+    characterType: '',
     level: 1,
     abilities: abilities,
     skills: skills,
@@ -32,6 +32,14 @@ function CreateCharacter() {
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
+    }))
+  }
+
+  //select button
+  const logOption = (e: string) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      characterType: e,
     }))
   }
 
@@ -50,7 +58,7 @@ function CreateCharacter() {
       codex: currentCodexId,
       characterName: '',
       characterPortrait: '',
-      characterType: 'Npc',
+      characterType: '',
       level: 1,
       abilities: abilities,
       skills: skills,
@@ -65,10 +73,7 @@ function CreateCharacter() {
     navigate(`/${url}/characters`)
   }
 
-  //select button
-  const logOption = (e: string) => {
-    console.log(e)
-  }
+  console.log(formData)
 
   const selectOptions = ['Player', 'Npc']
 
