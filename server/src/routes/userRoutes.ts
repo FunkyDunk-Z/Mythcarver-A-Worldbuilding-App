@@ -12,7 +12,6 @@ import {
   deleteMyAccount,
   isLoggedIn,
 } from '../controllers/authController'
-import imageUpload from '../middleware/imageUpload'
 
 const router = Router()
 
@@ -27,7 +26,7 @@ router.use('/', protect)
 router.post('/is-logged-in', isLoggedIn)
 
 router.get('/my-account', getMyAccount)
-router.patch('/update-my-account', imageUpload, updateMyAccount)
+router.patch('/update-my-account', updateMyAccount)
 router.patch('/update-my-password', updatePassword)
 router.delete('/delete-my-account', deleteMyAccount)
 

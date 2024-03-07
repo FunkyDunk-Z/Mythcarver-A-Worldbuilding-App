@@ -34,6 +34,7 @@ type AuthType =
   | 'logout'
   | 'isLoggedIn'
   | 'update'
+  | 'fetchDocument'
 
 type RequestType = 'GET' | 'POST' | 'PATCH' | 'DELETE'
 
@@ -111,6 +112,11 @@ export const useCustomFetch = () => {
         } else if (authType === 'forgotPassword') {
           const { message } = data
           setMessage(message)
+          setIsLoading(false)
+        } else if (authType === 'fetchDocument') {
+          console.log(data.data)
+
+          localStorage.setItem('currentCharacter', data.data)
           setIsLoading(false)
         } else {
           localStorage.removeItem('user')

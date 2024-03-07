@@ -57,6 +57,30 @@ export const getAll =
     }
   }
 
+//----------Get One------------
+
+export const getOne =
+  <T extends Document>(Model: Model<T>) =>
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const data: Doc | null = await Model.findById(req.params.id)
+
+      if (!data) {
+        return next()
+      }
+
+      res.status(200).json({
+        status: 'success',
+        data,
+      })
+    } catch (error) {
+      console.error(error)
+      return next()
+    }
+  }
+
+//----------Delete One----------
+
 export const deleteOne =
   <T extends Document>(Model: Model<T>) =>
   async (req: Request, res: Response, next: NextFunction) => {

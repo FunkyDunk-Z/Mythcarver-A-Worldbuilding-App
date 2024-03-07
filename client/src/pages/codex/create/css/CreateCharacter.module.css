@@ -1,17 +1,28 @@
-.wrapper {
+.wrapperPage {
   display: grid;
   grid-template-rows: auto auto 1fr;
   align-items: start;
   justify-items: center;
   gap: 1rem;
-  /* align-self: center; */
   margin: 1rem;
 }
 
-.form {
+.wrapperForm {
   display: grid;
   justify-items: center;
-  gap: 1rem;
+  width: 90%;
+}
+
+.wrapperAbilities {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin: 1rem;
+}
+
+.ability {
+  display: grid;
+  justify-items: center;
 }
 
 .input {
@@ -29,6 +40,14 @@
 .input::-webkit-outer-spin-button,
 .input::-webkit-inner-spin-button {
   appearance: none;
+}
+
+.input.ability {
+  text-align: center;
+  min-width: 0;
+  min-height: 0;
+  width: 30px;
+  height: 30px;
 }
 
 .label {

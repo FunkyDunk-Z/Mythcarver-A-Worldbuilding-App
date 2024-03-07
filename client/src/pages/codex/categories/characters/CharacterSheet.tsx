@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../../../hooks/useAuthContext'
 import { useCustomFetch } from '../../../../hooks/useCustomFetch'
@@ -13,6 +13,19 @@ function CharacterSheet() {
   const [confirmDelete, setConfirmDelete] = useState(false)
   const navigate = useNavigate()
   const id = localStorage.getItem('currentDocId')
+  // const [currentCharacter, setCurrentCharacter] = useState({})
+  const character = localStorage.getItem('currentCharacter')
+
+  useEffect(() => {
+    customFetch({
+      credentials: true,
+      requestType: 'GET',
+      url: `/characters/get/${id}`,
+      authType: 'fetchDocument',
+    })
+  }, [])
+
+  console.log(character)
 
   const toggleConfirmDelete = () => {
     setConfirmDelete(!confirmDelete)
@@ -37,6 +50,7 @@ function CharacterSheet() {
         <MyButton handleClick={() => handleDelete(id)}>Confirm Delete</MyButton>
       ) : null}
       <p>CharacterSheet</p>
+      <div>{id ? <p>{id}</p> : null}</div>
     </div>
   )
 }

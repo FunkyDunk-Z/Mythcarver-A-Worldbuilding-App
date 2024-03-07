@@ -1,4 +1,4 @@
-export const abilities: AbilityType = [
+export const abilitiyStats: AbilityType = [
   {
     abilityName: 'strength',
     abilityScore: 0,
@@ -25,7 +25,7 @@ export const abilities: AbilityType = [
   },
 ]
 
-export const skills: SkillType = [
+export const skillStats: SkillType = [
   {
     skillName: 'athletics',
     skillAbility: 'strength',
@@ -100,7 +100,7 @@ export const skills: SkillType = [
   },
 ]
 
-export const senses: SenseType = [
+export const senseStats: SenseType = [
   {
     senseName: 'passive perception',
     skillRequired: 'perception',
