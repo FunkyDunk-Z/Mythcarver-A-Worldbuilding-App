@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../../../hooks/useAuthContext'
-import { useCustomFetch } from '../../../../hooks/useCustomFetch'
+import { useDocFetch } from '../../../../hooks/useDocFetch'
 
 import MyButton from '../../../../components/utils/MyButton'
 
@@ -9,7 +9,7 @@ import styles from './css/CharacterSheet.module.css'
 
 function CharacterSheet() {
   const { setIsLoading } = useAuthContext()
-  const { customFetch } = useCustomFetch()
+  const { docFetch } = useDocFetch()
   const [confirmDelete, setConfirmDelete] = useState(false)
   const navigate = useNavigate()
   const id = localStorage.getItem('currentDocId')
@@ -17,7 +17,7 @@ function CharacterSheet() {
   const character = localStorage.getItem('currentCharacter')
 
   useEffect(() => {
-    customFetch({
+    docFetch({
       credentials: true,
       requestType: 'GET',
       url: `/characters/get/${id}`,
@@ -32,7 +32,7 @@ function CharacterSheet() {
   }
 
   const handleDelete = (id: string | null) => {
-    customFetch({
+    docFetch({
       credentials: true,
       requestType: 'DELETE',
       url: `characters/delete/${id}`,

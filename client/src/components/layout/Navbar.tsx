@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuthContext } from '../../hooks/useAuthContext'
-import { useCustomFetch } from '../../hooks/useCustomFetch'
+import { useAuthFetch } from '../../hooks/useAuthFetch'
 
 // components
 import MyButton from '../utils/MyButton'
@@ -11,7 +11,7 @@ import styles from './css/Navbar.module.css'
 
 function Navbar() {
   const { user } = useAuthContext()
-  const { customFetch } = useCustomFetch()
+  const { authFetch } = useAuthFetch()
   const mobile = window.innerWidth < 900
   const [isMobile, setIsMobile] = useState(mobile)
   const [isActive, setIsActive] = useState(false)
@@ -48,7 +48,7 @@ function Navbar() {
 
   const handleLogout = () => {
     toggleNavBtn()
-    customFetch({
+    authFetch({
       url: '/users/logout',
       credentials: false,
       authType: 'logout',

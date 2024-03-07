@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import { useAuthContext } from './hooks/useAuthContext'
-import { useCustomFetch } from './hooks/useCustomFetch'
+import { useAuthFetch } from './hooks/useAuthFetch'
 import './Global.css'
 
 // Authentication
@@ -28,14 +28,14 @@ import MyAccount from './pages/MyAccount'
 
 function App() {
   const { user, isLoading, dispatchCurrentCodexId } = useAuthContext()
-  const { customFetch } = useCustomFetch()
+  const { authFetch } = useAuthFetch()
   const navigate = useNavigate()
   const userCodexNames = user?.codex.map((el) => {
     return el.codexName
   })
 
   useEffect(() => {
-    customFetch({
+    authFetch({
       url: 'users/is-logged-in',
       credentials: true,
       authType: 'isLoggedIn',

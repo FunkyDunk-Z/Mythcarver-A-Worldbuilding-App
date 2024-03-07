@@ -1,71 +1,71 @@
-import { useState, useRef, ChangeEvent, MouseEvent, FormEvent } from "react";
-import { useAuthContext } from "../hooks/useAuthContext";
-import { useCustomFetch } from "../hooks/useCustomFetch";
+import { useState, useRef, ChangeEvent, MouseEvent, FormEvent } from 'react'
+import { useAuthContext } from '../hooks/useAuthContext'
+import { useAuthFetch } from '../hooks/useAuthFetch'
 
-import MyButton from "../components/utils/MyButton";
+import MyButton from '../components/utils/MyButton'
 
-import styles from "./css/MyAccount.module.css";
+import styles from './css/MyAccount.module.css'
 
 function MyAccount() {
-  const { user } = useAuthContext();
-  const { customFetch } = useCustomFetch();
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [isUpdating, setIsUpdating] = useState(false);
-  const [avatar, setAvatar] = useState("");
+  const { user } = useAuthContext()
+  const { authFetch } = useAuthFetch()
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const [isUpdating, setIsUpdating] = useState(false)
+  const [avatar, setAvatar] = useState('')
   const [formData, setFormData] = useState({
     firstName: user?.firstName,
     lastName: user?.lastName,
     email: user?.email,
     username: user?.username,
     avatarURL: user?.avatarURL,
-  });
+  })
 
   const toggleIsUpdating = () => {
-    setIsUpdating(!isUpdating);
-  };
+    setIsUpdating(!isUpdating)
+  }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, files } = e.target;
+    const { name, value, type, files } = e.target
 
-    if (files && type === "file") {
-      const fileSelected = files[0];
-      const fileReader = new FileReader();
+    if (files && type === 'file') {
+      const fileSelected = files[0]
+      const fileReader = new FileReader()
 
-      fileReader.readAsDataURL(fileSelected);
+      fileReader.readAsDataURL(fileSelected)
 
       fileReader.onloadend = () => {
-        if (typeof fileReader.result === "string") {
-          const newAvatar = fileReader.result;
-          setAvatar(newAvatar);
-          formData.avatarURL = newAvatar;
+        if (typeof fileReader.result === 'string') {
+          const newAvatar = fileReader.result
+          setAvatar(newAvatar)
+          formData.avatarURL = newAvatar
         }
-      };
+      }
     } else {
       setFormData((prevFormData) => ({
         ...prevFormData,
         [name]: value,
-      }));
+      }))
     }
-  };
+  }
 
   const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    console.log(formData);
+    console.log(formData)
 
-    await customFetch({
-      url: "/users/update-my-account",
-      requestType: "PATCH",
+    await authFetch({
+      url: '/users/update-my-account',
+      requestType: 'PATCH',
       credentials: false,
       dataToSend: formData,
-      authType: "update",
-    });
-  };
+      authType: 'update',
+    })
+  }
 
   const handleUpload = (e: MouseEvent) => {
-    e.preventDefault();
-    fileInputRef.current?.click();
-  };
+    e.preventDefault()
+    fileInputRef.current?.click()
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -96,17 +96,17 @@ function MyAccount() {
               accept="image/*"
               onChange={handleChange}
               ref={fileInputRef}
-              style={{ display: "none" }}
+              style={{ display: 'none' }}
             />
             {!avatar ? (
               <img
-                className={`${styles.image} ${styles["preview"]}`}
+                className={`${styles.image} ${styles['preview']}`}
                 src={user?.avatarURL}
                 alt="Preview"
               />
             ) : (
               <img
-                className={`${styles.image} ${styles["preview"]}`}
+                className={`${styles.image} ${styles['preview']}`}
                 src={avatar}
                 alt="Preview"
               />
@@ -171,7 +171,7 @@ function MyAccount() {
         </>
       )}
     </div>
-  );
+  )
 }
 
-export default MyAccount;
+export default MyAccount

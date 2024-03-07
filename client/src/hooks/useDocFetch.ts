@@ -46,12 +46,12 @@ type PropTypes = {
   requestType: RequestType
 }
 
-export const useCustomFetch = () => {
+export const useDocFetch = () => {
   const { dispatchUserState, setIsLoading } = useAuthContext()
   const [error, setError] = useState(null)
   const [message, setMessage] = useState('')
 
-  const customFetch = async (data: PropTypes) => {
+  const docFetch = async (data: PropTypes) => {
     const { dataToSend, url, credentials, authType, requestType } = data
 
     setError(null)
@@ -160,5 +160,5 @@ export const useCustomFetch = () => {
     }
   }
 
-  return { customFetch, message, error }
+  return { docFetch, message, error }
 }

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useCustomFetch } from '../../hooks/useCustomFetch'
+import { useAuthFetch } from '../../hooks/useAuthFetch'
 
 import styles from './css/SignUpPage.module.css'
 
@@ -13,7 +13,7 @@ function SignUpPage() {
     password: '',
     passwordConfirm: '',
   })
-  const { customFetch } = useCustomFetch()
+  const { authFetch } = useAuthFetch()
 
   const handleChange = (e: InputEventType) => {
     const { name, value } = e.target
@@ -26,7 +26,7 @@ function SignUpPage() {
   const handleSignUp = async (e: FormEventType) => {
     e.preventDefault()
 
-    await customFetch({
+    await authFetch({
       credentials: true,
       requestType: 'POST',
       url: 'users/sign-up',

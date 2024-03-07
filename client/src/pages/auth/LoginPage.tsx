@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useCustomFetch } from '../../hooks/useCustomFetch'
+import { useAuthFetch } from '../../hooks/useAuthFetch'
 
 // components
 import MyButton from '../../components/utils/MyButton'
@@ -14,7 +14,7 @@ function LoginPage() {
     password: import.meta.env.VITE_PASSWORD || '',
   })
 
-  const { customFetch } = useCustomFetch()
+  const { authFetch } = useAuthFetch()
 
   const handleChange = (e: InputEventType) => {
     const { name, value } = e.target
@@ -27,7 +27,7 @@ function LoginPage() {
   const handleLogin = async (e: FormEventType) => {
     e.preventDefault()
 
-    await customFetch({
+    await authFetch({
       dataToSend: formData,
       url: 'users/login',
       credentials: true,

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
-import { useCustomFetch } from '../../../hooks/useCustomFetch'
+import { useDocFetch } from '../../../hooks/useDocFetch'
 import { useAuthContext } from '../../../hooks/useAuthContext'
 import {
   abilitiyStats,
@@ -16,7 +16,7 @@ import styles from './css/CreateCharacter.module.css'
 function CreateCharacter() {
   const { user, currentCodexId } = useAuthContext()
   const navigate = useNavigate()
-  const { customFetch } = useCustomFetch()
+  const { docFetch } = useDocFetch()
   const url = window.location.href.split('/')[3]
   const selectOptions = ['Player', 'Npc']
   const [formData, setFormData] = useState<CharacterType>({
@@ -63,7 +63,7 @@ function CreateCharacter() {
   const handleSubmit = (e: FormEventType) => {
     e.preventDefault()
 
-    customFetch({
+    docFetch({
       credentials: true,
       requestType: 'POST',
       url: 'characters/create',
