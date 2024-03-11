@@ -7,11 +7,11 @@ export const createOne =
   <T extends Document>(Model: Model<T>) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const data = await Model.create(req.body)
+      const doc = await Model.create(req.body)
 
       res.status(201).json({
         status: 'success',
-        data,
+        doc,
       })
     } catch (error) {
       console.error(error)
@@ -25,31 +25,31 @@ interface Doc extends Document {
   createdBy: Types.ObjectId
 }
 
-type DataType = Doc[]
+type DocArrayType = Doc[]
 
 export const getAll =
   <T extends Document>(Model: Model<T>) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = req.user
-      const docs: DataType = await Model.find()
+      const model: DocArrayType = await Model.find()
 
-      let data: DataType = []
+      let doc: DocArrayType = []
 
-      for (let i = 0; i < docs.length; i++) {
-        if (docs[i].createdBy.toString() === userId.toString()) {
-          data.push(docs[i])
+      for (let i = 0; i < model.length; i++) {
+        if (model[i].createdBy.toString() === userId.toString()) {
+          doc.push(model[i])
         }
       }
 
-      if (!data) {
+      if (!doc) {
         return next()
       }
 
       res.status(201).json({
         status: 'success',
-        results: data.length,
-        data,
+        results: doc.length,
+        doc,
       })
     } catch (error) {
       console.error(error)
@@ -63,15 +63,15 @@ export const getOne =
   <T extends Document>(Model: Model<T>) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const data: Doc | null = await Model.findById(req.params.id)
+      const doc: Doc | null = await Model.findById(req.params.id)
 
-      if (!data) {
+      if (!doc) {
         return next()
       }
 
       res.status(200).json({
         status: 'success',
-        data,
+        doc,
       })
     } catch (error) {
       console.error(error)
@@ -85,15 +85,15 @@ export const deleteOne =
   <T extends Document>(Model: Model<T>) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const data = await Model.findByIdAndDelete(req.params.id)
+      const doc = await Model.findByIdAndDelete(req.params.id)
 
-      if (!data) {
+      if (!doc) {
         return next()
       }
 
       res.status(204).json({
         status: 'success',
-        data: null,
+        doc: null,
       })
     } catch (error) {
       console.error(error)

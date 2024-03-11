@@ -1,24 +1,25 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
-import { useDocFetch } from '../../../hooks/useDocFetch'
-import { useAuthContext } from '../../../hooks/useAuthContext'
+import { useDocFetch } from '../../../../hooks/useDocFetch'
+import { useAuthContext } from '../../../../hooks/useAuthContext'
 import {
   abilitiyStats,
   senseStats,
   skillStats,
-} from '../../../data/CharacterStats'
+} from '../../../../data/CharacterStats'
 
-import Select from '../../../components/utils/Select'
-import MyButton from '../../../components/utils/MyButton'
+import Select from '../../../../components/utils/Select'
+import MyButton from '../../../../components/utils/MyButton'
 
 import styles from './css/CreateCharacter.module.css'
 
 function CreateCharacter() {
-  const { user, currentCodexId } = useAuthContext()
+  const { user } = useAuthContext()
   const navigate = useNavigate()
   const { docFetch } = useDocFetch()
   const url = window.location.href.split('/')[3]
   const selectOptions = ['Player', 'Npc']
+  const currentCodexId = localStorage.getItem('currentCodexId')
   const [formData, setFormData] = useState<CharacterType>({
     createdBy: user?.id,
     codex: currentCodexId,
@@ -52,6 +53,20 @@ function CreateCharacter() {
     }))
   }
 
+  // set skill proficiency
+  const handleSkillChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const { checked } = e.target
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      skills: prevFormData.skills.map((skill, i) =>
+        i === index ? { ...skill, isProficient: checked } : skill
+      ),
+    }))
+  }
+
   //select button
   const logOption = (e: string) => {
     setFormData((prevFormData) => ({
@@ -68,8 +83,7 @@ function CreateCharacter() {
       requestType: 'POST',
       url: 'characters/create',
       dataToSend: formData,
-    }) // bring return the data
-    // update the state of the user -> push the data into the user
+    })
 
     setFormData({
       createdBy: user?.id,
@@ -91,15 +105,12 @@ function CreateCharacter() {
     navigate(`/${url}/characters`)
   }
 
-  // console.log(formData)
-
   return (
     <div className={styles.wrapperPage}>
       <MyButton handleClick={handleNavigate} theme="backBtn">
         Back to Characters
       </MyButton>
       <Select options={selectOptions} handleChange={logOption} />
-      {/* <div className={styles.wrapperForm}> */}
       <form onSubmit={handleSubmit} className={styles.wrapperForm}>
         <label className={styles.label} htmlFor="characterName">
           Character Name:
@@ -114,32 +125,49 @@ function CreateCharacter() {
           onChange={handleChange}
         ></input>
         <div className={styles.wrapperAbilities}>
-          {formData.abilities.map((ability, index) => (
-            <div className={styles.ability}>
-              <label className={styles.label} htmlFor={ability.abilityName}>
-                {ability.abilityName.charAt(0).toUpperCase() +
-                  ability.abilityName.slice(1)}
+          {formData.abilities.map((el, i) => (
+            <div key={i} className={styles.ability}>
+              <label className={styles.label} htmlFor={el.abilityName}>
+                {el.abilityName.charAt(0).toUpperCase() +
+                  el.abilityName.slice(1)}
                 :
               </label>
               <input
                 className={`${styles.input} ${styles['ability']}`}
                 type="number"
-                name={ability.abilityName}
-                id={ability.abilityName}
+                name={el.abilityName}
+                id={el.abilityName}
                 autoComplete="off"
                 value={
-                  ability.abilityScore < 9
-                    ? ability.abilityScore.toString()
-                    : ability.abilityScore
+                  el.abilityScore < 9
+                    ? el.abilityScore.toString()
+                    : el.abilityScore
                 }
-                onChange={(e) => handleAbilityChange(e, index)}
+                onChange={(e) => handleAbilityChange(e, i)}
+              />
+            </div>
+          ))}
+        </div>
+        <div className={styles.wrapperAbilities}>
+          {formData.skills.map((el, i) => (
+            <div key={i} className={styles.ability}>
+              <label className={styles.label} htmlFor={el.skillName}>
+                {el.skillName.charAt(0).toUpperCase() + el.skillName.slice(1)}:
+              </label>
+              <input
+                className={`${styles.input} ${styles['ability']}`}
+                type="checkbox"
+                name={el.skillName}
+                id={el.skillName}
+                autoComplete="off"
+                checked={el.isProficient}
+                onChange={(e) => handleSkillChange(e, i)}
               />
             </div>
           ))}
         </div>
         <button type="submit">Create</button>
       </form>
-      {/* </div> */}
     </div>
   )
 }

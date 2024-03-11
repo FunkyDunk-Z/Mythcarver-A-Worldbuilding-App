@@ -14,10 +14,10 @@ function Dashboard() {
         return (
           <Card
             key={i}
-            cardName={el.codexName}
+            cardName={el?.codexName}
             image={Image}
-            link={el.codexName}
-            codexId={el._id}
+            link={el?.codexName}
+            codexId={el?._id}
           />
         )
       })}

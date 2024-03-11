@@ -77,10 +77,16 @@ function MyAccount() {
             src={user?.avatarURL}
             alt="Users Avatar"
           />
-          <p>First Name : {user?.firstName}</p>
-          <p>Last Name : {user?.lastName}</p>
-          <p>Username : {user?.username}</p>
-          <p>Email : {user?.email}</p>
+          <div className={styles.wrapperUserDetails}>
+            <p className={styles.detailLabel}>First Name :</p>
+            <p>{user?.firstName}</p>
+            <p className={styles.detailLabel}>Last Name :</p>
+            <p>{user?.lastName}</p>
+            <p className={styles.detailLabel}>Username :</p>
+            <p>{user?.username}</p>
+            <p className={styles.detailLabel}>Email :</p>
+            <p>{user?.email}</p>
+          </div>
           <MyButton handleClick={toggleIsUpdating}>Update</MyButton>
         </>
       ) : (

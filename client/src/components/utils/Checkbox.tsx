@@ -2,11 +2,12 @@ import { useState } from 'react'
 import styles from './css/Checkbox.module.css'
 
 type CheckboxType = {
-  label: string
+  label?: string
+  checked: boolean
 }
 
-const Checkbox = ({ label }: CheckboxType) => {
-  const [isChecked, setIsChecked] = useState(false)
+const Checkbox = ({ label, checked }: CheckboxType) => {
+  const [isChecked, setIsChecked] = useState(checked)
 
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked)

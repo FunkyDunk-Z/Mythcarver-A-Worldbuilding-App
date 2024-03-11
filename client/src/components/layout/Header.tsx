@@ -1,13 +1,13 @@
-import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../hooks/useAuthContext'
+import { useNavigate } from 'react-router-dom'
 
 import Navbar from './Navbar'
 
 import styles from './css/Header.module.css'
 
 function Header() {
-  const navigate = useNavigate()
   const { user } = useAuthContext()
+  const navigate = useNavigate()
 
   const handleNavigate = () => {
     navigate('/')

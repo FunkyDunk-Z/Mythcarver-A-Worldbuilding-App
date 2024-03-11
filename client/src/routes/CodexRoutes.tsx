@@ -1,20 +1,19 @@
 import { Routes, Route } from 'react-router-dom'
 
 import PageNotFound from '../pages/PageNotFound'
-import PageUnderConstruction from '../pages/PageUnderConstruction'
 
 import Codex from '../pages/codex/Codex'
 
 // categories
-// import Bestairy from "../pages/codex/categories/Bestairy";
-// import Campaigns from "../pages/codex/categories/Campaigns";
-// import Factions from "../pages/codex/categories/Factions";
-// import Items from "../pages/codex/categories/Items";
-// import Locations from "../pages/codex/categories/Locations";
-// import Lore from "../pages/codex/categories/Lore";
-// import Nations from "../pages/codex/categories/Nations";
-// import Species from "../pages/codex/categories/Species";
-// import Traits from "../pages/codex/categories/Traits";
+import Bestairy from '../pages/codex/categories/bestairy/Bestairy'
+import Campaigns from '../pages/codex/categories/campaigns/Campaigns'
+import Factions from '../pages/codex/categories/factions/Factions'
+import Items from '../pages/codex/categories/items/Items'
+import Locations from '../pages/codex/categories/locations/Locations'
+import Lore from '../pages/codex/categories/lore/Lore'
+import Nations from '../pages/codex/categories/nations/Nations'
+import Species from '../pages/codex/categories/species/Species'
+import Traits from '../pages/codex/categories/traits/Traits'
 
 import CharacterRoutes from './CharacterRoutes'
 
@@ -22,16 +21,16 @@ export default function CodexRoutes() {
   return (
     <Routes>
       <Route index element={<Codex />} />
-      <Route path="/bestairy" element={<PageUnderConstruction />} />
-      <Route path="/campaigns" element={<PageUnderConstruction />} />
+      <Route path="/bestairy" element={<Bestairy />} />
+      <Route path="/campaigns" element={<Campaigns />} />
       <Route path="/characters/*" element={<CharacterRoutes />} />
-      <Route path="/factions" element={<PageUnderConstruction />} />
-      <Route path="/items" element={<PageUnderConstruction />} />
-      <Route path="/locations" element={<PageUnderConstruction />} />
-      <Route path="/history-and-lore" element={<PageUnderConstruction />} />
-      <Route path="/nations" element={<PageUnderConstruction />} />
-      <Route path="/species" element={<PageUnderConstruction />} />
-      <Route path="/traits" element={<PageUnderConstruction />} />
+      <Route path="/factions" element={<Factions />} />
+      <Route path="/items" element={<Items />} />
+      <Route path="/locations" element={<Locations />} />
+      <Route path="/history-and-lore" element={<Lore />} />
+      <Route path="/nations" element={<Nations />} />
+      <Route path="/species" element={<Species />} />
+      <Route path="/traits" element={<Traits />} />
       <Route path="/*" element={<PageNotFound />} />
     </Routes>
   )

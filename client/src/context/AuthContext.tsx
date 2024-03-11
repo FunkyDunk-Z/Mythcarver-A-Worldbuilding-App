@@ -1,35 +1,33 @@
-import { createContext, useReducer, Dispatch, useState } from 'react'
+import {
+  createContext,
+  useReducer,
+  Dispatch,
+  useState,
+  SetStateAction,
+} from 'react'
 
-import { authReducer } from '../reducers/authReducer'
-import { currentCodexReducer } from '../reducers/currentCodexReducer'
+import { stateReducer } from '../reducers/stateReducer'
 
-const user: IUserState = null
-const currentCodex: CodexIDType = null
+const userInit: UserStateType = null
 
-export const AuthContext = createContext<{
-  user: IUserState
-  dispatchUserState: Dispatch<TAuthReducer>
+type AuthContextType = {
+  user: UserStateType | StateType
+  dispatchUserState: Dispatch<ReducerType>
   isLoading: boolean
-  setIsLoading: Dispatch<React.SetStateAction<boolean>>
-  currentCodexId: CodexIDType
-  dispatchCurrentCodexId: Dispatch<CodexReducerType>
-} | null>(null)
+  setIsLoading: Dispatch<SetStateAction<boolean>>
+}
+
+export const AuthContext = createContext<AuthContextType | null>(null)
 
 export const AuthContextProvider = ({ children }: ReactProps) => {
-  const [userState, dispatchUserState] = useReducer(authReducer, user)
-  const [currentCodexId, dispatchCurrentCodexId] = useReducer(
-    currentCodexReducer,
-    currentCodex
-  )
+  const [user, dispatchUserState] = useReducer(stateReducer, userInit)
   const [isLoading, setIsLoading] = useState(true)
 
   const contextValues = {
-    user: userState,
+    user,
     dispatchUserState,
     isLoading,
     setIsLoading,
-    currentCodexId,
-    dispatchCurrentCodexId,
   }
 
   return (

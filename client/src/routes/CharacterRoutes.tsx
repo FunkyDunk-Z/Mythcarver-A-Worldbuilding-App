@@ -4,7 +4,7 @@ import PageNotFound from '../pages/PageNotFound'
 
 import Characters from '../pages/codex/categories/characters/Characters'
 import CharacterSheet from '../pages/codex/categories/characters/CharacterSheet'
-import CreateCharacter from '../pages/codex/create/CreateCharacter'
+import CreateCharacter from '../pages/codex/categories/characters/CreateCharacter'
 
 export default function CreateCharacterRoutes() {
   return (

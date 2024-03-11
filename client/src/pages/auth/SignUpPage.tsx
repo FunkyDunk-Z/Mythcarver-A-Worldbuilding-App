@@ -42,8 +42,6 @@ function SignUpPage() {
       password: '',
       passwordConfirm: '',
     })
-
-    window.location.reload()
   }
 
   return (

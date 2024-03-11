@@ -1,14 +1,14 @@
 import { Reducer } from 'react'
 
-export const currentCodexReducer: Reducer<CodexIDType, CodexReducerType> = (
+export const stateReducer: Reducer<StateType, ReducerType> = (
   state,
   action
 ) => {
   switch (action.type) {
-    case 'SET_CURRENT_CODEX': {
+    case 'SET_STATE': {
       return action.payload
     }
-    case 'CLEAR_CURRENT_CODEX': {
+    case 'CLEAR_STATE': {
       return null
     }
     default:

@@ -5,6 +5,12 @@
   gap: 1rem;
 }
 
+.wrapperUserDetails {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
 .form {
   display: grid;
   gap: 0.5rem;
@@ -38,6 +44,11 @@
 
 .label {
   font-size: 1.5rem;
+}
+
+.detailLabel {
+  font-weight: bold;
+  justify-self: end;
 }
 
 .btn {

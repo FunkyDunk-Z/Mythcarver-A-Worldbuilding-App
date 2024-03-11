@@ -233,6 +233,9 @@ const characterSchema = new Schema<CharacterType>({
       type: Number,
       default: 0,
     },
+    armoureScore: {
+      type: Number,
+    },
   },
   healthPoints: {
     currentHP: {
@@ -344,7 +347,7 @@ characterSchema.pre('save', function (next) {
 characterSchema.pre('save', function (next) {
   const skillMods = this.skills.reduce(
     (acc: { [key: string]: number }, skill) => {
-      acc[skill.skillName] = skill.skillMod
+      acc[skill.skillName] = 10 + skill.skillMod
       return acc
     },
     {}

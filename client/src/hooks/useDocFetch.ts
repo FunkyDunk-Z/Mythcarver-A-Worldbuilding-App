@@ -2,57 +2,44 @@ import { useState } from 'react'
 import { useAuthContext } from './useAuthContext'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 
-interface LoginData {
-  email: string
-  password: string
-}
-
-interface UpdateData {
-  firstName?: string
-  lastName?: string
-  username?: string
-  email?: string
-  avatarURL?: string
-}
-
-interface SignUp extends LoginData {
-  firstName: string
-  lastName: string
-  username: string
-  avatarURL: string
-  passwordConfirm: string
-}
-
-type ObjectId = string
-
-type DataType = LoginData | SignUp | UpdateData | CharacterType | ObjectId
-
-type AuthType =
-  | 'login'
-  | 'signUp'
-  | 'forgotPassword'
-  | 'logout'
-  | 'isLoggedIn'
-  | 'update'
-  | 'fetchDocument'
-
-type RequestType = 'GET' | 'POST' | 'PATCH' | 'DELETE'
-
-type PropTypes = {
-  dataToSend?: DataType
-  url: string
-  credentials: boolean
-  authType?: AuthType
-  requestType: RequestType
-}
-
 export const useDocFetch = () => {
-  const { dispatchUserState, setIsLoading } = useAuthContext()
+  const { dispatchUserState, setIsLoading, user } = useAuthContext()
   const [error, setError] = useState(null)
-  const [message, setMessage] = useState('')
+  const currentCodexId = localStorage.getItem('currentCodexId')
+  const currentDocId = localStorage.getItem('currentDocId')
+
+  const handleCharacterUpdate = (
+    response: AxiosResponse,
+    user: UserStateType,
+    currentCodexId: string,
+    dispatchUserState: React.Dispatch<ReducerType>
+  ) => {
+    if (user) {
+      const updatedUser = { ...user }
+      if (updatedUser) {
+        const currentCodexIndex = updatedUser.codex.findIndex(
+          (el) => el?._id === currentCodexId
+        )
+        if (currentCodexIndex !== -1) {
+          const currentCodex = updatedUser.codex[currentCodexIndex]
+          if (response.status === 201) {
+            const { doc } = response.data
+            updatedUser.codex[currentCodexIndex].characters.push(doc)
+          } else if (response.status === 204) {
+            const updatedCharacters = currentCodex.characters.filter(
+              (char) => char._id !== currentDocId
+            )
+            updatedUser.codex[currentCodexIndex].characters = updatedCharacters
+            localStorage.removeItem('currentDocId')
+          }
+        }
+      }
+      dispatchUserState({ type: 'SET_STATE', payload: updatedUser })
+    }
+  }
 
   const docFetch = async (data: PropTypes) => {
-    const { dataToSend, url, credentials, authType, requestType } = data
+    const { dataToSend, url, credentials, requestType } = data
 
     setError(null)
     try {
@@ -95,60 +82,34 @@ export const useDocFetch = () => {
           throw new Error('Invalid Request Type')
       }
 
+      //---------- GET ----------
       if (response.status === 200) {
         const { data } = response
+        console.log(data)
 
-        if (
-          authType === 'login' ||
-          authType === 'signUp' ||
-          authType === 'isLoggedIn' ||
-          authType === 'update'
-        ) {
-          const { user } = data
-
-          localStorage.setItem('user', JSON.stringify(user))
-          dispatchUserState({ type: 'SET_USER', payload: user })
-          setIsLoading(false)
-        } else if (authType === 'forgotPassword') {
-          const { message } = data
-          setMessage(message)
-          setIsLoading(false)
-        } else if (authType === 'fetchDocument') {
-          console.log(data.data)
-
-          localStorage.setItem('currentCharacter', data.data)
-          setIsLoading(false)
-        } else {
-          localStorage.removeItem('user')
-          dispatchUserState({ type: 'CLEAR_USER' })
-          setIsLoading(false)
-        }
-      }
-
-      if (response.status === 201) {
-        setIsLoading(true)
-        window.location.reload()
+        setIsLoading(false)
       } else {
-        setError(response.data.error)
         setIsLoading(false)
       }
 
-      if (response.status === 204) {
-        window.location.reload()
-        setIsLoading(true)
-      } else {
-        setError(response.data.error)
-        setIsLoading(false)
+      if (response.status === 201 || response.status === 204) {
+        if (currentCodexId)
+          handleCharacterUpdate(
+            response,
+            user,
+            currentCodexId,
+            dispatchUserState
+          )
       }
     } catch (error) {
       if (axios.isAxiosError<AxiosError, Record<string, unknown>>(error)) {
         if (error.response?.status === 500) {
-          dispatchUserState({ type: 'CLEAR_USER' })
+          dispatchUserState({ type: 'CLEAR_STATE' })
           localStorage.clear()
           console.log("Can't connect to Server")
           setIsLoading(false)
         } else {
-          dispatchUserState({ type: 'CLEAR_USER' })
+          dispatchUserState({ type: 'CLEAR_STATE' })
           localStorage.clear()
           console.log('User not loggedd in')
           setIsLoading(false)
@@ -160,5 +121,5 @@ export const useDocFetch = () => {
     }
   }
 
-  return { docFetch, message, error }
+  return { docFetch, error }
 }
