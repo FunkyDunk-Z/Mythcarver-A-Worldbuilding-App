@@ -227,14 +227,11 @@ const characterSchema = new Schema<CharacterType>({
   armourClass: {
     baseValue: {
       type: Number,
-      default: 10,
+      default: 0,
     },
     armourMod: {
       type: Number,
       default: 0,
-    },
-    armoureScore: {
-      type: Number,
     },
   },
   healthPoints: {
@@ -357,6 +354,17 @@ characterSchema.pre('save', function (next) {
     const senseMod = skillMods[sense.skillRequired]
 
     sense.senseMod = senseMod
+  })
+
+  next()
+})
+
+// Armour Class
+characterSchema.pre('save', function (next) {
+  this.abilities.map((el) => {
+    if (el.abilityName === 'dexterity') {
+      this.armourClass.baseValue = el.abilityMod + 10
+    }
   })
 
   next()
