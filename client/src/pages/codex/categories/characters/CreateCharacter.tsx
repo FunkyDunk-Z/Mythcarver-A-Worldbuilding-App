@@ -30,6 +30,10 @@ function CreateCharacter() {
     abilities: abilitiyStats,
     skills: skillStats,
     senses: senseStats,
+    healthPoints: {
+      hitDie: 1,
+      maxHP: 0,
+    },
   })
 
   const handleChange = (e: InputEventType) => {
@@ -56,13 +60,19 @@ function CreateCharacter() {
   // set skill proficiency
   const handleSkillChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    index: number
+    index: number,
+    proficiencyType: string // Pass proficiency type as an argument
   ) => {
     const { checked } = e.target
     setFormData((prevFormData) => ({
       ...prevFormData,
       skills: prevFormData.skills.map((skill, i) =>
-        i === index ? { ...skill, isProficient: checked } : skill
+        i === index
+          ? {
+              ...skill,
+              [proficiencyType]: checked, // Toggle the specified proficiency type
+            }
+          : skill
       ),
     }))
   }
@@ -95,6 +105,10 @@ function CreateCharacter() {
       abilities: abilitiyStats,
       skills: skillStats,
       senses: senseStats,
+      healthPoints: {
+        hitDie: 1,
+        maxHP: 1,
+      },
     })
 
     navigate(`/${url}/characters`)
@@ -105,11 +119,20 @@ function CreateCharacter() {
     navigate(`/${url}/characters`)
   }
 
+  const handleHPChange = (e: InputEventType) => {
+    const { name, value } = e.target
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      healthPoints: {
+        ...prevFormData.healthPoints,
+        [name]: parseInt(value) || 0,
+      },
+    }))
+  }
+
   return (
     <div className={styles.wrapperPage}>
-      <MyButton handleClick={handleNavigate} theme="backBtn">
-        Back to Characters
-      </MyButton>
+      <MyButton handleClick={handleNavigate}>Back to Characters</MyButton>
       <Select options={selectOptions} handleChange={logOption} />
       <form onSubmit={handleSubmit} className={styles.wrapperForm}>
         <label className={styles.label} htmlFor="characterName">
@@ -124,6 +147,33 @@ function CreateCharacter() {
           value={formData.characterName}
           onChange={handleChange}
         ></input>
+        <div className={styles.wrapperHP}>
+          <label className={styles.label} htmlFor="hitDie">
+            Hit Die:
+          </label>
+          <input
+            className={styles.input}
+            type="number"
+            name="hitDie"
+            id="hitDie"
+            autoComplete="off"
+            value={formData.healthPoints?.hitDie}
+            onChange={handleHPChange}
+          />
+
+          <label className={styles.label} htmlFor="maxHP">
+            Max HP:
+          </label>
+          <input
+            className={styles.input}
+            type="number"
+            name="maxHP"
+            id="maxHP"
+            autoComplete="off"
+            value={formData.healthPoints?.maxHP}
+            onChange={handleHPChange}
+          />
+        </div>
         <div className={styles.wrapperAbilities}>
           {formData.abilities.map((el, i) => (
             <div key={i} className={styles.ability}>
@@ -161,12 +211,25 @@ function CreateCharacter() {
                 id={el.skillName}
                 autoComplete="off"
                 checked={el.isProficient}
-                onChange={(e) => handleSkillChange(e, i)}
+                onChange={(e) => handleSkillChange(e, i, 'isProficient')} // Toggle proficiency
+              />
+              <input
+                className={`${styles.input} ${styles['ability']}`}
+                type="checkbox"
+                name={el.skillName}
+                id={el.skillName}
+                autoComplete="off"
+                checked={el.hasDoubleProficiency}
+                onChange={(e) =>
+                  handleSkillChange(e, i, 'hasDoubleProficiency')
+                } // Toggle double proficiency
               />
             </div>
           ))}
         </div>
-        <button type="submit">Create</button>
+
+        <MyButton type="submit">Create</MyButton>
+        {/* <button type="submit">Create</button> */}
       </form>
     </div>
   )

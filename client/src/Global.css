@@ -10,7 +10,7 @@
   --dark: rgb(48, 34, 51);
   --primary-color: rgb(110, 60, 120);
   --secondary-color: rgb(60, 69, 120);
-  --primary-hover: rgba(115, 60, 126, 0.6);
+  --primary-hover: rgb(128, 100, 133);
   --background-dark: rgb(44, 44, 44);
   --heal: rgb(80, 138, 78);
   --damage: rgb(138, 78, 78);
@@ -59,30 +59,6 @@ img {
 /* temporary h1 styling, need correct fonts */
 h1 {
   font-weight: lighter;
-}
-
-button {
-  display: grid;
-  cursor: pointer;
-  background-color: white;
-  border: 1px solid black;
-  border-radius: 5px;
-  min-width: 100px;
-  max-width: max-content;
-  min-height: 30px;
-  max-height: 40px;
-
-  padding: 0.5rem;
-  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.4);
-  font-family: inherit;
-  font-size: 1rem;
-  text-align: center;
-}
-button:hover {
-  border-color: var(--primary-hover);
-  background-color: var(--primary-hover);
-  color: white;
-  /* box-shadow: 0px 6px 8px 0px rgba(157, 71, 165, 0.4); */
 }
 
 .wrapper.global {

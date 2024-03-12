@@ -4,7 +4,8 @@ import { useAuthContext } from '../../../../hooks/useAuthContext'
 import { useDocFetch } from '../../../../hooks/useDocFetch'
 
 import MyButton from '../../../../components/utils/MyButton'
-import Checkbox from '../../../../components/utils/Checkbox'
+import Image from '../../../../assets/D&D.jpg'
+import Anvil from '../../../../assets/anvil.png'
 
 import styles from './css/CharacterSheet.module.css'
 
@@ -12,6 +13,8 @@ function CharacterSheet() {
   const { setIsLoading, user } = useAuthContext()
   const { docFetch } = useDocFetch()
   const [confirmDelete, setConfirmDelete] = useState(false)
+  const [manage, setManage] = useState(false)
+  const [currentHealth, setCurrentHealth] = useState(0)
   const navigate = useNavigate()
   const currentCodexId = localStorage.getItem('currentCodexId')
   const currentCodex = user?.codex.find((codex) => codex._id === currentCodexId)
@@ -21,6 +24,10 @@ function CharacterSheet() {
 
   const toggleConfirmDelete = () => {
     setConfirmDelete(!confirmDelete)
+  }
+
+  const toggleManage = () => {
+    setManage(!manage)
   }
 
   useEffect(() => {
@@ -44,11 +51,42 @@ function CharacterSheet() {
     navigate(-1)
   }
 
+  const ManageCharacter = () => {
+    if (manage) {
+      return (
+        <div className={styles.btns}>
+          {!confirmDelete ? (
+            <>
+              <MyButton handleClick={toggleManage}>Cancel</MyButton>
+              <MyButton>Edit</MyButton>
+              <MyButton handleClick={toggleConfirmDelete}>Delete</MyButton>
+            </>
+          ) : (
+            <>
+              <MyButton theme="delete" handleClick={() => handleDelete(id)}>
+                Confirm
+              </MyButton>
+              <MyButton handleClick={toggleConfirmDelete}>Cancel</MyButton>
+            </>
+          )}
+        </div>
+      )
+    } else {
+      return (
+        <div className={styles.btns}>
+          <MyButton handleClick={toggleManage} theme="manage">
+            <img className={styles.icon} src={Anvil} alt="image of an anvil" />
+          </MyButton>
+        </div>
+      )
+    }
+  }
+
   const CharacterSheet = () => {
     if (currentCharacter) {
       const {
         characterName,
-        characterType,
+        healthPoints,
         species,
         characterClass,
         level,
@@ -60,141 +98,132 @@ function CharacterSheet() {
         skills,
         senses,
       } = currentCharacter
+      setCurrentHealth(healthPoints.maxHP)
 
       return (
-        <>
-          <div className={styles.characterSheet}>
-            {/* ---Name--- */}
-            <h1>{characterName}</h1>
-
-            <div className={styles.characterDetails}>
-              {/* ---Type--- */}
-              <p className={styles.detailType}>Character Type: </p>
-              <p className={styles.detail}>{characterType}</p>
-
-              {/* ---Species--- */}
-              <p className={styles.detailType}>Character Species:</p>
-              <p className={styles.detail}>
-                {species ? species : 'Species Name'}
-              </p>
-
-              {/* ---Class--- */}
-              <p className={styles.detailType}>Character Class:</p>
-              <p className={styles.detail}>
-                {characterClass ? characterClass : 'Class Name'}
-              </p>
-
-              {/* ---Level--- */}
-              <p className={styles.detailType}>Character Level:</p>
-              <p className={styles.detail}>{level}</p>
-            </div>
-
-            {/* ---Stats--- */}
-            <div className={styles.wrapperStats}>
-              {/* ---Initiative--- */}
-              <div className={styles.ability}>
-                <p className={styles.detailType}>Initiative</p>
-                <p className={styles.abilityMod}>
-                  +{initiative?.initiativeScore}
+        <div className={styles.characterSheet}>
+          <div className={styles.characterHeader}>
+            <img
+              className={styles.portrait}
+              src={Image}
+              alt="Picture of character"
+            />
+            <ManageCharacter />
+            <div className={styles.wrapperCharacterDetails}>
+              <div className={styles.wrapperSubDetails}>
+                <h1 className={styles.characterName}>{characterName}</h1>
+                <div className={styles.healthPoints}>
+                  <MyButton>
+                    <h4>HP</h4>
+                    <p>
+                      {currentHealth}/{healthPoints?.maxHP}
+                    </p>
+                  </MyButton>
+                </div>
+              </div>
+              <div className={styles.characterDetails}>
+                <p className={styles.detail}>
+                  {species ? species : 'Species Name'}
                 </p>
+                <p className={styles.detail}>
+                  {characterClass ? characterClass : 'Class Name'}
+                </p>
+                <p className={styles.detail}>Level {level}</p>
               </div>
-              {/* ---Speed--- */}
-              <div className={styles.ability}>
-                <p className={styles.detailType}>Speed</p>
-                <p className={styles.abilityMod}>{speed?.walking}</p>
-              </div>
-              {/* ---Proficiency Bonus--- */}
-              <div className={styles.ability}>
-                <p className={styles.detailType}>Proficiency Bonus</p>
-                <p className={styles.abilityMod}>+{proficiency}</p>
-              </div>
-              {/* ---Armor Class--- */}
-              <div className={styles.ability}>
-                <p className={styles.detailType}>Armor Class</p>
-                <p className={styles.abilityMod}>{armourClass?.baseValue}</p>
-              </div>
-            </div>
-
-            {/* ---Abilites--- */}
-            <div className={styles.wrapperAbilities}>
-              {abilities.map((el, i) => {
-                const abilityName =
-                  el.abilityName.charAt(0).toUpperCase() +
-                  el.abilityName.slice(1)
-
-                return (
-                  <div className={styles.ability} key={i}>
-                    <p className={styles.abilityName}>{abilityName}</p>
-                    <p className={styles.abilityMod}>+{el.abilityMod}</p>
-                    <p className={styles.abilityScore}>{el.abilityScore}</p>
-                  </div>
-                )
-              })}
-            </div>
-
-            {/* ---Skills--- */}
-            <div className={styles.wrapperSkills}>
-              {skills.map((el, i) => {
-                const skillName =
-                  el.skillName.charAt(0).toUpperCase() + el.skillName.slice(1)
-
-                return (
-                  <div className={styles.skill} key={i}>
-                    <div className={styles.checkbox}>
-                      {el.isProficient ? (
-                        <Checkbox checked={true} />
-                      ) : (
-                        <Checkbox checked={false} />
-                      )}
-                    </div>
-                    <p className={styles.abilityName}>{skillName} :</p>
-                    <p className={styles.skillMod}>+{el.skillMod}</p>
-                  </div>
-                )
-              })}
-            </div>
-
-            {/* ---Senses--- */}
-            <div className={styles.wrapperSkills}>
-              {senses.map((el, i) => {
-                const senseName =
-                  el.senseName.charAt(0).toUpperCase() + el.senseName.slice(1)
-
-                return (
-                  <div className={styles.skill} key={i}>
-                    <p className={styles.abilityName}>{senseName} :</p>
-                    <p className={styles.skillMod}>{el.senseMod}</p>
-                  </div>
-                )
-              })}
             </div>
           </div>
-        </>
+
+          <div className={styles.wrapperStats}>
+            {/* ---Initiative--- */}
+            <div className={styles.stat}>
+              <p className={styles.statName}>Initiative</p>
+              <p className={styles.statInfo}>+{initiative?.initiativeScore}</p>
+            </div>
+            {/* ---Speed--- */}
+            <div className={styles.stat}>
+              <p className={styles.statName}>Speed</p>
+              <p className={styles.statInfo}>{speed?.walking}</p>
+            </div>
+            {/* ---Proficiency Bonus--- */}
+            <div className={styles.stat}>
+              <p className={styles.statName}>Proficiency</p>
+              <p className={styles.statName}>Bonus</p>
+              <p className={styles.statInfo}>+{proficiency}</p>
+            </div>
+            {/* ---Armor Class--- */}
+            <div className={styles.stat}>
+              <p className={styles.statName}>Armor</p>
+              <p className={styles.statName}>Class</p>
+              <p className={styles.statInfo}>{armourClass?.baseValue}</p>
+            </div>
+          </div>
+
+          {/* ---Abilites--- */}
+          <div className={styles.wrapperAbilities}>
+            {abilities.map((el, i) => {
+              const abilityName =
+                el.abilityName.charAt(0).toUpperCase() + el.abilityName.slice(1)
+
+              return (
+                <div className={styles.ability} key={i}>
+                  <p className={styles.abilityName}>{abilityName}</p>
+                  <p className={styles.abilityMod}>+{el.abilityMod}</p>
+                  <p className={styles.abilityScore}>{el.abilityScore}</p>
+                </div>
+              )
+            })}
+          </div>
+
+          {/* ---Skills--- */}
+          <div className={styles.wrapperSkills}>
+            {skills.map((el, i) => {
+              const skillName =
+                el.skillName.charAt(0).toUpperCase() + el.skillName.slice(1)
+
+              return (
+                <div className={styles.skill} key={i}>
+                  <span
+                    className={
+                      el.hasDoubleProficiency
+                        ? `${styles.circle} ${styles['proficient']} ${styles['double']}`
+                        : el.isProficient
+                        ? `${styles.circle} ${styles['proficient']}`
+                        : styles.circle
+                    }
+                  ></span>
+
+                  <p className={styles.abilityName}>{skillName} :</p>
+                  <p className={styles.skillMod}>+{el.skillMod}</p>
+                </div>
+              )
+            })}
+          </div>
+
+          {/* ---Senses--- */}
+          <div className={styles.wrapperSenses}>
+            {senses.map((el, i) => {
+              const senseName = el.senseName
+                .split(' ')
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ')
+
+              return (
+                <div className={styles.sense} key={i}>
+                  <p className={styles.senseName}>{senseName} :</p>
+                  <p className={styles.senseMod}>{el.senseMod}</p>
+                </div>
+              )
+            })}
+          </div>
+        </div>
       )
     }
   }
 
   return (
-    <div className={styles.wrapperPage}>
-      <div className={styles.btns}>
-        {!confirmDelete ? (
-          <>
-            <MyButton>Edit</MyButton>
-            <MyButton handleClick={toggleConfirmDelete}>Delete</MyButton>
-          </>
-        ) : (
-          <>
-            <MyButton theme="delete" handleClick={() => handleDelete(id)}>
-              Confirm Delete
-            </MyButton>
-            <MyButton handleClick={toggleConfirmDelete}>Cancel</MyButton>
-          </>
-        )}
-      </div>
-      <>
-        <CharacterSheet />
-      </>
-    </div>
+    <>
+      <CharacterSheet />
+    </>
   )
 }
 

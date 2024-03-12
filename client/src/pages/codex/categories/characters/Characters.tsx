@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../../../hooks/useAuthContext'
 
 import Card from '../../../../components/utils/Card'
+import MyButton from '../../../../components/utils/MyButton'
 import Image from '../../../../assets/D&D.jpg'
 
 import styles from './css/Characters.module.css'
@@ -24,13 +25,13 @@ function Characters() {
     }
   }, [user, currentCodexId])
 
-  const handleCreate = () => {
+  const handleToCreatePage = () => {
     navigate('create')
   }
 
   return (
     <div className={styles.wrapper}>
-      <button onClick={handleCreate}>Create Character</button>
+      <MyButton handleClick={handleToCreatePage}>Create</MyButton>
       <div className={styles.characterGallery}>
         {characters.map((el, i) => (
           <Card

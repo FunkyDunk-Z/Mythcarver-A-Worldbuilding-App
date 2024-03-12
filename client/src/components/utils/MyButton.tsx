@@ -31,7 +31,7 @@ function MyButton({
     <button
       onClick={handleClick}
       disabled={isDisabled}
-      className={`${styles[defaultTheme]}`}
+      className={`${styles.btn} ${styles[defaultTheme]}`}
       type={type}
       ref={withRef}
       role="button"

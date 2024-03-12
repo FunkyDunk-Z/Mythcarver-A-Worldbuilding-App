@@ -126,9 +126,9 @@ type ArmourClassType = {
 }
 
 type HealthPointsType = {
-  currentHP: number
+  currentHP?: number
   maxHP: number
-  temporaryHP: number
+  temporaryHP?: number
   hitDie: number
 }
 
@@ -184,7 +184,7 @@ interface CharacterType {
   proficiency?: number
   initiative?: InitiativeType
   armourClass?: ArmourClassType
-  healthPoints?: HealthPointsType
+  healthPoints: HealthPointsType
   speed?: SpeedType
   hasDarkvision?: boolean
 }
