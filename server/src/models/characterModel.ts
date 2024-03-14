@@ -370,6 +370,25 @@ characterSchema.pre('save', function (next) {
   next()
 })
 
+// HP
+characterSchema.pre('save', function (next) {
+  const total = this.abilities.map((el) => {
+    if (el.abilityName === 'constitution') {
+      const mod = el.abilityMod
+      const hp = this.healthPoints.maxHP
+      console.log(mod, hp)
+
+      return mod + hp
+    }
+  })
+
+  if (typeof total[2] === 'number') {
+    this.healthPoints.maxHP = total[2]
+  }
+  next()
+})
+
+// SAVE TO USER CODEX
 characterSchema.pre('save', async function (next) {
   try {
     const user = await User.findById(this.createdBy)

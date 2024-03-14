@@ -82,6 +82,13 @@ function CharacterSheet() {
     }
   }
 
+  useEffect(() => {
+    if (currentCharacter) {
+      setCurrentHealth(currentCharacter?.healthPoints.maxHP)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const CharacterSheet = () => {
     if (currentCharacter) {
       const {
@@ -98,7 +105,6 @@ function CharacterSheet() {
         skills,
         senses,
       } = currentCharacter
-      setCurrentHealth(healthPoints.maxHP)
 
       return (
         <div className={styles.characterSheet}>
