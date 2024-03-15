@@ -172,7 +172,7 @@ interface CharacterType {
   createdBy?: string
   codex?: string | null
   characterName: string
-  characterPortrait?: string
+  avatarURL?: string
   characterType?: string
   characterTitles?: string[]
   level: number

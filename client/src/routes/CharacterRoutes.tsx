@@ -10,7 +10,14 @@ export default function CreateCharacterRoutes() {
   return (
     <Routes>
       <Route index element={<Characters />} />
-      <Route path="/create" element={<CreateCharacter />} />
+      <Route
+        path="/create/player-character"
+        element={<CreateCharacter selectType="Player" />}
+      />
+      <Route
+        path="/create/npc"
+        element={<CreateCharacter selectType="Npc" />}
+      />
       <Route path=":id" element={<CharacterSheet />} />
       <Route path="/*" element={<PageNotFound />} />
     </Routes>

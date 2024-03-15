@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router'
 import { useDocFetch } from '../../../../hooks/useDocFetch'
 import { useAuthContext } from '../../../../hooks/useAuthContext'
@@ -8,24 +8,28 @@ import {
   skillStats,
 } from '../../../../data/CharacterStats'
 
-import Select from '../../../../components/utils/Select'
 import MyButton from '../../../../components/utils/MyButton'
 
 import styles from './css/CreateCharacter.module.css'
 
-function CreateCharacter() {
+interface PropTypes {
+  selectType: string
+}
+
+function CreateCharacter({ selectType }: PropTypes) {
   const { user } = useAuthContext()
   const navigate = useNavigate()
   const { docFetch } = useDocFetch()
   const url = window.location.href.split('/')[3]
-  const selectOptions = ['Player', 'Npc']
   const currentCodexId = localStorage.getItem('currentCodexId')
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const [avatar, setAvatar] = useState('')
   const [formData, setFormData] = useState<CharacterType>({
     createdBy: user?.id,
     codex: currentCodexId,
     characterName: '',
-    characterPortrait: '',
-    characterType: '',
+    avatarURL: avatar,
+    characterType: selectType,
     level: 1,
     abilities: abilitiyStats,
     skills: skillStats,
@@ -37,11 +41,32 @@ function CreateCharacter() {
   })
 
   const handleChange = (e: InputEventType) => {
-    const { name, value } = e.target
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }))
+    const { name, value, type, files } = e.target
+
+    if (files && type === 'file') {
+      const fileSelected = files[0]
+      const fileReader = new FileReader()
+
+      fileReader.readAsDataURL(fileSelected)
+
+      fileReader.onloadend = () => {
+        if (typeof fileReader.result === 'string') {
+          const newAvatar = fileReader.result
+          setAvatar(newAvatar)
+          formData.avatarURL = newAvatar
+        }
+      }
+    } else {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }))
+    }
+  }
+
+  const handleUpload = (e: InputEventType) => {
+    e.preventDefault()
+    fileInputRef.current?.click()
   }
 
   // set ability scores
@@ -61,7 +86,7 @@ function CreateCharacter() {
   const handleSkillChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number,
-    proficiencyType: string // Pass proficiency type as an argument
+    proficiencyType: string
   ) => {
     const { checked } = e.target
     setFormData((prevFormData) => ({
@@ -70,18 +95,21 @@ function CreateCharacter() {
         i === index
           ? {
               ...skill,
-              [proficiencyType]: checked, // Toggle the specified proficiency type
+              [proficiencyType]: checked,
             }
           : skill
       ),
     }))
   }
 
-  //select button
-  const logOption = (e: string) => {
+  const handleHPChange = (e: InputEventType) => {
+    const { name, value } = e.target
     setFormData((prevFormData) => ({
       ...prevFormData,
-      characterType: e,
+      healthPoints: {
+        ...prevFormData.healthPoints,
+        [name]: parseInt(value) || 0,
+      },
     }))
   }
 
@@ -99,7 +127,7 @@ function CreateCharacter() {
       createdBy: user?.id,
       codex: currentCodexId,
       characterName: '',
-      characterPortrait: '',
+      avatarURL: '',
       characterType: '',
       level: 1,
       abilities: abilitiyStats,
@@ -119,21 +147,11 @@ function CreateCharacter() {
     navigate(`/${url}/characters`)
   }
 
-  const handleHPChange = (e: InputEventType) => {
-    const { name, value } = e.target
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      healthPoints: {
-        ...prevFormData.healthPoints,
-        [name]: parseInt(value) || 0,
-      },
-    }))
-  }
+  // console.log(formData)
 
   return (
     <div className={styles.wrapperPage}>
       <MyButton handleClick={handleNavigate}>Back to Characters</MyButton>
-      <Select options={selectOptions} handleChange={logOption} />
       <form onSubmit={handleSubmit} className={styles.wrapperForm}>
         <label className={styles.label} htmlFor="characterName">
           Character Name:
@@ -147,12 +165,36 @@ function CreateCharacter() {
           value={formData.characterName}
           onChange={handleChange}
         ></input>
-        <div className={styles.wrapperHP}>
+        <div className={styles.wrapperAvatar}>
+          <label className={styles.label} htmlFor="avatarURL">
+            Avatar
+          </label>
+          <input
+            className={styles.input}
+            type="file"
+            name="avatarURL"
+            accept="image/*"
+            onChange={handleChange}
+            ref={fileInputRef}
+            style={{ display: 'none' }}
+          />
+          {avatar ? (
+            <img
+              className={`${styles.avatar} ${styles['preview']}`}
+              src={formData.avatarURL}
+              alt="Preview"
+            />
+          ) : null}
+          <MyButton type="button" handleClick={handleUpload}>
+            Upload
+          </MyButton>
+        </div>
+        <div className={styles.wrapperHp}>
           <label className={styles.label} htmlFor="hitDie">
             Hit Die:
           </label>
           <input
-            className={styles.input}
+            className={`${styles.input} ${styles['number']}`}
             type="number"
             name="hitDie"
             id="hitDie"
@@ -165,7 +207,7 @@ function CreateCharacter() {
             Max HP:
           </label>
           <input
-            className={styles.input}
+            className={`${styles.input} ${styles['number']}`}
             type="number"
             name="maxHP"
             id="maxHP"
@@ -183,13 +225,13 @@ function CreateCharacter() {
                 :
               </label>
               <input
-                className={`${styles.input} ${styles['ability']}`}
+                className={`${styles.input} ${styles['number']}`}
                 type="number"
                 name={el.abilityName}
                 id={el.abilityName}
                 autoComplete="off"
                 value={
-                  el.abilityScore < 9
+                  el.abilityScore < 10
                     ? el.abilityScore.toString()
                     : el.abilityScore
                 }
@@ -205,7 +247,7 @@ function CreateCharacter() {
                 {el.skillName.charAt(0).toUpperCase() + el.skillName.slice(1)}:
               </label>
               <input
-                className={`${styles.input} ${styles['ability']}`}
+                className={`${styles.input} ${styles['number']}`}
                 type="checkbox"
                 name={el.skillName}
                 id={el.skillName}
@@ -214,7 +256,7 @@ function CreateCharacter() {
                 onChange={(e) => handleSkillChange(e, i, 'isProficient')} // Toggle proficiency
               />
               <input
-                className={`${styles.input} ${styles['ability']}`}
+                className={`${styles.input} ${styles['number']}`}
                 type="checkbox"
                 name={el.skillName}
                 id={el.skillName}

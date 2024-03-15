@@ -10,8 +10,8 @@ function MyAccount() {
   const { user } = useAuthContext()
   const { authFetch } = useAuthFetch()
   const fileInputRef = useRef<HTMLInputElement>(null)
-  const [isUpdating, setIsUpdating] = useState(false)
   const [avatar, setAvatar] = useState('')
+  const [isUpdating, setIsUpdating] = useState(false)
   const [formData, setFormData] = useState({
     firstName: user?.firstName,
     lastName: user?.lastName,
@@ -50,8 +50,6 @@ function MyAccount() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-
-    console.log(formData)
 
     await authFetch({
       url: '/users/update-my-account',
@@ -170,7 +168,7 @@ function MyAccount() {
               value={formData.email}
               onChange={handleChange}
             ></input>
-            <button type="submit">Save</button>
+            <MyButton type="submit">Save</MyButton>
 
             <MyButton handleClick={toggleIsUpdating}>Cancel</MyButton>
           </form>

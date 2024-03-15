@@ -7,13 +7,14 @@
   min-width: min-content;
   max-width: max-content;
   min-height: min-content;
-  max-height: max-content;
+  max-height: 40px;
 
   padding: 0.5rem;
   box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.4);
   font-family: inherit;
   font-size: 1rem;
   text-align: center;
+  align-content: center;
 }
 
 .btn:hover {
@@ -28,4 +29,11 @@
 }
 .delete:hover {
   background-color: rgba(172, 66, 66, 0.664);
+}
+
+.damage:hover {
+  background-color: var(--damage);
+}
+.heal:hover {
+  background-color: var(--heal);
 }

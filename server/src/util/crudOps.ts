@@ -1,5 +1,14 @@
 import { Model, Document, Types } from 'mongoose'
 import { Request, Response, NextFunction } from 'express'
+import env from '../util/validateEnv'
+import { v2 } from 'cloudinary'
+import User from '../models/userModel'
+
+v2.config({
+  cloud_name: env.CLOUDINARY_NAME,
+  api_key: env.CLOUDINARY_API_KEY,
+  api_secret: env.CLOUDINARY_SECRET,
+})
 
 //----------Create One----------
 
@@ -7,6 +16,15 @@ export const createOne =
   <T extends Document>(Model: Model<T>) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
+      const user = await User.findById(req.user)
+
+      const result = await v2.uploader.upload(req.body.avatarURL, {
+        public_id: user?.email.split('@')[0],
+      })
+      // console.log(result) // Log the result for debugging
+
+      req.body.avatarURL = result.secure_url
+
       const doc = await Model.create(req.body)
 
       res.status(201).json({

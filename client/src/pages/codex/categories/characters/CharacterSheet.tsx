@@ -37,6 +37,7 @@ function CharacterSheet() {
     if (character) {
       setCurrentCharacter(character[0])
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -86,13 +87,23 @@ function CharacterSheet() {
     if (currentCharacter) {
       setCurrentHealth(currentCharacter?.healthPoints.maxHP)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [currentCharacter])
+
+  const reduceHealth = () => {
+    if (currentHealth > 0) setCurrentHealth(currentHealth - 1)
+  }
+  const increaseHealth = () => {
+    if (currentCharacter)
+      if (currentHealth < currentCharacter?.healthPoints.maxHP) {
+        setCurrentHealth(currentHealth + 1)
+      }
+  }
 
   const CharacterSheet = () => {
     if (currentCharacter) {
       const {
         characterName,
+        avatarURL,
         healthPoints,
         species,
         characterClass,
@@ -111,7 +122,7 @@ function CharacterSheet() {
           <div className={styles.characterHeader}>
             <img
               className={styles.portrait}
-              src={Image}
+              src={avatarURL ? avatarURL : Image}
               alt="Picture of character"
             />
             <ManageCharacter />
@@ -120,10 +131,17 @@ function CharacterSheet() {
                 <h1 className={styles.characterName}>{characterName}</h1>
                 <div className={styles.healthPoints}>
                   <MyButton>
+                    {/* HP */}
                     <h4>HP</h4>
                     <p>
                       {currentHealth}/{healthPoints?.maxHP}
                     </p>
+                  </MyButton>
+                  <MyButton handleClick={reduceHealth} theme="damage">
+                    Damage
+                  </MyButton>
+                  <MyButton handleClick={increaseHealth} theme="heal">
+                    Heal
                   </MyButton>
                 </div>
               </div>

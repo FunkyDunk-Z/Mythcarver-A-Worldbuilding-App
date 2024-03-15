@@ -6,6 +6,11 @@
   justify-items: center;
 }
 
+.wrapperBtns {
+  display: flex;
+  gap: 1rem;
+}
+
 .characterGallery {
   display: grid;
   min-height: max-content;

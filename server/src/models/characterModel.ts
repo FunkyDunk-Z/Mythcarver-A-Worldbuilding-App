@@ -73,7 +73,7 @@ interface CharacterType extends Document {
   healthPoints: HealthPointsType
   speed: SpeedType
   hasDarkvision: boolean
-  portraitUrl: string
+  avatarURL: string
 }
 
 const characterTypes = ['Player', 'Npc']
@@ -274,7 +274,7 @@ const characterSchema = new Schema<CharacterType>({
     type: Boolean,
     default: false,
   },
-  portraitUrl: {
+  avatarURL: {
     type: String,
   },
 })
@@ -376,7 +376,6 @@ characterSchema.pre('save', function (next) {
     if (el.abilityName === 'constitution') {
       const mod = el.abilityMod
       const hp = this.healthPoints.maxHP
-      console.log(mod, hp)
 
       return mod + hp
     }

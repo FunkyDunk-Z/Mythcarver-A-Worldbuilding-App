@@ -25,13 +25,20 @@ function Characters() {
     }
   }, [user, currentCodexId])
 
-  const handleToCreatePage = () => {
-    navigate('create')
+  const handleToCreatePage = (option: string) => {
+    navigate(`create/${option}`)
   }
 
   return (
     <div className={styles.wrapper}>
-      <MyButton handleClick={handleToCreatePage}>Create</MyButton>
+      <div className={styles.wrapperBtns}>
+        <MyButton handleClick={() => handleToCreatePage('player-character')}>
+          Create Player Character
+        </MyButton>
+        <MyButton handleClick={() => handleToCreatePage('npc')}>
+          Create NPC
+        </MyButton>
+      </div>
       <div className={styles.characterGallery}>
         {characters.map((el, i) => (
           <Card

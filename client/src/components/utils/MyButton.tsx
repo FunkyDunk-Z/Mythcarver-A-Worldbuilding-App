@@ -11,7 +11,7 @@ type EventTypes =
 
 interface ButtonProps {
   children: React.ReactNode
-  handleClick?: (e?: EventTypes) => void
+  handleClick?: (e?: EventTypes | undefined) => void
   isDisabled?: boolean
   theme?: string
   type?: ButtonType
