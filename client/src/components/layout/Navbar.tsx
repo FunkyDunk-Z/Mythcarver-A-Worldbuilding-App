@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { useAuthFetch } from '../../hooks/useAuthFetch'
@@ -16,6 +16,7 @@ function Navbar() {
   const [isMobile, setIsMobile] = useState(mobile)
   const [isActive, setIsActive] = useState(false)
   const [openStatus, setOpenStatus] = useState('')
+  const navbarRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     function handleResize() {
@@ -33,6 +34,21 @@ function Navbar() {
       window.removeEventListener('resize', handleResize)
     }
   }, [])
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (navbarRef.current && !navbarRef.current.contains(e.target as Node)) {
+        setIsActive(false)
+        if (openStatus === 'opened') {
+          setOpenStatus('closed')
+        }
+      }
+    }
+    document.addEventListener('click', handleClickOutside)
+    return () => {
+      document.removeEventListener('click', handleClickOutside)
+    }
+  }, [openStatus, isActive])
 
   const toggleNavBtn = () => {
     setIsActive(!isActive)
@@ -59,6 +75,7 @@ function Navbar() {
   return (
     <>
       <div
+        ref={navbarRef}
         className={`${styles.burgerIcon} ${isActive ? styles.active : ''}`}
         onClick={toggleNavBtn}
       >
