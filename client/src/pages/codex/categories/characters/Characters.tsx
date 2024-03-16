@@ -47,7 +47,7 @@ function Characters() {
             characterType={el.characterType}
             link={el._id}
             docId={el._id}
-            image={Image}
+            image={el.avatarURL ? el.avatarURL : Image}
           />
         ))}
       </div>

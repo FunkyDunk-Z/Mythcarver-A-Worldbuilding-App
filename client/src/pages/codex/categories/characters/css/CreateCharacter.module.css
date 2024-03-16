@@ -1,10 +1,9 @@
 .wrapperPage {
   display: grid;
   grid-template-rows: auto auto 1fr;
-  align-items: start;
-  justify-items: center;
   gap: 1rem;
   margin: 1rem;
+  justify-items: center;
 }
 
 .wrapperForm {
@@ -12,23 +11,35 @@
   justify-items: center;
 }
 
+.wrapperAvatar {
+  display: grid;
+  gap: 0.5rem;
+  justify-self: center;
+  margin: 1rem;
+}
+
+.avatar {
+  height: 150px;
+  aspect-ratio: 1;
+  border: 1px solid black;
+  border-radius: 4px;
+}
+
 .wrapperHp {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  justify-content: center;
-  margin-top: 1.5rem;
 }
 
 .wrapperAbilities {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 0.5rem;
   margin: 1rem;
+  width: 100%;
 }
 
 .ability {
   display: grid;
-  justify-items: center;
 }
 
 .input {
@@ -58,20 +69,5 @@
 
 .label {
   font-size: 1.5rem;
-}
-
-.wrapperAvatar {
-  display: grid;
-  justify-items: center;
-  margin: 0.5rem;
-  gap: 0.5rem;
-}
-
-.avatar {
-  height: 150px;
-  aspect-ratio: 1;
-  border: 1px solid black;
-  border-radius: 4px;
-  margin-bottom: 0.5rem;
-  /* margin: 1rem; */
+  text-align: center;
 }

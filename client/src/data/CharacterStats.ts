@@ -1,27 +1,27 @@
 export const abilitiyStats: AbilityType = [
   {
     abilityName: 'strength',
-    abilityScore: 0,
+    abilityScore: 10,
   },
   {
     abilityName: 'dexterity',
-    abilityScore: 0,
+    abilityScore: 10,
   },
   {
     abilityName: 'constitution',
-    abilityScore: 0,
+    abilityScore: 10,
   },
   {
     abilityName: 'intelligence',
-    abilityScore: 0,
+    abilityScore: 10,
   },
   {
     abilityName: 'wisdom',
-    abilityScore: 0,
+    abilityScore: 10,
   },
   {
     abilityName: 'charisma',
-    abilityScore: 0,
+    abilityScore: 10,
   },
 ]
 
