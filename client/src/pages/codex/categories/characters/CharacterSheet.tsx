@@ -203,6 +203,11 @@ function CharacterSheet() {
             {skills.map((el, i) => {
               const skillName =
                 el.skillName.charAt(0).toUpperCase() + el.skillName.slice(1)
+              // let skillMod: string | number
+              // if (el.skillMod) {
+              //   skillMod = el.skillMod < 0 ? el.skillMod : `+${el.skillMod}`
+              // }
+              const skillMod = el.skillMod < 0 ? el.skillMod : `+${el.skillMod}`
 
               return (
                 <div className={styles.skill} key={i}>
@@ -217,7 +222,9 @@ function CharacterSheet() {
                   ></span>
 
                   <p className={styles.abilityName}>{skillName} :</p>
-                  <p className={styles.skillMod}>+{el.skillMod}</p>
+                  <p className={styles.skillMod}>
+                    {skillMod ? skillMod : null}
+                  </p>
                 </div>
               )
             })}

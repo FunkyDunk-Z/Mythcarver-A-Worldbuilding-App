@@ -12,7 +12,7 @@
 }
 
 .btns {
-  z-index: 10;
+  z-index: 9;
   position: absolute;
   top: 0px;
   left: 0px;
@@ -85,6 +85,8 @@
   border: 1px solid black;
   border-radius: 4px;
   padding: 0.5rem;
+  min-width: 30px;
+  text-align: center;
 }
 
 .wrapperAbilities {
@@ -118,6 +120,7 @@
   text-align: center;
   margin: 0.5rem;
   padding: 0.5rem;
+  min-width: 30px;
 }
 
 .wrapperSkills {
@@ -145,6 +148,8 @@
   border-radius: 5px;
   padding: 0.5rem;
   aspect-ratio: 1;
+  min-width: 30px;
+  text-align: center;
 }
 
 .circle {
@@ -203,5 +208,6 @@
   border: 1px solid black;
   border-radius: 5px;
   padding: 0.5rem;
-  width: max-content;
+  min-width: 30px;
+  text-align: center;
 }

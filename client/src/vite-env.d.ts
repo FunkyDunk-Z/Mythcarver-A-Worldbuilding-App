@@ -156,7 +156,7 @@ type SkillType = {
   skillAbility: string
   isProficient?: boolean
   hasDoubleProficiency?: boolean
-  skillMod?: number
+  skillMod: number
   hasAdvantage?: boolean
 }[]
 

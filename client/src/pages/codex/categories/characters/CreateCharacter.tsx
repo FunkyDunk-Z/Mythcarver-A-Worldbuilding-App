@@ -246,32 +246,23 @@ function CreateCharacter({ selectType }: PropTypes) {
               <label className={styles.label} htmlFor={el.skillName}>
                 {el.skillName.charAt(0).toUpperCase() + el.skillName.slice(1)}:
               </label>
-              <input
-                className={`${styles.input} ${styles['number']}`}
-                type="checkbox"
-                name={el.skillName}
-                id={el.skillName}
-                autoComplete="off"
-                checked={el.isProficient}
-                onChange={(e) => handleSkillChange(e, i, 'isProficient')} // Toggle proficiency
-              />
-              <input
-                className={`${styles.input} ${styles['number']}`}
-                type="checkbox"
-                name={el.skillName}
-                id={el.skillName}
-                autoComplete="off"
-                checked={el.hasDoubleProficiency}
-                onChange={(e) =>
-                  handleSkillChange(e, i, 'hasDoubleProficiency')
-                } // Toggle double proficiency
-              />
+              <div className={styles.wrapperProficiency}>
+                <label htmlFor={`${el.skillName}1`}>Proficient?</label>
+                <input
+                  className={`${styles.input} ${styles['proficient']}`}
+                  type="checkbox"
+                  name={el.skillName}
+                  id={`${el.skillName}1`}
+                  autoComplete="off"
+                  checked={el.isProficient}
+                  onChange={(e) => handleSkillChange(e, i, 'isProficient')} // Toggle proficiency
+                />
+              </div>
             </div>
           ))}
         </div>
 
         <MyButton type="submit">Create</MyButton>
-        {/* <button type="submit">Create</button> */}
       </form>
     </div>
   )
