@@ -1,0 +1,43 @@
+.wrapper {
+  display: grid;
+  position: absolute;
+  top: 90px;
+  left: -170px;
+  border: 1px solid black;
+  border-radius: 4px;
+  padding: 1rem;
+  padding-left: 1rem;
+  background-color: white;
+  z-index: 10;
+}
+
+.btn {
+  position: absolute;
+  top: 0;
+  right: -40px;
+}
+
+.wrapper.opened {
+  animation: slide-in 0.5s forwards;
+}
+.wrapper.closed {
+  animation: slide-out 0.5s forwards;
+}
+
+@keyframes slide-in {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes slide-out {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}

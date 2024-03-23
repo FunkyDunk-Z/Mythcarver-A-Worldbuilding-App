@@ -70,6 +70,7 @@ const signUp: RequestHandler = async (req, res, next) => {
   try {
     const result = await v2.uploader.upload(env.USER_DEFAULT_AVATAR, {
       public_id: email.split('@')[0],
+      folder: 'mythcarver/user-avatar',
     })
     console.log(result) // Log the result for debugging
 
@@ -358,9 +359,14 @@ const updateMyAccount: RequestHandler = async (req, res, next) => {
     }
 
     if (body.avatarURL) {
-      const result = await v2.uploader.upload(body.avatarURL, {
-        public_id: body.username,
-      })
+      const result = await v2.uploader.upload(
+        body.avatarURL,
+
+        {
+          public_id: body.username,
+          folder: 'mythcarver/user-avatar',
+        }
+      )
       body.avatarURL = result.secure_url
     }
 

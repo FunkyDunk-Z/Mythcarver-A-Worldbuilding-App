@@ -17,15 +17,16 @@ export const createOne =
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const user = await User.findById(req.user)
+      // console.log(req)
+      const doc = await Model.create(req.body)
 
       const result = await v2.uploader.upload(req.body.avatarURL, {
-        public_id: user?.email.split('@')[0],
+        public_id: doc._id,
+        folder: `mythcarver/user-images`,
       })
       // console.log(result) // Log the result for debugging
 
       req.body.avatarURL = result.secure_url
-
-      const doc = await Model.create(req.body)
 
       res.status(201).json({
         status: 'success',
@@ -103,7 +104,19 @@ export const deleteOne =
   <T extends Document>(Model: Model<T>) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const doc = await Model.findByIdAndDelete(req.params.id)
+      const docToDelete = await Model.findById(req.params.id)
+
+      if (!docToDelete) {
+        return next()
+      }
+
+      if ('avatarURL' in docToDelete) {
+        v2.uploader.destroy(`mythcarver/user-images/${docToDelete?._id}`)
+        docToDelete.avatarURL = null
+        console.log(docToDelete.avatarURL)
+      }
+
+      const doc = await Model.findByIdAndDelete(docToDelete._id)
 
       if (!doc) {
         return next()

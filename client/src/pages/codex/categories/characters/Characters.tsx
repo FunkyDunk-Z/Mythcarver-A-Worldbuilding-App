@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../../../hooks/useAuthContext'
 
+// import Sidebar from '../../../../components/layout/Sidebar'
+
 import Card from '../../../../components/utils/Card'
 import MyButton from '../../../../components/utils/MyButton'
 import Image from '../../../../assets/D&D.jpg'
@@ -51,6 +53,7 @@ function Characters() {
           />
         ))}
       </div>
+      {/* <Sidebar /> */}
     </div>
   )
 }
