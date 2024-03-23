@@ -40,6 +40,7 @@ export const useDocFetch = () => {
 
   const docFetch = async (data: PropTypes) => {
     const { dataToSend, url, credentials, requestType } = data
+    setIsLoading(true)
 
     setError(null)
     try {

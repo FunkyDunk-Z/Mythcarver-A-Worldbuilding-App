@@ -146,7 +146,7 @@ type SavingThrowType = {
 
 type AbilityType = {
   abilityName: string
-  abilityScore: number
+  abilityScore?: number
   abilityMod?: number
   savingThrow?: SavingThrowType
 }[]

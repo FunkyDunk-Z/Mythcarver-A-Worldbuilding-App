@@ -1,120 +1,120 @@
 export const abilitiyStats: AbilityType = [
   {
     abilityName: 'strength',
-    abilityScore: 10,
+    // abilityScore: 10,
   },
   {
     abilityName: 'dexterity',
-    abilityScore: 10,
+    // abilityScore: 10,
   },
   {
     abilityName: 'constitution',
-    abilityScore: 10,
+    // abilityScore: 10,
   },
   {
     abilityName: 'intelligence',
-    abilityScore: 10,
+    // abilityScore: 10,
   },
   {
     abilityName: 'wisdom',
-    abilityScore: 10,
+    // abilityScore: 10,
   },
   {
     abilityName: 'charisma',
-    abilityScore: 10,
+    // abilityScore: 10,
   },
 ]
 
 export const skillStats: SkillType = [
   {
-    skillName: 'athletics',
-    skillAbility: 'strength',
-    isProficient: false,
-  },
-  {
     skillName: 'acrobatics',
     skillAbility: 'dexterity',
-    isProficient: false,
-  },
-  {
-    skillName: 'sleight of hand',
-    skillAbility: 'dexterity',
-    isProficient: false,
-  },
-  {
-    skillName: 'stealth',
-    skillAbility: 'dexterity',
-    isProficient: false,
-  },
-  {
-    skillName: 'history',
-    skillAbility: 'intelligence',
-    isProficient: false,
-  },
-  {
-    skillName: 'investigation',
-    skillAbility: 'intelligence',
-    isProficient: false,
-  },
-  {
-    skillName: 'nature',
-    skillAbility: 'intelligence',
-    isProficient: false,
+    skillMod: 0,
   },
   {
     skillName: 'arcana',
     skillAbility: 'intelligence',
-    isProficient: false,
-  },
-  {
-    skillName: 'religion',
-    skillAbility: 'intelligence',
-    isProficient: false,
+    skillMod: 0,
   },
   {
     skillName: 'animal handling',
     skillAbility: 'wisdom',
-    isProficient: false,
+    skillMod: 0,
   },
   {
-    skillName: 'insight',
-    skillAbility: 'wisdom',
-    isProficient: false,
-  },
-  {
-    skillName: 'medicine',
-    skillAbility: 'wisdom',
-    isProficient: false,
-  },
-  {
-    skillName: 'perception',
-    skillAbility: 'wisdom',
-    isProficient: false,
-  },
-  {
-    skillName: 'survival',
-    skillAbility: 'wisdom',
-    isProficient: false,
+    skillName: 'athletics',
+    skillAbility: 'strength',
+    skillMod: 0,
   },
   {
     skillName: 'deception',
     skillAbility: 'charisma',
-    isProficient: false,
+    skillMod: 0,
+  },
+  {
+    skillName: 'history',
+    skillAbility: 'intelligence',
+    skillMod: 0,
+  },
+  {
+    skillName: 'insight',
+    skillAbility: 'wisdom',
+    skillMod: 0,
   },
   {
     skillName: 'intimidation',
     skillAbility: 'charisma',
-    isProficient: false,
+    skillMod: 0,
+  },
+  {
+    skillName: 'investigation',
+    skillAbility: 'intelligence',
+    skillMod: 0,
+  },
+  {
+    skillName: 'medicine',
+    skillAbility: 'wisdom',
+    skillMod: 0,
+  },
+  {
+    skillName: 'nature',
+    skillAbility: 'intelligence',
+    skillMod: 0,
+  },
+  {
+    skillName: 'perception',
+    skillAbility: 'wisdom',
+    skillMod: 0,
   },
   {
     skillName: 'performance',
     skillAbility: 'charisma',
-    isProficient: false,
+    skillMod: 0,
   },
   {
     skillName: 'persuasion',
     skillAbility: 'charisma',
-    isProficient: false,
+    skillMod: 0,
+  },
+  {
+    skillName: 'religion',
+    skillAbility: 'intelligence',
+    skillMod: 0,
+  },
+  {
+    skillName: 'sleight of hand',
+    skillAbility: 'dexterity',
+    skillMod: 0,
+  },
+  {
+    skillName: 'stealth',
+    skillAbility: 'dexterity',
+    skillMod: 0,
+  },
+  {
+    skillName: 'survival',
+    skillAbility: 'wisdom',
+    skillMod: 0,
   },
 ]
 

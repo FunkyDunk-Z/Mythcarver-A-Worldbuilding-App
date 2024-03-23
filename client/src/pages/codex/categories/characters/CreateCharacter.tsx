@@ -16,6 +16,11 @@ interface PropTypes {
   selectType: string
 }
 
+// MISSING FEATURES
+// Species
+// Class
+// Description
+
 function CreateCharacter({ selectType }: PropTypes) {
   const { user } = useAuthContext()
   const navigate = useNavigate()
@@ -83,24 +88,24 @@ function CreateCharacter({ selectType }: PropTypes) {
   }
 
   // set skill proficiency
-  const handleSkillChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    index: number,
-    proficiencyType: string
-  ) => {
-    const { checked } = e.target
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      skills: prevFormData.skills.map((skill, i) =>
-        i === index
-          ? {
-              ...skill,
-              [proficiencyType]: checked,
-            }
-          : skill
-      ),
-    }))
-  }
+  // const handleSkillChange = (
+  //   e: React.ChangeEvent<HTMLInputElement>,
+  //   index: number,
+  //   proficiencyType: string
+  // ) => {
+  //   const { checked } = e.target
+  //   setFormData((prevFormData) => ({
+  //     ...prevFormData,
+  //     skills: prevFormData.skills.map((skill, i) =>
+  //       i === index
+  //         ? {
+  //             ...skill,
+  //             [proficiencyType]: checked,
+  //           }
+  //         : skill
+  //     ),
+  //   }))
+  // }
 
   const handleHPChange = (e: InputEventType) => {
     const { name, value } = e.target
@@ -151,43 +156,58 @@ function CreateCharacter({ selectType }: PropTypes) {
 
   return (
     <div className={styles.wrapperPage}>
-      <MyButton handleClick={handleNavigate}>Back to Characters</MyButton>
+      <div className={styles.backBtn}>
+        <MyButton handleClick={handleNavigate}>Back to Characters</MyButton>
+      </div>
       <form onSubmit={handleSubmit} className={styles.wrapperForm}>
-        <label className={styles.label} htmlFor="characterName">
-          Character Name:
-        </label>
-        <input
-          className={styles.input}
-          type="text"
-          name="characterName"
-          id="characterName"
-          autoComplete="off"
-          value={formData.characterName}
-          onChange={handleChange}
-        ></input>
-        <div className={styles.wrapperAvatar}>
-          <label className={styles.label} htmlFor="avatarURL">
-            Avatar
-          </label>
-          <input
-            className={styles.input}
-            type="file"
-            name="avatarURL"
-            accept="image/*"
-            onChange={handleChange}
-            ref={fileInputRef}
-            style={{ display: 'none' }}
-          />
-          {avatar ? (
-            <img
-              className={`${styles.avatar} ${styles['preview']}`}
-              src={formData.avatarURL}
-              alt="Preview"
+        <div className={styles.section}>
+          <div className={styles.wrapperAvatar}>
+            <label className={styles.label} htmlFor="avatarURL">
+              Avatar
+            </label>
+            <input
+              className={styles.input}
+              type="file"
+              name="avatarURL"
+              accept="image/*"
+              onChange={handleChange}
+              ref={fileInputRef}
+              style={{ display: 'none' }}
             />
-          ) : null}
-          <MyButton type="button" handleClick={handleUpload}>
-            Upload
-          </MyButton>
+            {avatar ? (
+              <img
+                className={`${styles.avatar} ${styles['preview']}`}
+                src={formData.avatarURL}
+                alt="Preview"
+              />
+            ) : (
+              <span className={styles.avatar}>Choose Image</span>
+            )}
+            <MyButton type="button" handleClick={handleUpload}>
+              Upload
+            </MyButton>
+          </div>
+          <div className={styles.wrapperDetails}>
+            <label className={styles.label} htmlFor="characterName">
+              Character Name:
+            </label>
+            <input
+              className={styles.input}
+              type="text"
+              name="characterName"
+              id="characterName"
+              autoComplete="off"
+              spellCheck="false"
+              value={formData.characterName}
+              onChange={handleChange}
+            ></input>
+          </div>
+        </div>
+        <div className={styles.chooseSpecies}>
+          <p>Choose Species</p>
+        </div>
+        <div className={styles.chooseClass}>
+          <p>Choose Class</p>
         </div>
         <div className={styles.wrapperHp}>
           <label className={styles.label} htmlFor="hitDie">
@@ -202,7 +222,6 @@ function CreateCharacter({ selectType }: PropTypes) {
             value={formData.healthPoints?.hitDie}
             onChange={handleHPChange}
           />
-
           <label className={styles.label} htmlFor="maxHP">
             Max HP:
           </label>
@@ -230,17 +249,13 @@ function CreateCharacter({ selectType }: PropTypes) {
                 name={el.abilityName}
                 id={el.abilityName}
                 autoComplete="off"
-                value={
-                  el.abilityScore < 10
-                    ? el.abilityScore.toString()
-                    : el.abilityScore
-                }
+                value={el.abilityScore}
                 onChange={(e) => handleAbilityChange(e, i)}
               />
             </div>
           ))}
         </div>
-        <div className={styles.wrapperAbilities}>
+        {/* <div className={styles.wrapperAbilities}>
           {formData.skills.map((el, i) => (
             <div key={i} className={styles.ability}>
               <label className={styles.label} htmlFor={el.skillName}>
@@ -260,7 +275,7 @@ function CreateCharacter({ selectType }: PropTypes) {
               </div>
             </div>
           ))}
-        </div>
+        </div> */}
 
         <MyButton type="submit">Create</MyButton>
       </form>

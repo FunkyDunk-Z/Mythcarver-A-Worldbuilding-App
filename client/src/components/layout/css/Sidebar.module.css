@@ -1,11 +1,11 @@
 .wrapper {
   display: grid;
   position: absolute;
-  top: 90px;
-  left: -170px;
+  top: 100px;
+  left: -154px;
   border: 1px solid black;
   border-radius: 4px;
-  padding: 1rem;
+  /* padding: 1rem; */
   padding-left: 1rem;
   background-color: white;
   z-index: 10;

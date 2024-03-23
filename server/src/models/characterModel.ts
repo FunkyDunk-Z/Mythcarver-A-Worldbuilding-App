@@ -157,7 +157,10 @@ const characterSchema = new Schema<CharacterType>({
         type: String,
         enum: abilityNames,
       },
-      abilityScore: Number,
+      abilityScore: {
+        type: Number,
+        default: 10,
+      },
       abilityMod: Number,
       savingThrow: {
         _id: false,
