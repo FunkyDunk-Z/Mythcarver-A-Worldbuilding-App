@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { useDocFetch } from '../../../../hooks/useDocFetch'
 import { useAuthContext } from '../../../../hooks/useAuthContext'
@@ -9,6 +9,8 @@ import {
 } from '../../../../data/CharacterStats'
 
 import MyButton from '../../../../components/utils/MyButton'
+import ImageUploader from '../../../../components/utils/ImageUploader'
+import Select from '../../../../components/utils/Select'
 
 import styles from './css/CreateCharacter.module.css'
 
@@ -17,8 +19,6 @@ interface PropTypes {
 }
 
 // MISSING FEATURES
-// Species
-// Class
 // Description
 
 function CreateCharacter({ selectType }: PropTypes) {
@@ -27,22 +27,83 @@ function CreateCharacter({ selectType }: PropTypes) {
   const { docFetch } = useDocFetch()
   const url = window.location.href.split('/')[3]
   const currentCodexId = localStorage.getItem('currentCodexId')
-  const fileInputRef = useRef<HTMLInputElement>(null)
   const [avatar, setAvatar] = useState('')
+
+  const speciesOptions = [
+    'Dragonborn',
+    'Dwarf',
+    'Elf',
+    'Gnome',
+    'Half-Elf',
+    'Half-Orc',
+    'Halfling',
+    'Human',
+    'Tiefling',
+  ]
+  const [speciesValue, setSpeciesValue] = useState<
+    (typeof speciesOptions)[0] | undefined
+  >('Choose a Species')
+
+  const classOptions = [
+    'Artificer',
+    'Bard',
+    'Barbarian',
+    'Cleric',
+    'Druid',
+    'Fighter',
+    'Monk',
+    'Paladin',
+    'Ranger',
+    'Rogue',
+    'Sorcerer',
+    'Warlock',
+    'Wizard',
+  ]
+  const [classValue, setClassValue] = useState<
+    (typeof classOptions)[0] | undefined
+  >('Choose a Class')
+
+  const levelOptions = [
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+    '15',
+    '16',
+    '17',
+    '18',
+    '19',
+    '20',
+  ]
+  const [levelValue, setLevelValue] = useState<
+    (typeof levelOptions)[0] | undefined
+  >(levelOptions[0])
+
   const [formData, setFormData] = useState<CharacterType>({
     createdBy: user?.id,
     codex: currentCodexId,
     characterName: '',
     avatarURL: avatar,
     characterType: selectType,
-    level: 1,
+    level: '1',
     abilities: abilitiyStats,
     skills: skillStats,
     senses: senseStats,
     healthPoints: {
-      hitDie: 1,
       maxHP: 0,
     },
+    species: speciesValue,
+    characterClass: classValue,
   })
 
   const handleChange = (e: InputEventType) => {
@@ -69,11 +130,6 @@ function CreateCharacter({ selectType }: PropTypes) {
     }
   }
 
-  const handleUpload = (e: InputEventType) => {
-    e.preventDefault()
-    fileInputRef.current?.click()
-  }
-
   // set ability scores
   const handleAbilityChange = (e: InputEventType, index: number) => {
     const { value } = e.target
@@ -86,7 +142,6 @@ function CreateCharacter({ selectType }: PropTypes) {
       ),
     }))
   }
-
   // set skill proficiency
   // const handleSkillChange = (
   //   e: React.ChangeEvent<HTMLInputElement>,
@@ -134,14 +189,15 @@ function CreateCharacter({ selectType }: PropTypes) {
       characterName: '',
       avatarURL: '',
       characterType: '',
-      level: 1,
+      level: '1',
       abilities: abilitiyStats,
       skills: skillStats,
       senses: senseStats,
       healthPoints: {
-        hitDie: 1,
         maxHP: 1,
       },
+      species: '',
+      characterClass: '',
     })
 
     navigate(`/${url}/characters`)
@@ -160,36 +216,11 @@ function CreateCharacter({ selectType }: PropTypes) {
         <MyButton handleClick={handleNavigate}>Back to Characters</MyButton>
       </div>
       <form onSubmit={handleSubmit} className={styles.wrapperForm}>
-        <div className={styles.section}>
-          <div className={styles.wrapperAvatar}>
-            <label className={styles.label} htmlFor="avatarURL">
-              Avatar
-            </label>
-            <input
-              className={styles.input}
-              type="file"
-              name="avatarURL"
-              accept="image/*"
-              onChange={handleChange}
-              ref={fileInputRef}
-              style={{ display: 'none' }}
-            />
-            {avatar ? (
-              <img
-                className={`${styles.avatar} ${styles['preview']}`}
-                src={formData.avatarURL}
-                alt="Preview"
-              />
-            ) : (
-              <span className={styles.avatar}>Choose Image</span>
-            )}
-            <MyButton type="button" handleClick={handleUpload}>
-              Upload
-            </MyButton>
-          </div>
+        <div className={styles.sectionDetails}>
+          <ImageUploader avatar={avatar} handleChange={handleChange} />
           <div className={styles.wrapperDetails}>
             <label className={styles.label} htmlFor="characterName">
-              Character Name:
+              Character Name
             </label>
             <input
               className={styles.input}
@@ -203,38 +234,62 @@ function CreateCharacter({ selectType }: PropTypes) {
             ></input>
           </div>
         </div>
-        <div className={styles.chooseSpecies}>
-          <p>Choose Species</p>
-        </div>
-        <div className={styles.chooseClass}>
-          <p>Choose Class</p>
-        </div>
-        <div className={styles.wrapperHp}>
-          <label className={styles.label} htmlFor="hitDie">
-            Hit Die:
-          </label>
-          <input
-            className={`${styles.input} ${styles['number']}`}
-            type="number"
-            name="hitDie"
-            id="hitDie"
-            autoComplete="off"
-            value={formData.healthPoints?.hitDie}
-            onChange={handleHPChange}
+        <div className={styles.choose}>
+          <Select
+            selectName="Species"
+            options={speciesOptions}
+            value={speciesValue}
+            onChange={(option) => {
+              setFormData((prevFormData) => ({
+                ...prevFormData,
+                species: option,
+              }))
+              setSpeciesValue(option)
+            }}
           />
-          <label className={styles.label} htmlFor="maxHP">
-            Max HP:
-          </label>
-          <input
-            className={`${styles.input} ${styles['number']}`}
-            type="number"
-            name="maxHP"
-            id="maxHP"
-            autoComplete="off"
-            value={formData.healthPoints?.maxHP}
-            onChange={handleHPChange}
+          <Select
+            selectName="Class"
+            options={classOptions}
+            value={classValue}
+            onChange={(option) => {
+              setClassValue(option)
+              setFormData((prevFormData) => ({
+                ...prevFormData,
+                characterClass: option,
+              }))
+            }}
           />
+          <div className={styles.chooseLevel}>
+            <h3>Level</h3>
+            <Select
+              options={levelOptions}
+              value={levelValue}
+              theme="number"
+              onChange={(option) => {
+                setLevelValue(option)
+                setFormData((prevFormData) => ({
+                  ...prevFormData,
+                  level: option,
+                }))
+              }}
+            />
+            <div className={styles.wrapperHp}>
+              <label className={styles.label} htmlFor="maxHP">
+                HP:
+              </label>
+              <input
+                className={`${styles.input} ${styles['number']}`}
+                type="number"
+                name="maxHP"
+                id="maxHP"
+                autoComplete="off"
+                value={formData.healthPoints?.maxHP}
+                onChange={handleHPChange}
+              />
+            </div>
+          </div>
         </div>
+
         <div className={styles.wrapperAbilities}>
           {formData.abilities.map((el, i) => (
             <div key={i} className={styles.ability}>
@@ -276,6 +331,9 @@ function CreateCharacter({ selectType }: PropTypes) {
             </div>
           ))}
         </div> */}
+        <div>
+          <p>Description</p>
+        </div>
 
         <MyButton type="submit">Create</MyButton>
       </form>

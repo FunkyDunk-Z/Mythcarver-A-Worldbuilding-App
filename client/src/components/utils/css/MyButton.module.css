@@ -37,3 +37,14 @@
 .heal:hover {
   background-color: var(--heal);
 }
+
+.clear {
+  border: none;
+  box-shadow: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.clear:hover {
+  background-color: white;
+  color: black;
+}

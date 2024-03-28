@@ -8,6 +8,7 @@ type EventTypes =
   | ChangeEvent
   | MouseEvent
   | MouseEventHandler<HTMLButtonElement>
+  | MouseEventType
 
 interface ButtonProps {
   children: React.ReactNode

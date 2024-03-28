@@ -14,47 +14,45 @@
   justify-items: center;
 }
 
+.sectionDetails {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-around;
+  align-items: center;
+  min-width: 90%;
+}
+
 .wrapperDetails {
   display: grid;
-  grid-template-columns: auto 1fr;
   gap: 0.5rem;
-}
-
-.wrapperAvatar {
-  display: grid;
-  justify-items: center;
-  align-items: center;
-}
-
-.avatar {
-  object-fit: cover;
-  height: 150px;
-  aspect-ratio: 1;
-  border: 1px solid black;
-  border-radius: 4px;
-  margin-bottom: 0.5rem;
-  text-align: center;
-  align-content: center;
+  height: max-content;
 }
 
 .wrapperHp {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 0.5rem;
-  margin: 0.5rem;
+
+  gap: 1rem;
+  margin: 1rem;
 }
 
-.section {
+.choose {
   display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0.5rem;
+  gap: 1rem;
+  margin: 1rem;
+  justify-items: center;
+}
+.chooseLevel {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .wrapperAbilities {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
   gap: 0.5rem;
-  margin: 0.5rem;
   width: 100%;
 }
 
@@ -64,8 +62,8 @@
 
 .input {
   min-height: 25px;
-  min-width: 300px;
-  max-width: 60%;
+  min-width: 280px;
+  max-width: 100%;
   font-style: inherit;
   font-size: 1rem;
   place-self: center;

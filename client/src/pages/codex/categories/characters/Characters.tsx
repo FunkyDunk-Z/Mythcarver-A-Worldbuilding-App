@@ -46,7 +46,6 @@ function Characters() {
           <Card
             key={i}
             cardName={el.characterName}
-            characterType={el.characterType}
             link={el._id}
             docId={el._id}
             image={el.avatarURL ? el.avatarURL : Image}

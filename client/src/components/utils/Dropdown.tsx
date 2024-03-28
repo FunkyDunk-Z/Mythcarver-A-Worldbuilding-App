@@ -4,7 +4,18 @@ import MyButton from './MyButton'
 
 import styles from './css/Dropdown.module.css'
 
-function Dropdown() {
+// interface Option {
+//   value: string
+// }
+
+type OptionType = string
+
+interface PropTypes {
+  dropdownName: string
+  options: OptionType[]
+}
+
+function Dropdown({ dropdownName, options }: PropTypes) {
   const [isOpen, setIsOpen] = useState(false)
 
   const toggleIsOpen = () => {
@@ -13,12 +24,14 @@ function Dropdown() {
 
   return (
     <div className={styles.wrapper}>
-      <MyButton handleClick={toggleIsOpen}>Toggle Dropdown</MyButton>
+      <MyButton type="button" handleClick={toggleIsOpen}>
+        {dropdownName}
+      </MyButton>
       {isOpen ? (
         <div>
-          <p>Option 1</p>
-          <p>Option 2</p>
-          <p>Option 3</p>
+          {options.map((el, i) => {
+            return <p key={i}>{el}</p>
+          })}
         </div>
       ) : null}
     </div>

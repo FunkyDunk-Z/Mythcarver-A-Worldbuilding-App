@@ -1,10 +1,96 @@
+@import '../../../Global.css';
+
 .wrapper {
-  display: grid;
+  position: relative;
+  width: 18rem;
+  min-height: 1.5rem;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
   gap: 0.5rem;
-  justify-items: center;
+  padding: 0.5rem;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
 }
 
-.wrapperBtn {
-  display: flex;
-  gap: 0.5rem;
+.wrapper:focus {
+  border-color: #777;
+  outline: 1px solid black;
+}
+
+.value {
+  flex-grow: 1;
+}
+
+.divider {
+  background-color: #777;
+  align-self: stretch;
+  width: 1px;
+}
+
+.caret {
+  translate: 0 25%;
+  border: 0.5rem solid transparent;
+  border-top-color: #777;
+}
+.caret.open {
+  transform: translateY(-50%);
+  border-top-color: transparent;
+  border-bottom-color: #777;
+}
+
+.options {
+  position: absolute;
+  max-height: 15rem;
+  overflow-y: auto;
+  border: 1px solid black;
+  border-radius: 4px;
+  width: 100%;
+  left: 0;
+  top: calc(100% + 0.5rem);
+  background-color: white;
+  z-index: 100;
+  display: none;
+}
+.options::-webkit-scrollbar {
+  width: 4px;
+}
+
+.options::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.options::-webkit-scrollbar-thumb {
+  background: var(--primary-hover);
+  border-radius: 3px;
+}
+
+.options.show {
+  display: block;
+}
+
+.option {
+  padding: 0.5rem 0.5rem;
+  cursor: pointer;
+}
+.option:hover {
+  background-color: var(--primary-hover);
+  color: white;
+}
+
+/* Themes */
+
+.wrapper.number {
+  width: 50px;
+
+  .value {
+    text-align: center;
+  }
+  .divider {
+    display: none;
+  }
+  .option {
+    text-align: center;
+  }
 }

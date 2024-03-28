@@ -129,7 +129,7 @@ type HealthPointsType = {
   currentHP?: number
   maxHP: number
   temporaryHP?: number
-  hitDie: number
+  hitDie?: number
 }
 
 type SpeedType = {
@@ -175,7 +175,7 @@ interface CharacterType {
   avatarURL?: string
   characterType?: string
   characterTitles?: string[]
-  level: number
+  level: string | undefined
   species?: string
   characterClass?: string
   abilities: AbilityType

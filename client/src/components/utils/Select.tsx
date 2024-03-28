@@ -4,31 +4,62 @@ import MyButton from './MyButton'
 
 import styles from './css/Select.module.css'
 
+type Option = string | undefined
+
 type OptionTypes = {
-  options: string[]
-  handleChange: (selectedOption: string) => void
+  options: Option[]
+  value?: string
+  onChange: (value: Option) => void
+  theme?: string
+  selectName?: string
 }
 
-function Select({ options, handleChange }: OptionTypes) {
-  const [currentOption, setCurrentOption] = useState('Choose Option')
+function Select({ options, onChange, value, theme, selectName }: OptionTypes) {
+  const [isOpen, setIsOpen] = useState(false)
 
-  const logOption = (option: string) => {
-    setCurrentOption(option)
-    handleChange(option)
+  function selectOption(option: Option) {
+    if (option !== value) onChange(option)
+  }
+
+  const toggleIsOpen = () => {
+    setIsOpen(!isOpen)
+  }
+
+  const clearOptions = (e: MouseEventType) => {
+    e.stopPropagation()
+    onChange(`Choose a ${selectName}`)
   }
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.wrapperBtn}>
-        {options
-          ? options.map((el, i) => (
-              <MyButton handleClick={() => logOption(el)} key={i}>
-                {el}
-              </MyButton>
-            ))
-          : null}
-      </div>
-      <h3 id="characterType">{currentOption}</h3>
+    <div
+      onBlur={() => setIsOpen(false)}
+      onClick={toggleIsOpen}
+      tabIndex={0}
+      className={`${styles.wrapper} ${!theme ? '' : styles[theme]}`}
+    >
+      <span className={styles.value}>{value}</span>
+      {!theme ? (
+        <MyButton type="button" theme="clear" handleClick={clearOptions}>
+          &times;
+        </MyButton>
+      ) : null}
+      <div className={styles.divider}></div>
+      <div className={`${styles.caret} ${isOpen ? styles.open : ''}`}></div>
+      <ul className={`${styles.options}  ${isOpen ? styles.show : ''}`}>
+        {options.map((el, i) => (
+          <li
+            key={i}
+            onClick={(e) => {
+              e.stopPropagation()
+              selectOption(el)
+              setIsOpen(false)
+            }}
+            className={styles.option}
+          >
+            {el}
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }

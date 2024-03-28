@@ -42,6 +42,10 @@
   grid-template-columns: repeat(3, 1fr);
 }
 
+.detail {
+  font-weight: bold;
+}
+
 .portrait {
   border: 1px solid black;
   border-radius: 4px;

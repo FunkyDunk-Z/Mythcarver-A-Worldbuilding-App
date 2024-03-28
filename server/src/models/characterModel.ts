@@ -62,8 +62,8 @@ interface CharacterType extends Document {
   characterType: string
   characterTitles: Types.ObjectId[]
   level: number
-  species: Types.ObjectId
-  class: Types.ObjectId
+  species: Types.ObjectId | string
+  characterClass: Types.ObjectId | string
   abilities: AbilityType[]
   skills: SkillType[]
   senses: SenseType[]
@@ -142,14 +142,16 @@ const characterSchema = new Schema<CharacterType>({
     type: Number,
     default: 1,
   },
-  species: {
-    type: Schema.ObjectId,
-    ref: 'Species',
-  },
-  class: {
-    type: Schema.ObjectId,
-    ref: 'Class',
-  },
+  // species: {
+  //   type: Schema.ObjectId,
+  //   ref: 'Species',
+  // },
+  // class: {
+  //   type: Schema.ObjectId,
+  //   ref: 'Class',
+  // },
+  species: String,
+  characterClass: String,
   abilities: [
     {
       _id: false,
