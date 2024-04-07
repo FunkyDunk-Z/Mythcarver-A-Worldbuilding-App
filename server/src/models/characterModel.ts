@@ -3,6 +3,8 @@ import { Schema, Types, model, Document } from 'mongoose'
 import User from './userModel'
 import Codex from './codexModel'
 
+type ObjectType = { [key: string]: string }
+
 type SavingThrowType = {
   isProficient: boolean
   savingThrowMod: number
@@ -55,6 +57,34 @@ type SpeedType = {
   flying?: number
 }
 
+type AppearanceType = {
+  hair?: string
+  eyes?: string
+  height?: string
+  build?: string
+  skin?: string
+  scars?: string
+  tattoos?: string
+}
+
+type PersonalityType = {
+  ideals?: string
+  flaws?: string
+  likes?: string
+  dislikes?: string
+}
+
+type DescriptionType = {
+  appearance: AppearanceType
+  personality: PersonalityType
+}
+
+type AssociationsType = {
+  person?: Types.ObjectId
+  relation?: string
+  affinity?: string
+}
+
 interface CharacterType extends Document {
   createdBy: Types.ObjectId
   codex: Types.ObjectId
@@ -74,6 +104,8 @@ interface CharacterType extends Document {
   speed: SpeedType
   hasDarkvision: boolean
   avatarURL: string
+  description: DescriptionType
+  associations: AssociationsType[]
 }
 
 const characterTypes = ['Player', 'Npc']
@@ -282,6 +314,33 @@ const characterSchema = new Schema<CharacterType>({
   avatarURL: {
     type: String,
   },
+  description: {
+    appearance: {
+      hair: String,
+      eyes: String,
+      height: String,
+      build: String,
+      skin: String,
+      scars: String,
+      tattoos: String,
+    },
+    personality: {
+      ideals: String,
+      flaws: String,
+      likes: String,
+      dislikes: String,
+    },
+  },
+  associations: [
+    {
+      person: {
+        type: Schema.ObjectId,
+        ref: 'Character',
+      },
+      relation: String,
+      affinity: String,
+    },
+  ],
 })
 
 // PROFICIENCY

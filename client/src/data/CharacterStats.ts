@@ -1,21 +1,27 @@
-export const abilitiyStats: AbilityType = [
+export const abilitiyStats: AbilityType[] = [
   {
     abilityName: 'strength',
+    abilityScore: 10,
   },
   {
     abilityName: 'dexterity',
+    abilityScore: 10,
   },
   {
     abilityName: 'constitution',
+    abilityScore: 10,
   },
   {
     abilityName: 'intelligence',
+    abilityScore: 10,
   },
   {
     abilityName: 'wisdom',
+    abilityScore: 10,
   },
   {
     abilityName: 'charisma',
+    abilityScore: 10,
   },
 ]
 

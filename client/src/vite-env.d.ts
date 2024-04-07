@@ -1,5 +1,7 @@
 /// <reference types="vite/client" />
 
+type ObjectType = { [key: string]: string }
+
 type ReactProps = {
   children: ReactNode
 }
@@ -139,9 +141,9 @@ type SpeedType = {
 }
 
 type SavingThrowType = {
-  isProficient: boolean
+  isProficient?: boolean
   savingThrowMod: number
-  hasAdvantage: boolean
+  hasAdvantage?: boolean
 }
 
 type AbilityType = {
@@ -149,7 +151,7 @@ type AbilityType = {
   abilityScore?: number
   abilityMod?: number
   savingThrow?: SavingThrowType
-}[]
+}
 
 type SkillType = {
   skillName: string
@@ -167,6 +169,34 @@ type SenseType = {
   hasAdvantage?: boolean
 }[]
 
+type AppearanceType = {
+  hair?: string
+  eyes?: string
+  height?: string
+  build?: string
+  skin?: string
+  scars?: string
+  tattoos?: string
+}
+
+type PersonalityType = {
+  ideals?: string
+  flaws?: string
+  likes?: string
+  dislikes?: string
+}
+
+type DescriptionType = {
+  appearance?: AppearanceType
+  personality?: PersonalityType
+}
+
+type AssociationsType = {
+  person?: string
+  relation?: string
+  affinity?: string
+}
+
 interface CharacterType {
   _id?: string
   createdBy?: string
@@ -178,7 +208,7 @@ interface CharacterType {
   level: string | undefined
   species?: string
   characterClass?: string
-  abilities: AbilityType
+  abilities: AbilityType[]
   skills: SkillType
   senses: SenseType
   proficiency?: number
@@ -187,9 +217,9 @@ interface CharacterType {
   healthPoints: HealthPointsType
   speed?: SpeedType
   hasDarkvision?: boolean
+  description: DescriptionType
+  associations?: AssociationsType[]
 }
-
-// type CharacterStateType = CharacterType | null
 
 //----------- Reducer Types -----------
 

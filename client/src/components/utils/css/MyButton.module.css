@@ -7,7 +7,7 @@
   min-width: min-content;
   max-width: max-content;
   min-height: min-content;
-  max-height: 40px;
+  max-height: max-content;
 
   padding: 0.5rem;
   box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.4);
@@ -31,8 +31,17 @@
   background-color: rgba(172, 66, 66, 0.664);
 }
 
+.hp {
+  grid-column: -1/1;
+  min-width: 100px;
+}
+
 .damage:hover {
   background-color: var(--damage);
+}
+
+.heal {
+  min-width: 75px;
 }
 .heal:hover {
   background-color: var(--heal);
@@ -47,4 +56,22 @@
 .clear:hover {
   background-color: white;
   color: black;
+}
+
+.verticleTab {
+  height: 250px;
+  width: 10px;
+  padding: 0.1rem;
+  border-radius: 0 10px 10px 0;
+  border-left: none;
+  box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.4);
+}
+
+.manage {
+  box-shadow: none;
+  border-radius: 50%;
+}
+
+.close {
+  grid-column: -1/1;
 }

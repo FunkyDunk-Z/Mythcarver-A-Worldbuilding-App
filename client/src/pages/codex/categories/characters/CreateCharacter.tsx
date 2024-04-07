@@ -104,6 +104,24 @@ function CreateCharacter({ selectType }: PropTypes) {
     },
     species: speciesValue,
     characterClass: classValue,
+    description: {
+      appearance: {
+        hair: '',
+        eyes: '',
+        height: '',
+        build: '',
+        skin: '',
+        scars: '',
+        tattoos: '',
+      },
+      personality: {
+        ideals: '',
+        flaws: '',
+        likes: '',
+        dislikes: '',
+      },
+    },
+    associations: [],
   })
 
   const handleChange = (e: InputEventType) => {
@@ -128,6 +146,20 @@ function CreateCharacter({ selectType }: PropTypes) {
         [name]: value,
       }))
     }
+  }
+
+  const handleDescriptionChange = (e: InputEventType, fieldName: string) => {
+    const { value } = e.target
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      description: {
+        ...prevFormData.description,
+        appearance: {
+          ...prevFormData.description.appearance,
+          [fieldName]: value,
+        },
+      },
+    }))
   }
 
   // set ability scores
@@ -198,6 +230,24 @@ function CreateCharacter({ selectType }: PropTypes) {
       },
       species: '',
       characterClass: '',
+      description: {
+        appearance: {
+          hair: '',
+          eyes: '',
+          height: '',
+          build: '',
+          skin: '',
+          scars: '',
+          tattoos: '',
+        },
+        personality: {
+          ideals: '',
+          flaws: '',
+          likes: '',
+          dislikes: '',
+        },
+      },
+      associations: [],
     })
 
     navigate(`/${url}/characters`)
@@ -331,8 +381,27 @@ function CreateCharacter({ selectType }: PropTypes) {
             </div>
           ))}
         </div> */}
-        <div>
-          <p>Description</p>
+        <div className={styles.wrapperDescription}>
+          {Object.entries(formData.description.appearance || {}).map(
+            (el, i) => {
+              return (
+                <div key={i} className={styles.ability}>
+                  <label htmlFor={el[0]} className={styles.label}>
+                    {el[0].charAt(0).toUpperCase() + el[0].slice(1)}
+                  </label>
+                  <input
+                    className={styles.input}
+                    type="string"
+                    name={el[0]}
+                    id={el[0]}
+                    autoComplete="off"
+                    value={el[1]}
+                    onChange={(e) => handleDescriptionChange(e, el[0])}
+                  />
+                </div>
+              )
+            }
+          )}
         </div>
 
         <MyButton type="submit">Create</MyButton>

@@ -32,7 +32,6 @@
 .wrapperHp {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-
   gap: 1rem;
   margin: 1rem;
 }
@@ -51,7 +50,7 @@
 
 .wrapperAbilities {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 0.5rem;
   width: 100%;
 }
@@ -103,4 +102,8 @@
   font-size: 1.2rem;
   text-align: center;
   align-self: center;
+}
+
+.wrapperDescription {
+  margin: 1rem;
 }

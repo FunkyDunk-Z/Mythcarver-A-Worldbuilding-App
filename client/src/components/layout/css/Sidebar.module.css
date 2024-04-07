@@ -1,20 +1,27 @@
 .wrapper {
   display: grid;
   position: absolute;
-  top: 100px;
-  left: -154px;
+  top: 30%;
+  left: -187px;
   border: 1px solid black;
   border-radius: 4px;
-  /* padding: 1rem; */
-  padding-left: 1rem;
+  padding-inline: 1rem;
   background-color: white;
   z-index: 10;
 }
 
-.btn {
+.btnClose {
   position: absolute;
-  top: 0;
-  right: -40px;
+  top: 15%;
+  left: 100%;
+  z-index: 100;
+}
+
+.btnOpen {
+  position: absolute;
+  top: 15%;
+  left: calc(100% + 1rem);
+  z-index: 100;
 }
 
 .wrapper.opened {
@@ -29,7 +36,7 @@
     transform: translateX(0%);
   }
   100% {
-    transform: translateX(100%);
+    transform: translateX(110%);
   }
 }
 

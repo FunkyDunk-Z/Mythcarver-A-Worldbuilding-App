@@ -7,12 +7,12 @@ import MyButton from '../utils/MyButton'
 import styles from './css/Sidebar.module.css'
 
 function Sidebar() {
-  const [isActive, setIsActive] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
   const [openStatus, setOpenStatus] = useState('')
   const url = window.location.href.split('/')[3]
 
-  const toggleIsActive = () => {
-    setIsActive(!isActive)
+  const toggleIsOpen = () => {
+    setIsOpen(!isOpen)
 
     if (!openStatus || openStatus === 'closed') {
       setOpenStatus('opened')
@@ -21,25 +21,39 @@ function Sidebar() {
     }
   }
   return (
-    <div className={`${styles.wrapper} ${styles[openStatus]}`}>
-      <div className={styles.btn}>
-        <MyButton handleClick={toggleIsActive}>
-          {isActive ? '<<' : '>>'}
-        </MyButton>
+    <>
+      <div className={`${styles.wrapper} ${styles[openStatus]}`}>
+        {isOpen ? (
+          <div className={`${styles.btnClose}`}>
+            <MyButton handleClick={toggleIsOpen} theme="verticleTab">
+              {'<'}
+            </MyButton>
+          </div>
+        ) : (
+          <div className={`${styles.btnOpen}`}>
+            <MyButton handleClick={toggleIsOpen} theme="verticleTab">
+              {'>'}
+            </MyButton>
+          </div>
+        )}
+        {Categories.map((el, i) => {
+          const categoryName = el
+            .toLowerCase()
+            .replace(/'/g, '-')
+            .replace(/\s/g, '-')
+            .replace(/&/g, 'and')
+          return (
+            <Link
+              key={i}
+              className={styles.link}
+              to={`/${url}/${categoryName}`}
+            >
+              {el}
+            </Link>
+          )
+        })}
       </div>
-      {Categories.map((el, i) => {
-        const categoryName = el
-          .toLowerCase()
-          .replace(/'/g, '-')
-          .replace(/\s/g, '-')
-          .replace(/&/g, 'and')
-        return (
-          <Link key={i} className={styles.link} to={`/${url}/${categoryName}`}>
-            {el}
-          </Link>
-        )
-      })}
-    </div>
+    </>
   )
 }
 

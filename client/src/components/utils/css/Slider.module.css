@@ -1,0 +1,17 @@
+.wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.wrapperBtns {
+  display: flex;
+  justify-content: space-around;
+}
+
+.slide {
+  display: none;
+}
+
+.slideCurrent {
+  display: grid;
+}
