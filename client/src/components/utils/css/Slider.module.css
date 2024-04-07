@@ -1,11 +1,12 @@
-.wrapper {
+.wrapperSlider {
   position: relative;
-  overflow: hidden;
+  gap: 0.5rem;
 }
 
 .wrapperBtns {
   display: flex;
   justify-content: space-around;
+  margin-bottom: 1rem;
 }
 
 .slide {
@@ -14,4 +15,5 @@
 
 .slideCurrent {
   display: grid;
+  gap: 1rem;
 }

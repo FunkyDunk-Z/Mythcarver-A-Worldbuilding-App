@@ -26,7 +26,7 @@ function Slider({ children }: PropType) {
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapperSlider}>
       <div className={styles.wrapperBtns}>
         {currentIndex > 0 ? (
           <MyButton handleClick={prevSlide}>{`<<`}</MyButton>

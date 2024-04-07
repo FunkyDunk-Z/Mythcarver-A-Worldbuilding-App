@@ -62,7 +62,7 @@ function CharacterSheet() {
   const ManageCharacter = () => {
     if (manageCharacter) {
       return (
-        <div className={styles.btns}>
+        <div className={styles.manageCharacter}>
           {!confirmDelete ? (
             <>
               <MyButton handleClick={toggleManageCharacter}>Cancel</MyButton>
@@ -81,7 +81,7 @@ function CharacterSheet() {
       )
     } else {
       return (
-        <div className={styles.btns}>
+        <div className={styles.manageCharacter}>
           <MyButton handleClick={toggleManageCharacter} theme="manage">
             <img className={styles.icon} src={Anvil} alt="image of an anvil" />
           </MyButton>
@@ -145,7 +145,6 @@ function CharacterSheet() {
       const {
         characterName,
         avatarURL,
-
         species,
         characterClass,
         level,
@@ -165,7 +164,7 @@ function CharacterSheet() {
             <div className={styles.characterHeader}>
               <div className={styles.wrapperAvatar}>
                 <img
-                  className={styles.portrait}
+                  className={styles.avatar}
                   src={avatarURL ? avatarURL : Image}
                   alt="Picture of character"
                 />
@@ -173,7 +172,6 @@ function CharacterSheet() {
               </div>
               <div className={styles.wrapperDetails}>
                 <h1 className={styles.characterName}>{characterName}</h1>
-
                 <ManageHp />
                 <div className={styles.characterDetails}>
                   <p className={styles.detail}>
@@ -201,14 +199,18 @@ function CharacterSheet() {
               </div>
               {/* ---Proficiency Bonus--- */}
               <div className={styles.stat}>
-                <p className={styles.statName}>Proficiency</p>
-                <p className={styles.statName}>Bonus</p>
+                <p className={styles.statName}>
+                  Proficiency <br /> Bonus
+                </p>
+                {/* <p className={styles.statName}>Bonus</p> */}
                 <p className={styles.statInfo}>+{proficiency}</p>
               </div>
               {/* ---Armor Class--- */}
               <div className={styles.stat}>
-                <p className={styles.statName}>Armor</p>
-                <p className={styles.statName}>Class</p>
+                <p className={styles.statName}>
+                  Armor <br /> Class
+                </p>
+                {/* <p className={styles.statName}>Class</p> */}
                 <p className={styles.statInfo}>{armourClass?.baseValue}</p>
               </div>
             </div>
@@ -285,7 +287,7 @@ function CharacterSheet() {
 
                 return (
                   <div className={styles.sense} key={i}>
-                    <p className={styles.senseName}>{senseName} :</p>
+                    <p className={styles.senseName}>{senseName}</p>
                     <p className={styles.senseMod}>{el.senseMod}</p>
                   </div>
                 )
