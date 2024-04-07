@@ -14,6 +14,7 @@ import styles from './css/CharacterSheet.module.css'
 function CharacterSheet() {
   const { setIsLoading, user } = useAuthContext()
   const { docFetch } = useDocFetch()
+  const [currentIndex, setCurrentIndex] = useState(0)
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [manageCharacter, setManageCharacter] = useState(false)
   const [manageHp, setManageHp] = useState(false)
@@ -374,7 +375,7 @@ function CharacterSheet() {
       return (
         <div className={styles.characterSheet}>
           <CharacterHeader />
-          <Slider>
+          <Slider currentIndex={currentIndex} setCurrentIndex={setCurrentIndex}>
             <>
               <CharacterAbilities />
               <SavingThrows />

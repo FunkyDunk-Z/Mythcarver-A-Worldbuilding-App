@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 import MyButton from './MyButton'
 
 import styles from './css/Slider.module.css'
@@ -8,11 +6,11 @@ type SliderChildren = React.ReactNode
 
 type PropType = {
   children: SliderChildren[]
+  currentIndex: number
+  setCurrentIndex: (index: number) => void
 }
 
-function Slider({ children }: PropType) {
-  const [currentIndex, setCurrentIndex] = useState(0)
-
+function Slider({ children, currentIndex, setCurrentIndex }: PropType) {
   const nextSlide = () => {
     if (currentIndex < children.length - 1) {
       setCurrentIndex(currentIndex + 1)
