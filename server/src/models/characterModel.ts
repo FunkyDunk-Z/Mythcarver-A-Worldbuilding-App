@@ -146,202 +146,207 @@ const senseNames = [
   'passive investigation',
 ]
 
-const characterSchema = new Schema<CharacterType>({
-  createdBy: {
-    type: Schema.ObjectId,
-    ref: 'User',
-  },
-  codex: {
-    type: Schema.ObjectId,
-    ref: 'Codex',
-  },
-  characterName: {
-    type: String,
-    required: true,
-  },
-  characterType: {
-    type: String,
-    enum: characterTypes,
-    required: true,
-  },
-  characterTitles: [
-    {
+const characterSchema = new Schema<CharacterType>(
+  {
+    createdBy: {
       type: Schema.ObjectId,
-      ref: 'Titles',
+      ref: 'User',
     },
-  ],
-  level: {
-    type: Number,
-    default: 1,
-  },
-  // species: {
-  //   type: Schema.ObjectId,
-  //   ref: 'Species',
-  // },
-  // class: {
-  //   type: Schema.ObjectId,
-  //   ref: 'Class',
-  // },
-  species: String,
-  characterClass: String,
-  abilities: [
-    {
-      _id: false,
-      abilityName: {
-        type: String,
-        enum: abilityNames,
+    codex: {
+      type: Schema.ObjectId,
+      ref: 'Codex',
+    },
+    characterName: {
+      type: String,
+      required: true,
+    },
+    characterType: {
+      type: String,
+      enum: characterTypes,
+      required: true,
+    },
+    characterTitles: [
+      {
+        type: Schema.ObjectId,
+        ref: 'Titles',
       },
-      abilityScore: {
-        type: Number,
-        default: 10,
-      },
-      abilityMod: Number,
-      savingThrow: {
+    ],
+    level: {
+      type: Number,
+      default: 1,
+    },
+    // species: {
+    //   type: Schema.ObjectId,
+    //   ref: 'Species',
+    // },
+    // class: {
+    //   type: Schema.ObjectId,
+    //   ref: 'Class',
+    // },
+    species: String,
+    characterClass: String,
+    abilities: [
+      {
         _id: false,
-        savingThrowMod: {
+        abilityName: {
+          type: String,
+          enum: abilityNames,
+        },
+        abilityScore: {
           type: Number,
+          default: 10,
+        },
+        abilityMod: Number,
+        savingThrow: {
+          _id: false,
+          savingThrowMod: {
+            type: Number,
+          },
+          isProficient: {
+            type: Boolean,
+            default: false,
+          },
+          hasAdvantage: {
+            type: Boolean,
+            default: false,
+          },
+        },
+      },
+    ],
+    skills: [
+      {
+        _id: false,
+        skillName: {
+          type: String,
+          enum: skillNames,
+        },
+        skillAbility: {
+          type: String,
+          enum: abilityNames,
         },
         isProficient: {
           type: Boolean,
           default: false,
         },
+        hasDoubleProficiency: {
+          type: Boolean,
+          default: false,
+        },
+        skillMod: Number,
         hasAdvantage: {
           type: Boolean,
           default: false,
         },
       },
-    },
-  ],
-  skills: [
-    {
-      _id: false,
-      skillName: {
-        type: String,
-        enum: skillNames,
+    ],
+    senses: [
+      {
+        _id: false,
+        senseName: {
+          type: String,
+          enum: senseNames,
+        },
+        skillRequired: String,
+        senseMod: Number,
+        hasAdvantage: {
+          type: Boolean,
+          default: false,
+        },
       },
-      skillAbility: {
-        type: String,
-        enum: abilityNames,
-      },
-      isProficient: {
-        type: Boolean,
-        default: false,
-      },
-      hasDoubleProficiency: {
-        type: Boolean,
-        default: false,
-      },
-      skillMod: Number,
+    ],
+    proficiency: Number,
+    initiative: {
+      initiativeScore: Number,
       hasAdvantage: {
         type: Boolean,
         default: false,
       },
     },
-  ],
-  senses: [
-    {
-      _id: false,
-      senseName: {
-        type: String,
-        enum: senseNames,
+    armourClass: {
+      baseValue: {
+        type: Number,
+        default: 0,
       },
-      skillRequired: String,
-      senseMod: Number,
-      hasAdvantage: {
-        type: Boolean,
-        default: false,
+      armourMod: {
+        type: Number,
+        default: 0,
       },
     },
-  ],
-  proficiency: Number,
-  initiative: {
-    initiativeScore: Number,
-    hasAdvantage: {
+    healthPoints: {
+      currentHP: {
+        type: Number,
+        default: 0,
+      },
+      maxHP: {
+        type: Number,
+        default: 0,
+      },
+      temporaryHP: {
+        type: Number,
+        default: 0,
+      },
+      hitDie: {
+        type: Number,
+        default: function () {
+          return this.level
+        },
+      },
+    },
+    speed: {
+      walking: {
+        type: Number,
+        default: 30,
+      },
+      swimming: {
+        type: Number,
+        default: function () {
+          return Math.floor(this.speed.walking / 2)
+        },
+      },
+      flying: {
+        type: Number,
+        default: 0,
+      },
+    },
+    hasDarkvision: {
       type: Boolean,
       default: false,
     },
-  },
-  armourClass: {
-    baseValue: {
-      type: Number,
-      default: 0,
+    avatarURL: {
+      type: String,
     },
-    armourMod: {
-      type: Number,
-      default: 0,
-    },
-  },
-  healthPoints: {
-    currentHP: {
-      type: Number,
-      default: 0,
-    },
-    maxHP: {
-      type: Number,
-      default: 0,
-    },
-    temporaryHP: {
-      type: Number,
-      default: 0,
-    },
-    hitDie: {
-      type: Number,
-      default: function () {
-        return this.level
+    description: {
+      appearance: {
+        hair: String,
+        eyes: String,
+        height: String,
+        build: String,
+        skin: String,
+        scars: String,
+        tattoos: String,
+      },
+      personality: {
+        ideals: String,
+        flaws: String,
+        likes: String,
+        dislikes: String,
       },
     },
-  },
-  speed: {
-    walking: {
-      type: Number,
-      default: 30,
-    },
-    swimming: {
-      type: Number,
-      default: function () {
-        return Math.floor(this.speed.walking / 2)
+    associations: [
+      {
+        person: {
+          type: Schema.ObjectId,
+          ref: 'Character',
+        },
+        relation: String,
+        affinity: String,
       },
-    },
-    flying: {
-      type: Number,
-      default: 0,
-    },
+    ],
   },
-  hasDarkvision: {
-    type: Boolean,
-    default: false,
-  },
-  avatarURL: {
-    type: String,
-  },
-  description: {
-    appearance: {
-      hair: String,
-      eyes: String,
-      height: String,
-      build: String,
-      skin: String,
-      scars: String,
-      tattoos: String,
-    },
-    personality: {
-      ideals: String,
-      flaws: String,
-      likes: String,
-      dislikes: String,
-    },
-  },
-  associations: [
-    {
-      person: {
-        type: Schema.ObjectId,
-        ref: 'Character',
-      },
-      relation: String,
-      affinity: String,
-    },
-  ],
-})
+  {
+    timestamps: true,
+  }
+)
 
 // PROFICIENCY
 characterSchema.pre('save', function (next) {
