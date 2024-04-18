@@ -10,6 +10,7 @@ type CardProps = {
   codexId?: string
   docId?: string
   characterType?: string
+  size?: string
 }
 
 function Card({
@@ -19,6 +20,7 @@ function Card({
   codexId,
   docId,
   characterType,
+  size,
 }: CardProps) {
   const { user } = useAuthContext()
   const navigate = useNavigate()
@@ -41,7 +43,10 @@ function Card({
   }
 
   return (
-    <div className={styles.wrapper} onClick={handleView}>
+    <div
+      className={`${styles.wrapper} ${size ? styles[size] : ''}`}
+      onClick={handleView}
+    >
       <img className={styles.image} src={image} alt="image of category" />
       <div className={styles.cardDetails}>
         <p className={styles.cardName}>{cardName}</p>

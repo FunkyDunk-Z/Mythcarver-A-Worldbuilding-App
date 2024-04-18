@@ -24,6 +24,7 @@ function Codex() {
               cardName={el.characterName}
               image={el.avatarURL}
               link={el._id}
+              size="small"
             />
           )
         })}
