@@ -8,7 +8,7 @@ export const useDocFetch = () => {
   const currentCodexId = localStorage.getItem('currentCodexId')
   const currentDocId = localStorage.getItem('currentDocId')
 
-  const handleCharacterUpdate = (
+  const createOrDelete = (
     response: AxiosResponse,
     user: UserStateType,
     currentCodexId: string,
@@ -24,10 +24,18 @@ export const useDocFetch = () => {
           const currentCodex = updatedUser.codex[currentCodexIndex]
           if (response.status === 201) {
             const { doc } = response.data
-            updatedUser.codex[currentCodexIndex].characters.push(doc)
+            currentCodex.characters.push(doc)
 
+            currentCodex.recent.push(doc)
             // must update the codex for the pushed doc to remain
-            updatedUser.codex[currentCodexIndex].recent.push(doc)
+            docFetch({
+              requestType: 'PATCH',
+              url: `/codex/${currentCodex._id}`,
+              credentials: true,
+              dataToSend: {
+                recent: currentCodex.recent,
+              },
+            })
           } else if (response.status === 204) {
             const updatedCharacters = currentCodex.characters.filter(
               (char) => char._id !== currentDocId
@@ -98,12 +106,7 @@ export const useDocFetch = () => {
 
       if (response.status === 201 || response.status === 204) {
         if (currentCodexId)
-          handleCharacterUpdate(
-            response,
-            user,
-            currentCodexId,
-            dispatchUserState
-          )
+          createOrDelete(response, user, currentCodexId, dispatchUserState)
       }
     } catch (error) {
       if (axios.isAxiosError<AxiosError, Record<string, unknown>>(error)) {

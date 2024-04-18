@@ -18,17 +18,20 @@ interface CodexDocument extends Document {
   recent: Types.ObjectId[]
 }
 
-const referenceSchema = new Schema({
-  refField: {
-    type: Schema.Types.ObjectId,
-    refPath: 'refModel',
-  },
-  refModel: {
-    type: String,
-    required: true,
-    enum: ['Character'],
-  },
-})
+// const referenceSchema = new Schema(
+//   {
+//     refField: {
+//       type: Schema.Types.ObjectId,
+//       refPath: 'refModel',
+//     },
+//     refModel: {
+//       type: String,
+//       required: true,
+//       enum: ['Character'],
+//     },
+//   },
+//   { _id: false }
+// )
 
 const codexSchema = new Schema<CodexDocument>(
   {
@@ -89,7 +92,7 @@ const codexSchema = new Schema<CodexDocument>(
         ref: 'Campaigns',
       },
     ],
-    recent: [referenceSchema],
+    recent: [],
   },
   {
     timestamps: true,

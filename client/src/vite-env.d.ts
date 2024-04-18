@@ -38,7 +38,11 @@ interface SignUpData extends LoginData {
   passwordConfirm: string
 }
 
-type DataType = LoginData | SignUpData | UpdateData | CharacterType
+interface RecentType {
+  recent: CharacterType[]
+}
+
+type DataType = LoginData | SignUpData | UpdateData | CharacterType | RecentType
 
 type AuthType =
   | 'login'
