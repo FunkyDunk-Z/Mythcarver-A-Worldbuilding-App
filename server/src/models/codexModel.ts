@@ -18,17 +18,17 @@ interface CodexDocument extends Document {
   recent: Types.ObjectId[]
 }
 
-// const referenceSchema = new Schema({
-//   refField: {
-//     type: Schema.Types.ObjectId,
-//     refPath: 'refModel',
-//   },
-//   refModel: {
-//     type: String,
-//     required: true,
-//     enum: ['Character'],
-//   },
-// })
+const referenceSchema = new Schema({
+  refField: {
+    type: Schema.Types.ObjectId,
+    refPath: 'refModel',
+  },
+  refModel: {
+    type: String,
+    required: true,
+    enum: ['Character'],
+  },
+})
 
 const codexSchema = new Schema<CodexDocument>(
   {
@@ -89,7 +89,7 @@ const codexSchema = new Schema<CodexDocument>(
         ref: 'Campaigns',
       },
     ],
-    // recent: [referenceSchema],
+    recent: [referenceSchema],
   },
   {
     timestamps: true,
@@ -101,6 +101,10 @@ codexSchema.pre(
   function (this: Query<CodexDocument[], CodexDocument>, next) {
     this.populate({
       path: 'characters',
+      select: '-__v',
+    })
+    this.populate({
+      path: 'recent',
       select: '-__v',
     })
     next()

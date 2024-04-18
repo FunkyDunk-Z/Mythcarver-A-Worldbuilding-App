@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from 'express'
 import env from '../util/validateEnv'
 import { v2 } from 'cloudinary'
 import User from '../models/userModel'
+import AppError from './appError'
 
 v2.config({
   cloud_name: env.CLOUDINARY_NAME,
@@ -17,16 +18,17 @@ export const createOne =
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const user = await User.findById(req.user)
-      // console.log(req)
       const doc = await Model.create(req.body)
 
-      const result = await v2.uploader.upload(req.body.avatarURL, {
-        public_id: doc._id,
-        folder: `mythcarver/user-images`,
-      })
-      // console.log(result) // Log the result for debugging
+      if (req.body.avatarURL) {
+        const result = await v2.uploader.upload(req.body.avatarURL, {
+          public_id: doc._id,
+          folder: `mythcarver/user-images`,
+        })
+        // console.log(result) // Log the result for debugging
 
-      req.body.avatarURL = result.secure_url
+        req.body.avatarURL = result.secure_url
+      }
 
       res.status(201).json({
         status: 'success',
@@ -86,6 +88,31 @@ export const getOne =
 
       if (!doc) {
         return next()
+      }
+
+      res.status(200).json({
+        status: 'success',
+        doc,
+      })
+    } catch (error) {
+      console.error(error)
+      return next()
+    }
+  }
+
+//----------Update One----------
+
+export const updateOne =
+  <T extends Document>(Model: Model<T>) =>
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+        runValidators: true,
+      })
+
+      if (!doc) {
+        return next(new AppError('No Document found with that ID', 404))
       }
 
       res.status(200).json({

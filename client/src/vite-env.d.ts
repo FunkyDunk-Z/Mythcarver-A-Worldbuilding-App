@@ -100,7 +100,7 @@ interface CodexType {
   items: string[]
   bestairy: string[]
   lore: string[]
-  recent: string[]
+  recent: CharacterType[]
 }
 
 type CodexStateType = CodexType | null

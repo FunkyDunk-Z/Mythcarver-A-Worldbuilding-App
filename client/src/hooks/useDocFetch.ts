@@ -25,6 +25,9 @@ export const useDocFetch = () => {
           if (response.status === 201) {
             const { doc } = response.data
             updatedUser.codex[currentCodexIndex].characters.push(doc)
+
+            // must update the codex for the pushed doc to remain
+            updatedUser.codex[currentCodexIndex].recent.push(doc)
           } else if (response.status === 204) {
             const updatedCharacters = currentCodex.characters.filter(
               (char) => char._id !== currentDocId
