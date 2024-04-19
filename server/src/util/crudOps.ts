@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from 'express'
 import env from '../util/validateEnv'
 import { v2 } from 'cloudinary'
 import User from '../models/userModel'
+import { CategoryType } from '../models/categoryModel'
 import AppError from './appError'
 
 v2.config({
@@ -18,6 +19,7 @@ export const createOne =
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       // const user = await User.findById(req.user)
+
       const doc = await Model.create(req.body)
 
       if (req.body.avatarURL) {

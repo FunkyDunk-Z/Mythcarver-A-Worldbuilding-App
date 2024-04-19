@@ -1,9 +1,13 @@
 import { Schema, model, Types, Document, Query } from 'mongoose'
 import User from './userModel'
+import { CategoryType } from './categoryModel'
 
 interface CodexDocument extends Document {
   createdBy: Types.ObjectId
   codexName: string
+  recent: Types.ObjectId[]
+  isCurrent: Boolean
+  categories: CategoryType[]
   campaigns: Types.ObjectId[]
   characters: Types.ObjectId[]
   factions: Types.ObjectId[]
@@ -15,7 +19,6 @@ interface CodexDocument extends Document {
   items: Types.ObjectId[]
   bestairy: Types.ObjectId[]
   lore: Types.ObjectId[]
-  recent: Types.ObjectId[]
 }
 
 // const referenceSchema = new Schema({
@@ -42,55 +45,61 @@ const codexSchema = new Schema<CodexDocument>(
       required: true,
       unique: true,
     },
-    species: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Species',
-      },
-    ],
-    traits: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Traits',
-      },
-    ],
-    nations: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Nations',
-      },
-    ],
-    factions: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Factions',
-      },
-    ],
-    characters: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Character',
-      },
-    ],
-    locations: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Locations',
-      },
-    ],
-    settlements: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Settlements',
-      },
-    ],
-    campaigns: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Campaigns',
-      },
-    ],
     recent: [],
+    categories: [
+      {
+        type: Schema.ObjectId,
+        ref: 'Category',
+      },
+    ],
+    // species: [
+    //   {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Species',
+    //   },
+    // ],
+    // traits: [
+    //   {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Traits',
+    //   },
+    // ],
+    // nations: [
+    //   {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Nations',
+    //   },
+    // ],
+    // factions: [
+    //   {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Factions',
+    //   },
+    // ],
+    // characters: [
+    //   {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Character',
+    //   },
+    // ],
+    // locations: [
+    //   {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Locations',
+    //   },
+    // ],
+    // settlements: [
+    //   {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Settlements',
+    //   },
+    // ],
+    // campaigns: [
+    //   {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Campaigns',
+    //   },
+    // ],
   },
   {
     timestamps: true,
@@ -100,10 +109,10 @@ const codexSchema = new Schema<CodexDocument>(
 codexSchema.pre(
   /^find/,
   function (this: Query<CodexDocument[], CodexDocument>, next) {
-    this.populate({
-      path: 'characters',
-      select: 'characterName _id avtarURL',
-    })
+    // this.populate({
+    //   path: 'characters',
+    //   select: 'characterName _id avtarURL',
+    // })
     this.populate({
       path: 'recent',
       select: '-__v',

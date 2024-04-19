@@ -55,9 +55,9 @@ function Codex() {
             <Card key={i} cardName={el} image={Image} link={categoryName} />
           )
         })} */}
-        {user?.codex.map((el, i) => {
+        {/* {user?.codex.map((el, i) => {
           return <Card key={i} cardName={el.} image={Image} link={el} />
-        })}
+        })} */}
       </div>
     </>
   )
