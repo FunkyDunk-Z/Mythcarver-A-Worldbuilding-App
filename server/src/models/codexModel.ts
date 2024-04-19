@@ -2,7 +2,6 @@ import { Schema, model, Types, Document, Query } from 'mongoose'
 import User from './userModel'
 
 interface CodexDocument extends Document {
-  isCurrent: Boolean
   createdBy: Types.ObjectId
   codexName: string
   campaigns: Types.ObjectId[]
@@ -19,27 +18,20 @@ interface CodexDocument extends Document {
   recent: Types.ObjectId[]
 }
 
-// const referenceSchema = new Schema(
-//   {
-//     refField: {
-//       type: Schema.Types.ObjectId,
-//       refPath: 'refModel',
-//     },
-//     refModel: {
-//       type: String,
-//       required: true,
-//       enum: ['Character'],
-//     },
+// const referenceSchema = new Schema({
+//   refField: {
+//     type: Schema.Types.ObjectId,
+//     refPath: 'refModel',
 //   },
-//   { _id: false }
-// )
+//   refModel: {
+//     type: String,
+//     required: true,
+//     enum: ['Character'],
+//   },
+// })
 
 const codexSchema = new Schema<CodexDocument>(
   {
-    isCurrent: {
-      type: Boolean,
-      default: false,
-    },
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: 'User',
@@ -48,6 +40,7 @@ const codexSchema = new Schema<CodexDocument>(
     codexName: {
       type: String,
       required: true,
+      unique: true,
     },
     species: [
       {

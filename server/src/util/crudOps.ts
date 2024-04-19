@@ -17,7 +17,7 @@ export const createOne =
   <T extends Document>(Model: Model<T>) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const user = await User.findById(req.user)
+      // const user = await User.findById(req.user)
       const doc = await Model.create(req.body)
 
       if (req.body.avatarURL) {
