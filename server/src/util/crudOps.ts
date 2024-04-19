@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express'
 import env from '../util/validateEnv'
 import { v2 } from 'cloudinary'
 import User from '../models/userModel'
-import { CategoryType } from '../models/categoryModel'
+import { CategoryType, Category } from '../models/categoryModel'
 import AppError from './appError'
 
 v2.config({
@@ -18,7 +18,21 @@ export const createOne =
   <T extends Document>(Model: Model<T>) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      // const user = await User.findById(req.user)
+      if (req.body.categories) {
+        const newCategories: CategoryType[] = []
+
+        req.body.categories.map((el: CategoryType) => {
+          newCategories.push(el)
+        })
+
+        try {
+          const createdCategories = await Category.create(newCategories)
+          req.body.categories = createdCategories
+        } catch (error) {
+          console.error(error)
+          new AppError('in CrudOps line 35 can not create category', 404)
+        }
+      }
 
       const doc = await Model.create(req.body)
 
@@ -27,7 +41,7 @@ export const createOne =
           public_id: doc._id,
           folder: `mythcarver/user-images`,
         })
-        // console.log(result) // Log the result for debugging
+        console.log(result) // Log the result for debugging
 
         req.body.avatarURL = result.secure_url
       }

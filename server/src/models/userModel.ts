@@ -132,7 +132,7 @@ userSchema.pre(
 
     this.populate({
       path: 'codex',
-      select: 'codexName createdBy',
+      select: 'codexName createdBy categories',
     })
 
     next()

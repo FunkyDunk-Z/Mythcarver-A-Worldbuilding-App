@@ -1,6 +1,7 @@
 import { Schema, model, Types, Document, Query } from 'mongoose'
 import User from './userModel'
 import { CategoryType } from './categoryModel'
+import AppError from '../util/appError'
 
 interface CodexDocument extends Document {
   createdBy: Types.ObjectId
@@ -21,18 +22,6 @@ interface CodexDocument extends Document {
   lore: Types.ObjectId[]
 }
 
-// const referenceSchema = new Schema({
-//   refField: {
-//     type: Schema.Types.ObjectId,
-//     refPath: 'refModel',
-//   },
-//   refModel: {
-//     type: String,
-//     required: true,
-//     enum: ['Character'],
-//   },
-// })
-
 const codexSchema = new Schema<CodexDocument>(
   {
     createdBy: {
@@ -52,67 +41,30 @@ const codexSchema = new Schema<CodexDocument>(
         ref: 'Category',
       },
     ],
-    // species: [
-    //   {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'Species',
-    //   },
-    // ],
-    // traits: [
-    //   {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'Traits',
-    //   },
-    // ],
-    // nations: [
-    //   {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'Nations',
-    //   },
-    // ],
-    // factions: [
-    //   {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'Factions',
-    //   },
-    // ],
-    // characters: [
-    //   {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'Character',
-    //   },
-    // ],
-    // locations: [
-    //   {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'Locations',
-    //   },
-    // ],
-    // settlements: [
-    //   {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'Settlements',
-    //   },
-    // ],
-    // campaigns: [
-    //   {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'Campaigns',
-    //   },
-    // ],
   },
   {
     timestamps: true,
   }
 )
 
+codexSchema.pre('save', async function (next) {
+  try {
+    console.log('do something here')
+    console.log(this.categories)
+  } catch (error) {
+    console.log(error)
+    new AppError('Could not create category!', 404)
+  }
+  next()
+})
+
 codexSchema.pre(
   /^find/,
   function (this: Query<CodexDocument[], CodexDocument>, next) {
-    // this.populate({
-    //   path: 'characters',
-    //   select: 'characterName _id avtarURL',
-    // })
+    this.populate({
+      path: 'categories',
+      select: '-__v ',
+    })
     this.populate({
       path: 'recent',
       select: '-__v',

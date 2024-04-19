@@ -14,7 +14,7 @@ function Codex() {
     (el) => el?._id === currentCodexId
   )
 
-  console.log(user?.codex[currentCodexIndex])
+  console.log(user?.codex[currentCodexIndex].categories)
 
   // const RecentArray = () => {
   //   if (user && currentCodexIndex !== undefined) {
@@ -55,9 +55,16 @@ function Codex() {
             <Card key={i} cardName={el} image={Image} link={categoryName} />
           )
         })} */}
-        {/* {user?.codex.map((el, i) => {
-          return <Card key={i} cardName={el.} image={Image} link={el} />
-        })} */}
+        {user?.codex[currentCodexIndex].categories.map((el, i) => {
+          return (
+            <Card
+              key={i}
+              cardName={el.categoryName}
+              image={Image}
+              link={el._id}
+            />
+          )
+        })}
       </div>
     </>
   )

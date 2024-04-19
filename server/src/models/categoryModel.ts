@@ -27,10 +27,10 @@ const categorySchema = new Schema<CategoryType>(
         },
       },
     ],
-  },
-  {
-    _id: false,
   }
+  // {
+  //   _id: false,
+  // }
 )
 
 const Category = model<CategoryType>('Category', categorySchema)

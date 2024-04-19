@@ -84,12 +84,6 @@ const signUp: RequestHandler = async (req, res, next) => {
       avatarURL: result.secure_url,
     })
 
-    // type UserCodex = {
-    //   id: Types.ObjectId
-    //   codexName: string
-    //   createdby: Types.ObjectId
-    // }[]
-
     const userCodex = await Codex.create({
       createdBy: newUser._id,
       codexName: `${newUser.username}'s Codex`,
