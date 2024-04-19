@@ -2,6 +2,7 @@ import { Schema, model, Types, Document, Query } from 'mongoose'
 import User from './userModel'
 
 interface CodexDocument extends Document {
+  isCurrent: Boolean
   createdBy: Types.ObjectId
   codexName: string
   campaigns: Types.ObjectId[]
@@ -35,6 +36,10 @@ interface CodexDocument extends Document {
 
 const codexSchema = new Schema<CodexDocument>(
   {
+    isCurrent: {
+      type: Boolean,
+      default: false,
+    },
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: 'User',
