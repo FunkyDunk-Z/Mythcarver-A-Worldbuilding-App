@@ -14,21 +14,33 @@ function Codex() {
     (el) => el?._id === currentCodexId
   )
 
+  const RecentArray = () => {
+    if (user && currentCodexIndex !== undefined) {
+      return (
+        <div className={styles.wrapperRecent}>
+          {user.codex[currentCodexIndex].recent.map((el, i) => {
+            // console.log(el.avatarURL)
+
+            return (
+              <div className={styles.recentDoc}>
+                <Card
+                  key={i}
+                  cardName={el.characterName}
+                  image={el.avatarURL}
+                  link={el._id}
+                  size="small"
+                />
+              </div>
+            )
+          })}
+        </div>
+      )
+    }
+  }
+
   return (
     <>
-      <div className={styles.wrapperRecent}>
-        {user?.codex[currentCodexIndex].recent.map((el, i) => {
-          return (
-            <Card
-              key={i}
-              cardName={el.characterName}
-              image={el.avatarURL}
-              link={el._id}
-              size="small"
-            />
-          )
-        })}
-      </div>
+      <RecentArray />
       <div className={styles.gallery}>
         {Categories.map((el, i) => {
           const categoryName = el
