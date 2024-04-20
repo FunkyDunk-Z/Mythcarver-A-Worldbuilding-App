@@ -34,9 +34,6 @@ function App() {
   const { user, isLoading } = useAuthContext()
   const { authFetch } = useAuthFetch()
   const navigate = useNavigate()
-  const userCodexNames = user?.codex.map((el) => {
-    return el?.codexName
-  })
 
   //---------- Check if logged in ----------
   useEffect(() => {
@@ -51,6 +48,9 @@ function App() {
 
   //---------- Check for current codex -----------
   useEffect(() => {
+    const userCodexNames = user?.codex.map((el) => {
+      return el?.codexName
+    })
     const url = window.location.href
       .split('/')[3]
       .split('-')
@@ -72,8 +72,7 @@ function App() {
         navigate('/')
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [user, navigate])
 
   //---------- Authorised Navigation ----------
   function LoadingComponent({ component }: { component: React.JSX.Element }) {

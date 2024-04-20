@@ -22,7 +22,15 @@ function Characters() {
         (codex) => codex._id === currentCodexId
       )
       if (currentCodex) {
-        setCharacters(currentCodex.characters)
+        const characterArray = currentCodex.categories.map((el) =>
+          el.categoryName === 'Characters' ? el.docs : null
+        )
+
+        if (characterArray) {
+          characterArray.map((el) => setCharacters(el))
+        }
+
+        // setCharacters(currentCodex.categories.map((el) => el.categoryName === "Characters" ? ))
       }
     }
   }, [user, currentCodexId])

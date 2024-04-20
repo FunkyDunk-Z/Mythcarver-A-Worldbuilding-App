@@ -1,9 +1,12 @@
 import { useState } from 'react'
 import { useAuthContext } from './useAuthContext'
+import { useCodexContext } from './useCodexContext'
+
 import axios, { AxiosError, AxiosResponse } from 'axios'
 
 export const useAuthFetch = () => {
   const { dispatchUserState, setIsLoading } = useAuthContext()
+  const { dispatchCodexState } = useCodexContext()
   const [error, setError] = useState(null)
   const [message, setMessage] = useState('')
 
@@ -63,6 +66,14 @@ export const useAuthFetch = () => {
           const { user } = data
           localStorage.setItem('user', JSON.stringify(user))
           dispatchUserState({ type: 'SET_STATE', payload: user })
+
+          const currentCodex = user.codex.filter(
+            (el: CodexType) => el.isCurrent === true
+          )
+          dispatchCodexState({
+            type: 'SET_CURRENT_CODEX',
+            payload: currentCodex[0],
+          })
           setIsLoading(false)
         } else if (authType === 'forgotPassword') {
           const { message } = data

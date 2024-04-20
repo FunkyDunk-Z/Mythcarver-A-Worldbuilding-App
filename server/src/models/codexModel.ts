@@ -41,22 +41,26 @@ const codexSchema = new Schema<CodexDocument>(
         ref: 'Category',
       },
     ],
+    isCurrent: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     timestamps: true,
   }
 )
 
-codexSchema.pre('save', async function (next) {
-  try {
-    console.log('do something here')
-    console.log(this.categories)
-  } catch (error) {
-    console.log(error)
-    new AppError('Could not create category!', 404)
-  }
-  next()
-})
+// codexSchema.pre('save', async function (next) {
+//   try {
+//     console.log('do something here')
+//     console.log(this.categories)
+//   } catch (error) {
+//     console.log(error)
+//     new AppError('Could not create category!', 404)
+//   }
+//   next()
+// })
 
 codexSchema.pre(
   /^find/,

@@ -89,10 +89,22 @@ type AuthReducerType = SetUser | ClearUser
 
 //----------Codex Types-----------
 
+interface DocType {
+  doc: string
+  refModel: string
+}
+
+interface CategoryType {
+  categoryName: string
+  docs: DocType[]
+}
+
 interface CodexType {
   _id: string
+  isCurrent: boolean
   createdBy: string
   codexName: string
+  categories: CategoryType[]
   campaigns: string[]
   characters: CharacterType[]
   factions: string[]
