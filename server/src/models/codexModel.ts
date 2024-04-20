@@ -1,7 +1,5 @@
 import { Schema, model, Types, Document, Query } from 'mongoose'
 import User from './userModel'
-// import { CategoryType } from './categoryModel'
-import AppError from '../util/appError'
 
 interface DocType {
   doc: Types.ObjectId
@@ -68,12 +66,6 @@ const codexSchema = new Schema<CodexDocument>(
       unique: true,
     },
     recent: [],
-    // categories: [
-    //   {
-    //     type: Schema.ObjectId,
-    //     ref: 'Category',
-    //   },
-    // ],
     categories: [categorySchema],
     isCurrent: {
       type: Boolean,
@@ -84,17 +76,6 @@ const codexSchema = new Schema<CodexDocument>(
     timestamps: true,
   }
 )
-
-// codexSchema.pre('save', async function (next) {
-//   try {
-//     console.log('do something here')
-//     console.log(this.categories)
-//   } catch (error) {
-//     console.log(error)
-//     new AppError('Could not create category!', 404)
-//   }
-//   next()
-// })
 
 codexSchema.pre(
   /^find/,
