@@ -1,7 +1,40 @@
 import { Schema, model, Types, Document, Query } from 'mongoose'
 import User from './userModel'
-import { CategoryType } from './categoryModel'
+// import { CategoryType } from './categoryModel'
 import AppError from '../util/appError'
+
+interface DocType {
+  doc: Types.ObjectId
+  refModel: string
+}
+
+interface CategoryType {
+  categoryName: string
+  docs: DocType[]
+}
+
+const categorySchema = new Schema<CategoryType>(
+  {
+    categoryName: {
+      type: String,
+      required: true,
+    },
+    docs: [
+      {
+        doc: {
+          type: Schema.ObjectId,
+          ref: 'refModel',
+        },
+        refModel: {
+          type: String,
+        },
+      },
+    ],
+  },
+  {
+    _id: false,
+  }
+)
 
 interface CodexDocument extends Document {
   createdBy: Types.ObjectId
@@ -35,12 +68,13 @@ const codexSchema = new Schema<CodexDocument>(
       unique: true,
     },
     recent: [],
-    categories: [
-      {
-        type: Schema.ObjectId,
-        ref: 'Category',
-      },
-    ],
+    // categories: [
+    //   {
+    //     type: Schema.ObjectId,
+    //     ref: 'Category',
+    //   },
+    // ],
+    categories: [categorySchema],
     isCurrent: {
       type: Boolean,
       default: true,

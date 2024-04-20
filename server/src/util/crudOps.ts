@@ -2,8 +2,7 @@ import { Model, Document, Types } from 'mongoose'
 import { Request, Response, NextFunction } from 'express'
 import env from '../util/validateEnv'
 import { v2 } from 'cloudinary'
-import User from '../models/userModel'
-import { CategoryType, Category } from '../models/categoryModel'
+
 import AppError from './appError'
 
 v2.config({
@@ -18,22 +17,6 @@ export const createOne =
   <T extends Document>(Model: Model<T>) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      if (req.body.categories) {
-        const newCategories: CategoryType[] = []
-
-        req.body.categories.map((el: CategoryType) => {
-          newCategories.push(el)
-        })
-
-        try {
-          const createdCategories = await Category.create(newCategories)
-          req.body.categories = createdCategories
-        } catch (error) {
-          console.error(error)
-          new AppError('in CrudOps line 35 can not create category', 404)
-        }
-      }
-
       const doc = await Model.create(req.body)
 
       if (req.body.avatarURL) {
