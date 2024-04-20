@@ -95,6 +95,7 @@ interface DocType {
 }
 
 interface CategoryType {
+  _id: string
   categoryName: string
   docs: DocType[]
 }

@@ -84,7 +84,7 @@ function Navbar() {
         <span className={styles.line}></span>
       </div>
       <div className={`${styles.wrapper} ${styles[openStatus]}`}>
-        <Link to={'/'} onClick={toggleNavBtn} className={styles.link}>
+        <Link to={'/dashboard'} onClick={toggleNavBtn} className={styles.link}>
           Dashboard
         </Link>
         <Link

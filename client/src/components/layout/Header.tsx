@@ -1,4 +1,5 @@
 import { useAuthContext } from '../../hooks/useAuthContext'
+import { useCodexContext } from '../../hooks/useCodexContext'
 import { useNavigate } from 'react-router-dom'
 
 import Navbar from './Navbar'
@@ -7,10 +8,11 @@ import styles from './css/Header.module.css'
 
 function Header() {
   const { user } = useAuthContext()
+  const { codex } = useCodexContext()
   const navigate = useNavigate()
 
   const handleNavigate = () => {
-    navigate('/')
+    navigate(`/${codex?.codexName}`)
   }
 
   return (

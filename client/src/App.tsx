@@ -1,8 +1,9 @@
 import { useEffect } from 'react'
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 
 // Hooks
 import { useAuthContext } from './hooks/useAuthContext'
+import { useCodexContext } from './hooks/useCodexContext'
 import { useAuthFetch } from './hooks/useAuthFetch'
 
 // Style
@@ -26,14 +27,14 @@ import PageUnderConstruction from './pages/PageUnderConstruction'
 
 // Pages
 import LoadingPage from './pages/LoadingPage'
-import Dashboard from './pages/Dashboard'
 import MyAccount from './pages/MyAccount'
 // import TurnTracker from "./pages/TurnTracker";
 
 function App() {
   const { user, isLoading } = useAuthContext()
+  const { codex } = useCodexContext()
   const { authFetch } = useAuthFetch()
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   //---------- Check if logged in ----------
   useEffect(() => {
@@ -47,32 +48,32 @@ function App() {
   }, [])
 
   //---------- Check for current codex -----------
-  useEffect(() => {
-    const userCodexNames = user?.codex.map((el) => {
-      return el?.codexName
-    })
-    const url = window.location.href
-      .split('/')[3]
-      .split('-')
-      .map((el) => el.charAt(0).toUpperCase() + el.slice(1))
-      .join(' ')
+  // useEffect(() => {
+  //   const userCodexNames = user?.codex.map((el) => {
+  //     return el?.codexName
+  //   })
+  //   const url = window.location.href
+  //     .split('/')[3]
+  //     .split('-')
+  //     .map((el) => el.charAt(0).toUpperCase() + el.slice(1))
+  //     .join(' ')
 
-    if (userCodexNames) {
-      const allowedUrls = [...userCodexNames, 'My Account', 'Turn Tracker']
+  //   if (userCodexNames) {
+  //     const allowedUrls = [...userCodexNames, 'My Account', 'Turn Tracker']
 
-      if (allowedUrls.includes(url)) {
-        const codexExists = user?.codex.find(
-          (codex) => codex?.codexName === url
-        )
+  //     if (allowedUrls.includes(url)) {
+  //       const codexExists = user?.codex.find(
+  //         (codex) => codex?.codexName === url
+  //       )
 
-        if (codexExists) {
-          localStorage.setItem('currentCodexId', codexExists._id)
-        }
-      } else {
-        navigate('/')
-      }
-    }
-  }, [user, navigate])
+  //       if (codexExists) {
+  //         localStorage.setItem('currentCodexId', codexExists._id)
+  //       }
+  //     } else {
+  //       navigate('/')
+  //     }
+  //   }
+  // }, [user, navigate])
 
   //---------- Authorised Navigation ----------
   function LoadingComponent({ component }: { component: React.JSX.Element }) {
@@ -86,7 +87,7 @@ function App() {
     }
 
     if (user && authUrl) {
-      return <Navigate to={'/'} replace={true} />
+      return <Navigate to={`/${codex?.codexName}`} replace={true} />
     }
 
     if (!user && !authUrl) {
@@ -102,8 +103,8 @@ function App() {
         <Header />
         <Routes>
           <Route
-            path="/"
-            element={<LoadingComponent component={<Dashboard />} />}
+            path={`/${codex?.codexName}/*`}
+            element={<LoadingComponent component={<CodexRoutes />} />}
           />
           <Route
             path="/login"
@@ -125,14 +126,10 @@ function App() {
             path="/turn-tracker"
             element={<LoadingComponent component={<PageUnderConstruction />} />}
           />
-          {user ? (
-            <Route
-              path=":id/*"
-              element={<LoadingComponent component={<CodexRoutes />} />}
-            />
-          ) : (
-            ''
-          )}
+          {/* <Route
+            path={`/${codex?.codexName}/*`}
+            element={<LoadingComponent component={<CodexRoutes />} />}
+          /> */}
           <Route
             path="*"
             element={<LoadingComponent component={<PageNotFound />} />}

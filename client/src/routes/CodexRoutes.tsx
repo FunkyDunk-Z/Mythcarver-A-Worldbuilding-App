@@ -1,10 +1,13 @@
 import { Routes, Route } from 'react-router-dom'
+import { useCodexContext } from '../hooks/useCodexContext'
 
 import PageNotFound from '../pages/PageNotFound'
 
-import Codex from '../pages/codex/Codex'
+// import Codex from '../pages/codex/Codex'
+import Dashboard from '../pages/Dashboard'
 
 // categories
+import DynamicCategory from '../pages/codex/DynamicCategory'
 import Bestairy from '../pages/codex/categories/bestairy/Bestairy'
 import Campaigns from '../pages/codex/categories/campaigns/Campaigns'
 import Factions from '../pages/codex/categories/factions/Factions'
@@ -18,10 +21,22 @@ import Traits from '../pages/codex/categories/traits/Traits'
 import CharacterRoutes from './CharacterRoutes'
 
 export default function CodexRoutes() {
+  const { codex } = useCodexContext()
+
+  // use category name as the path .toLowercase
+  // pass the docs to the dynamic page, docs are an array of objectids(strings)
+
   return (
     <>
       <Routes>
-        <Route index element={<Codex />} />
+        <Route path="/" index element={<Dashboard />} />
+        {codex?.categories.map((el, i) => (
+          <Route
+            key={i}
+            path={`/${el.categoryName}`}
+            element={<DynamicCategory categoryId={el._id} />}
+          />
+        ))}
         <Route path="/bestairy" element={<Bestairy />} />
         <Route path="/campaigns" element={<Campaigns />} />
         <Route path="/characters/*" element={<CharacterRoutes />} />

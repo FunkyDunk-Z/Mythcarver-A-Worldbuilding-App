@@ -1,4 +1,6 @@
-import { useAuthContext } from '../hooks/useAuthContext'
+import { Link } from 'react-router-dom'
+// import { useAuthContext } from '../hooks/useAuthContext'
+import { useCodexContext } from '../hooks/useCodexContext'
 
 import Card from '../components/utils/Card'
 import Image from '../assets/d20.jpg'
@@ -6,18 +8,20 @@ import Image from '../assets/d20.jpg'
 import styles from './css/Dashboard.module.css'
 
 function Dashboard() {
-  const { user } = useAuthContext()
+  // const { user } = useAuthContext()
+  const { codex } = useCodexContext()
 
   return (
     <div className={styles.wrapper}>
-      {user?.codex.map((el, i) => {
+      <Link to={'/dynamic-category'}>Dynamic Category</Link>
+      {codex?.categories.map((el, i) => {
+        const categoryName = el.categoryName.toLowerCase()
         return (
           <Card
             key={i}
-            cardName={el?.codexName}
+            cardName={el.categoryName}
             image={Image}
-            link={el?.codexName}
-            codexId={el?._id}
+            link={categoryName}
           />
         )
       })}
