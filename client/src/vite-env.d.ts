@@ -91,9 +91,10 @@ type AuthReducerType = SetUser | ClearUser
 
 interface DocType {
   doc: string
+  refModel: string
   docName: string
   docType: string
-  refModel: string
+  docImage: string
 }
 
 interface CategoryType {

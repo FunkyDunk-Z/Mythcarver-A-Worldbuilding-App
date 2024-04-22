@@ -3,9 +3,10 @@ import User from './userModel'
 
 interface DocType {
   doc: Types.ObjectId
+  refModel: string
   docName: string
   docType: string
-  refModel: string
+  docImage: string
 }
 
 export interface CategoryType {
