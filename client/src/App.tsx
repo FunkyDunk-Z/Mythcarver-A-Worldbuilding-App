@@ -34,7 +34,6 @@ function App() {
   const { user, isLoading } = useAuthContext()
   const { codex } = useCodexContext()
   const { authFetch } = useAuthFetch()
-  // const navigate = useNavigate()
 
   //---------- Check if logged in ----------
   useEffect(() => {
@@ -46,34 +45,6 @@ function App() {
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  //---------- Check for current codex -----------
-  // useEffect(() => {
-  //   const userCodexNames = user?.codex.map((el) => {
-  //     return el?.codexName
-  //   })
-  //   const url = window.location.href
-  //     .split('/')[3]
-  //     .split('-')
-  //     .map((el) => el.charAt(0).toUpperCase() + el.slice(1))
-  //     .join(' ')
-
-  //   if (userCodexNames) {
-  //     const allowedUrls = [...userCodexNames, 'My Account', 'Turn Tracker']
-
-  //     if (allowedUrls.includes(url)) {
-  //       const codexExists = user?.codex.find(
-  //         (codex) => codex?.codexName === url
-  //       )
-
-  //       if (codexExists) {
-  //         localStorage.setItem('currentCodexId', codexExists._id)
-  //       }
-  //     } else {
-  //       navigate('/')
-  //     }
-  //   }
-  // }, [user, navigate])
 
   //---------- Authorised Navigation ----------
   function LoadingComponent({ component }: { component: React.JSX.Element }) {
@@ -87,7 +58,7 @@ function App() {
     }
 
     if (user && authUrl) {
-      return <Navigate to={`/${codex?.codexName}`} replace={true} />
+      return <Navigate to={`/${codex?.codexUrl}`} replace={true} />
     }
 
     if (!user && !authUrl) {
@@ -103,7 +74,7 @@ function App() {
         <Header />
         <Routes>
           <Route
-            path={`/${codex?.codexName}/*`}
+            path={`/${codex?.codexUrl}/*`}
             element={<LoadingComponent component={<CodexRoutes />} />}
           />
           <Route
@@ -126,10 +97,6 @@ function App() {
             path="/turn-tracker"
             element={<LoadingComponent component={<PageUnderConstruction />} />}
           />
-          {/* <Route
-            path={`/${codex?.codexName}/*`}
-            element={<LoadingComponent component={<CodexRoutes />} />}
-          /> */}
           <Route
             path="*"
             element={<LoadingComponent component={<PageNotFound />} />}

@@ -1,17 +1,37 @@
-import { useDocFetch } from '../../hooks/useDocFetch'
+// import { useState } from 'react'
+// import { useCodexContext } from '../../hooks/useCodexContext'
+// import { useDocFetch } from '../../hooks/useDocFetch'
+// import Card from '../../components/utils/Card'
 
 import styles from './css/DynamicCategory.module.css'
 
 type PropType = {
-  categoryId: string
+  categoryName: string
+  categoryDocs: DocType[]
 }
 
-function DynamicCategory({ categoryId }: PropType) {
-  console.log(categoryId)
+function DynamicCategory({ categoryDocs, categoryName }: PropType) {
+  // const { docFetch } = useDocFetch()
+  // const [docs, setDocs] = useState(null)
+
+  // docFetch({
+  //   credentials: true,
+  //   requestType: 'GET',
+  //   url: `/codex/${categoryName.toLowerCase()}`,
+  // })
+
+  console.log(categoryDocs)
 
   return (
     <div className={styles.wrapper}>
-      <p>DynamicCategory</p>
+      <p>Dynamic Category : {categoryName}</p>
+      {/* {categoryDocs.map((el, i) => {
+        return (
+          <div className={styles.gallery}>
+            <Card />
+          </div>
+        )
+      })} */}
     </div>
   )
 }

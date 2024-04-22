@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuthContext } from '../../hooks/useAuthContext'
+import { useCodexContext } from '../../hooks/useCodexContext'
 import { useAuthFetch } from '../../hooks/useAuthFetch'
 
 // components
@@ -11,6 +12,7 @@ import styles from './css/Navbar.module.css'
 
 function Navbar() {
   const { user } = useAuthContext()
+  const { codex } = useCodexContext()
   const { authFetch } = useAuthFetch()
   const mobile = window.innerWidth < 900
   const [isMobile, setIsMobile] = useState(mobile)
@@ -84,7 +86,11 @@ function Navbar() {
         <span className={styles.line}></span>
       </div>
       <div className={`${styles.wrapper} ${styles[openStatus]}`}>
-        <Link to={'/dashboard'} onClick={toggleNavBtn} className={styles.link}>
+        <Link
+          to={`${codex?.codexUrl}`}
+          onClick={toggleNavBtn}
+          className={styles.link}
+        >
           Dashboard
         </Link>
         <Link

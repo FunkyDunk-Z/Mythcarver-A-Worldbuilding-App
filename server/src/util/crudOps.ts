@@ -4,6 +4,7 @@ import env from '../util/validateEnv'
 import { v2 } from 'cloudinary'
 
 import AppError from './appError'
+import { CategoryType } from '../models/codexModel'
 
 v2.config({
   cloud_name: env.CLOUDINARY_NAME,
@@ -19,12 +20,14 @@ export const createOne =
     try {
       const doc = await Model.create(req.body)
 
+      // console.log(doc)
+
       if (req.body.avatarURL) {
         const result = await v2.uploader.upload(req.body.avatarURL, {
           public_id: doc._id,
           folder: `mythcarver/user-images`,
         })
-        console.log(result) // Log the result for debugging
+        // console.log(result) // Log the result for debugging
 
         req.body.avatarURL = result.secure_url
       }
@@ -54,22 +57,22 @@ export const getAll =
       const userId = req.user
       const model: DocArrayType = await Model.find()
 
-      let doc: DocArrayType = []
+      let docs: DocArrayType = []
 
       for (let i = 0; i < model.length; i++) {
         if (model[i].createdBy.toString() === userId.toString()) {
-          doc.push(model[i])
+          docs.push(model[i])
         }
       }
 
-      if (!doc) {
+      if (!docs) {
         return next()
       }
 
       res.status(201).json({
         status: 'success',
-        results: doc.length,
-        doc,
+        results: docs.length,
+        docs,
       })
     } catch (error) {
       console.error(error)
@@ -105,6 +108,15 @@ export const updateOne =
   <T extends Document>(Model: Model<T>) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
+      if (req.body.codexName) {
+        req.body.codexUrl = req.body.codexName.replace(/ /g, '-').toLowerCase()
+      }
+      if (req.body.categories) {
+        req.body.categories.map((el: CategoryType) => {
+          el.categoryUrl = el.categoryName.replace(/ /g, '-').toLowerCase()
+        })
+      }
+
       const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
         runValidators: true,

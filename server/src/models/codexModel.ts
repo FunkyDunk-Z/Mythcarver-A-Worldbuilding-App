@@ -6,16 +6,23 @@ interface DocType {
   refModel: string
 }
 
-interface CategoryType {
+export interface CategoryType {
+  _id: string
   categoryName: string
+  categoryUrl: string
   docs: DocType[]
 }
+
+const refModelEnum = ['Characters']
 
 const categorySchema = new Schema<CategoryType>(
   {
     categoryName: {
       type: String,
       required: true,
+    },
+    categoryUrl: {
+      type: String,
     },
     docs: [
       {
@@ -25,6 +32,8 @@ const categorySchema = new Schema<CategoryType>(
         },
         refModel: {
           type: String,
+          enum: refModelEnum,
+          required: true,
         },
       },
     ],
@@ -37,20 +46,10 @@ const categorySchema = new Schema<CategoryType>(
 interface CodexDocument extends Document {
   createdBy: Types.ObjectId
   codexName: string
+  codexUrl: string
   recent: Types.ObjectId[]
   isCurrent: Boolean
   categories: CategoryType[]
-  campaigns: Types.ObjectId[]
-  characters: Types.ObjectId[]
-  factions: Types.ObjectId[]
-  species: Types.ObjectId[]
-  traits: Types.ObjectId[]
-  nations: Types.ObjectId[]
-  locations: Types.ObjectId[]
-  settlements: Types.ObjectId[]
-  items: Types.ObjectId[]
-  bestairy: Types.ObjectId[]
-  lore: Types.ObjectId[]
 }
 
 const codexSchema = new Schema<CodexDocument>(
@@ -65,6 +64,9 @@ const codexSchema = new Schema<CodexDocument>(
       required: true,
       unique: true,
     },
+    codexUrl: {
+      type: String,
+    },
     recent: [],
     categories: [categorySchema],
     isCurrent: {
@@ -77,13 +79,30 @@ const codexSchema = new Schema<CodexDocument>(
   }
 )
 
+// Format codex and category names
+codexSchema.pre('save', function (next) {
+  if (this.codexName) {
+    const url = this.codexName.replace(/ /g, '-').toLowerCase()
+
+    this.codexUrl = url
+  }
+
+  if (this.categories) {
+    this.categories.map((el) => {
+      el.categoryUrl = el.categoryName.replace(/ /g, '-').toLowerCase()
+    })
+  }
+
+  next()
+})
+
 codexSchema.pre(
   /^find/,
   function (this: Query<CodexDocument[], CodexDocument>, next) {
-    this.populate({
-      path: 'categories',
-      select: '-__v ',
-    })
+    // this.populate({
+    //   path: 'categories.docs.doc',
+    //   select: '-__v ',
+    // })
     this.populate({
       path: 'recent',
       select: '-__v',
@@ -92,6 +111,7 @@ codexSchema.pre(
   }
 )
 
+// Add codex to user
 codexSchema.pre('save', async function (next) {
   try {
     if (this.isNew) {

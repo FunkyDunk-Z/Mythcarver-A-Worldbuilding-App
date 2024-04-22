@@ -14,7 +14,7 @@ router.use(protect)
 
 router.get('/', getCharacters)
 router.get('/get/:id', getCharacter)
-router.post('/create', createCharacter)
+router.post('/', createCharacter)
 router.delete('/delete/:id', deleteCharacter)
 
 export default router

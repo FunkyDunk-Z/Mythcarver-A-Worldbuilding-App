@@ -12,7 +12,7 @@ function Header() {
   const navigate = useNavigate()
 
   const handleNavigate = () => {
-    navigate(`/${codex?.codexName}`)
+    navigate(`/${codex?.codexUrl}`)
   }
 
   return (

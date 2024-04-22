@@ -88,6 +88,7 @@ type AssociationsType = {
 interface CharacterType extends Document {
   createdBy: Types.ObjectId
   codex: Types.ObjectId
+  categoryIndex: number
   characterName: string
   characterType: string
   characterTitles: Types.ObjectId[]
@@ -155,6 +156,9 @@ const characterSchema = new Schema<CharacterType>(
     codex: {
       type: Schema.ObjectId,
       ref: 'Codex',
+    },
+    categoryIndex: {
+      type: Number,
     },
     characterName: {
       type: String,
@@ -467,7 +471,20 @@ characterSchema.pre('save', async function (next) {
 
     const codex = await Codex.findById(this.codex)
 
-    codex?.characters.push(this._id)
+    if (!codex) {
+      return next()
+    }
+
+    codex.categories.map((el, i) => {
+      if (i === this.categoryIndex) {
+        const doc = {
+          doc: this._id,
+          refModel: 'Characters',
+        }
+        el.docs.push(doc)
+      }
+    })
+
     await codex?.save()
 
     next()

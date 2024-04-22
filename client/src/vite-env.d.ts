@@ -95,8 +95,8 @@ interface DocType {
 }
 
 interface CategoryType {
-  _id: string
   categoryName: string
+  categoryUrl: string
   docs: DocType[]
 }
 
@@ -105,6 +105,7 @@ interface CodexType {
   isCurrent: boolean
   createdBy: string
   codexName: string
+  codexUrl: string
   categories: CategoryType[]
   campaigns: string[]
   characters: CharacterType[]
