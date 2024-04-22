@@ -21,18 +21,20 @@ export default function CodexRoutes() {
     <>
       <Routes>
         <Route path="/" index element={<Dashboard />} />
-        {codex?.categories.map((el, i) => (
-          <Route
-            key={i}
-            path={`/${el.categoryName}`}
-            element={
-              <DynamicCategory
-                categoryDocs={el.docs}
-                categoryName={el.categoryName}
-              />
-            }
-          />
-        ))}
+        {codex?.categories.map((el, i) => {
+          return (
+            <Route
+              key={i}
+              path={`/${el.categoryName}`}
+              element={
+                <DynamicCategory
+                  docs={el.docs}
+                  categoryName={el.categoryName}
+                />
+              }
+            />
+          )
+        })}
         <Route path="/*" element={<PageNotFound />} />
       </Routes>
     </>

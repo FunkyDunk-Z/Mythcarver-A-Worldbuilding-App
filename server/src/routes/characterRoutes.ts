@@ -3,7 +3,7 @@ import { Router } from 'express'
 import { protect } from '../controllers/authController'
 import {
   createCharacter,
-  getCharacters,
+  getAllCharacters,
   deleteCharacter,
   getCharacter,
 } from '../controllers/characterController'
@@ -12,9 +12,8 @@ const router = Router()
 
 router.use(protect)
 
-router.get('/', getCharacters)
-router.get('/get/:id', getCharacter)
-router.post('/', createCharacter)
-router.delete('/delete/:id', deleteCharacter)
+router.route('/').get(getAllCharacters).post(createCharacter)
+
+router.route('/:id').get(getCharacter).delete(deleteCharacter)
 
 export default router

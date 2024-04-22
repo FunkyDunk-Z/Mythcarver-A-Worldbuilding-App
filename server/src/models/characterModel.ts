@@ -479,6 +479,8 @@ characterSchema.pre('save', async function (next) {
       if (i === this.categoryIndex) {
         const doc = {
           doc: this._id,
+          docName: this.characterName,
+          docType: 'Character',
           refModel: 'Characters',
         }
         el.docs.push(doc)

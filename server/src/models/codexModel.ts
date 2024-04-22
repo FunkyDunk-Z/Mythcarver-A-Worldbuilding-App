@@ -3,6 +3,8 @@ import User from './userModel'
 
 interface DocType {
   doc: Types.ObjectId
+  docName: string
+  docType: string
   refModel: string
 }
 
@@ -29,6 +31,12 @@ const categorySchema = new Schema<CategoryType>(
         doc: {
           type: Schema.ObjectId,
           ref: 'refModel',
+        },
+        docName: {
+          type: String,
+        },
+        docType: {
+          type: String,
         },
         refModel: {
           type: String,

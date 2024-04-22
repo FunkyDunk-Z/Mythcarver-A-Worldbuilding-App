@@ -97,9 +97,10 @@ export const useDocFetch = () => {
       //---------- GET ----------
       if (response.status === 200) {
         const { data } = response
-        console.log(data)
+        const { doc } = data
 
         setIsLoading(false)
+        return doc
       } else {
         setIsLoading(false)
       }
