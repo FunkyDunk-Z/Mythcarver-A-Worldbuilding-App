@@ -478,7 +478,7 @@ characterSchema.pre('save', async function (next) {
     codex.categories.map((el, i) => {
       if (i === this.categoryIndex) {
         const doc = {
-          doc: this._id,
+          docId: this._id,
           refModel: 'Characters',
           docName: this.characterName,
           docType: 'Character',

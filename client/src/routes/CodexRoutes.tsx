@@ -7,9 +7,11 @@ import PageNotFound from '../pages/PageNotFound'
 import Dashboard from '../pages/Dashboard'
 
 // categories
-import DynamicCategory from '../pages/codex/DynamicCategory'
+// import DynamicCategory from '../pages/codex/DynamicCategory'
+// import DynamicDocument from '../pages/codex/DynamicDocument'
 
 // import CharacterRoutes from './CharacterRoutes'
+import DynamicRoutes from './DynamicRoutes'
 
 export default function CodexRoutes() {
   const { codex } = useCodexContext()
@@ -21,20 +23,13 @@ export default function CodexRoutes() {
     <>
       <Routes>
         <Route path="/" index element={<Dashboard />} />
-        {codex?.categories.map((el, i) => {
-          return (
-            <Route
-              key={i}
-              path={`/${el.categoryName}`}
-              element={
-                <DynamicCategory
-                  docs={el.docs}
-                  categoryName={el.categoryName}
-                />
-              }
-            />
-          )
-        })}
+        {codex?.categories.map((el, i) => (
+          <Route
+            key={i}
+            path={`/${el.categoryName}/*`}
+            element={<DynamicRoutes />}
+          />
+        ))}
         <Route path="/*" element={<PageNotFound />} />
       </Routes>
     </>

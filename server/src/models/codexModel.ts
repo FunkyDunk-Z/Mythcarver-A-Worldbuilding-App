@@ -2,7 +2,7 @@ import { Schema, model, Types, Document, Query } from 'mongoose'
 import User from './userModel'
 
 interface DocType {
-  doc: Types.ObjectId
+  docId: Types.ObjectId
   refModel: string
   docName: string
   docType: string
@@ -29,7 +29,7 @@ const categorySchema = new Schema<CategoryType>(
     },
     docs: [
       {
-        doc: {
+        docId: {
           type: Schema.ObjectId,
           ref: 'refModel',
         },
@@ -71,7 +71,7 @@ const codexSchema = new Schema<CodexDocument>(
     codexName: {
       type: String,
       required: true,
-      unique: true,
+      // unique: true,
     },
     codexUrl: {
       type: String,
@@ -108,10 +108,6 @@ codexSchema.pre('save', function (next) {
 codexSchema.pre(
   /^find/,
   function (this: Query<CodexDocument[], CodexDocument>, next) {
-    // this.populate({
-    //   path: 'categories.docs.doc',
-    //   select: '-__v ',
-    // })
     this.populate({
       path: 'recent',
       select: '-__v',
@@ -121,7 +117,7 @@ codexSchema.pre(
 )
 
 // Add codex to user
-codexSchema.pre('save', async function (next) {
+codexSchema.pre('save', async function () {
   try {
     if (this.isNew) {
       const user = await User.findById(this.createdBy)
@@ -132,9 +128,9 @@ codexSchema.pre('save', async function (next) {
       }
     }
 
-    next()
+    // next()
   } catch (error) {
-    next()
+    // next()
   }
 })
 

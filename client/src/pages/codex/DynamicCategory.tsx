@@ -20,7 +20,7 @@ function DynamicCategory({ docs, categoryName }: PropType) {
               key={i}
               cardName={el.docName ? el.docName : 'No name'}
               image={Image}
-              link={el.doc}
+              link={el.docId}
             />
           )
         })}
