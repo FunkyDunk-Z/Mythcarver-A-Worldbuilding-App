@@ -7,7 +7,7 @@ import { v2 } from 'cloudinary'
 
 // Models
 import User from '../models/userModel'
-import Codex from '../models/codexModel'
+import { Codex } from '../models/codexModel'
 
 v2.config({
   cloud_name: env.CLOUDINARY_NAME,

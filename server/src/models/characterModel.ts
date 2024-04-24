@@ -1,7 +1,10 @@
 import { Schema, Types, model, Document } from 'mongoose'
 
+import addToRecent from '../middleware/addToRecent'
+
 import User from './userModel'
-import Codex from './codexModel'
+import { Codex } from './codexModel'
+import AppError from '../util/appError'
 
 type ObjectType = { [key: string]: string }
 
@@ -488,12 +491,38 @@ characterSchema.pre('save', async function (next) {
       }
     })
 
+    addToRecent(codex.recent, this._id)
+
     await codex?.save()
 
     next()
   } catch (error) {
     console.log(error)
     next()
+  }
+})
+
+// Add to Recent on update
+characterSchema.post('findOneAndUpdate', async function (doc) {
+  try {
+    if (doc) {
+      const user = await User.findById(doc.createdBy)
+
+      if (!user) {
+        console.log('User not found')
+      }
+
+      const codex = await Codex.findById(doc.codex)
+
+      if (codex) {
+        addToRecent(codex.recent, doc._id)
+        await codex.save()
+      } else {
+        console.log('Codex not found')
+      }
+    }
+  } catch (error) {
+    console.error(error)
   }
 })
 

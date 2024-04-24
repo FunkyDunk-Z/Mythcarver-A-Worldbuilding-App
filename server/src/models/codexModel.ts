@@ -56,7 +56,7 @@ interface CodexDocument extends Document {
   createdBy: Types.ObjectId
   codexName: string
   codexUrl: string
-  recent: Types.ObjectId[]
+  recent: string[]
   isCurrent: Boolean
   categories: CategoryType[]
 }
@@ -134,6 +134,4 @@ codexSchema.pre('save', async function () {
   }
 })
 
-const Codex = model<CodexDocument>('Codex', codexSchema)
-
-export default Codex
+export const Codex = model<CodexDocument>('Codex', codexSchema)

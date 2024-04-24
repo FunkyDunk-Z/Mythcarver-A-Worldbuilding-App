@@ -1,5 +1,5 @@
 import { createOne, getAll, updateOne } from '../util/crudOps'
-import Codex from '../models/codexModel'
+import { Codex } from '../models/codexModel'
 
 export const createCodex = createOne(Codex)
 

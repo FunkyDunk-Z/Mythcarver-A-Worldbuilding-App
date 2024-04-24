@@ -4,7 +4,8 @@ import env from '../util/validateEnv'
 import { v2 } from 'cloudinary'
 
 import AppError from './appError'
-import { CategoryType } from '../models/codexModel'
+import addToRecent from '../middleware/addToRecent'
+import { Codex, CategoryType } from '../models/codexModel'
 
 v2.config({
   cloud_name: env.CLOUDINARY_NAME,
@@ -108,15 +109,19 @@ export const updateOne =
   <T extends Document>(Model: Model<T>) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
+      // Format codex name
       if (req.body.codexName) {
         req.body.codexUrl = req.body.codexName.replace(/ /g, '-').toLowerCase()
       }
+
+      // Format Category name
       if (req.body.categories) {
         req.body.categories.map((el: CategoryType) => {
           el.categoryUrl = el.categoryName.replace(/ /g, '-').toLowerCase()
         })
       }
 
+      // Get document
       const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
         runValidators: true,
