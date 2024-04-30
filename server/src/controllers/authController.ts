@@ -7,7 +7,7 @@ import { v2 } from 'cloudinary'
 
 // Models
 import User from '../models/userModel'
-import { Codex } from '../models/codexModel'
+// import { Codex } from '../models/codexModel'
 
 v2.config({
   cloud_name: env.CLOUDINARY_NAME,
@@ -84,11 +84,11 @@ const signUp: RequestHandler = async (req, res, next) => {
       avatarURL: result.secure_url,
     })
 
-    const userCodex = await Codex.create({
-      createdBy: newUser._id,
-      codexName: `${newUser.username}'s Codex`,
-    })
-    newUser.codex = [userCodex._id]
+    // const userCodex = await Codex.create({
+    //   createdBy: newUser._id,
+    //   codexName: `${newUser.username}'s Codex`,
+    // })
+    // newUser.codex = [userCodex._id]
 
     const accessToken = createToken(newUser.id)
 

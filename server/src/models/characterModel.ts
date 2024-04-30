@@ -1,6 +1,6 @@
 import { Schema, Types, model, Document } from 'mongoose'
 
-import addToRecent from '../middleware/addToRecent'
+import addToUserCodex from '../middleware/addToUserCodex'
 
 import User from './userModel'
 import { Codex } from './codexModel'
@@ -88,11 +88,11 @@ type AssociationsType = {
   affinity?: string
 }
 
-interface CharacterType extends Document {
+export interface CharacterType extends Document {
   createdBy: Types.ObjectId
-  codex: Types.ObjectId
+  codexId: Types.ObjectId
   categoryIndex: number
-  characterName: string
+  docName: string
   characterType: string
   characterTitles: Types.ObjectId[]
   level: number
@@ -156,14 +156,14 @@ const characterSchema = new Schema<CharacterType>(
       type: Schema.ObjectId,
       ref: 'User',
     },
-    codex: {
+    codexId: {
       type: Schema.ObjectId,
       ref: 'Codex',
     },
     categoryIndex: {
       type: Number,
     },
-    characterName: {
+    docName: {
       type: String,
       required: true,
     },
@@ -466,34 +466,28 @@ characterSchema.pre('save', function (next) {
 // SAVE TO USER CODEX
 characterSchema.pre('save', async function (next) {
   try {
-    const user = await User.findById(this.createdBy)
+    const currentUser = await User.findById(this.createdBy)
 
-    if (!user) {
-      next()
+    if (!currentUser) {
+      return next(new AppError('No user found with that ID', 404))
     }
 
-    const codex = await Codex.findById(this.codex)
+    const currentCodex = await Codex.findById(this.codexId)
 
-    if (!codex) {
-      return next()
+    if (!currentCodex) {
+      return next(new AppError('No Codex found with that ID', 404))
     }
 
-    codex.categories.map((el, i) => {
-      if (i === this.categoryIndex) {
-        const doc = {
-          docId: this._id,
-          refModel: 'Characters',
-          docName: this.characterName,
-          docType: 'Character',
-          docImage: this.avatarURL,
-        }
-        el.docs.push(doc)
-      }
+    addToUserCodex({
+      categories: currentCodex.categories,
+      doc: this,
+      docType: 'character',
+      recent: currentCodex.recent,
+      refModel: 'Character',
+      reqType: 'create',
     })
 
-    addToRecent(codex.recent, this._id)
-
-    await codex?.save()
+    currentCodex.save()
 
     next()
   } catch (error) {
@@ -505,27 +499,24 @@ characterSchema.pre('save', async function (next) {
 // Add to Recent on update
 characterSchema.post('findOneAndUpdate', async function (doc) {
   try {
-    if (doc) {
-      const user = await User.findById(doc.createdBy)
+    const currentCodex = await Codex.findById(doc.codex)
 
-      if (!user) {
-        console.log('User not found')
-      }
-
-      const codex = await Codex.findById(doc.codex)
-
-      if (codex) {
-        addToRecent(codex.recent, doc._id)
-        await codex.save()
-      } else {
-        console.log('Codex not found')
-      }
+    if (!currentCodex) {
+      return new AppError('No Codex found with that ID', 404)
     }
+
+    addToUserCodex({
+      doc,
+      docType: 'character',
+      recent: currentCodex.recent,
+      refModel: 'Character',
+      reqType: 'update',
+    })
+
+    currentCodex.save()
   } catch (error) {
     console.error(error)
   }
 })
 
-const Character = model<CharacterType>('Character', characterSchema)
-
-export default Character
+export const Character = model<CharacterType>('Character', characterSchema)

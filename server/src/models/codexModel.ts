@@ -1,22 +1,54 @@
 import { Schema, model, Types, Document, Query } from 'mongoose'
 import User from './userModel'
+import { NextFunction } from 'express'
+import AppError from '../util/appError'
 
-interface DocType {
+export interface DocType {
   docId: Types.ObjectId
   refModel: string
   docName: string
   docType: string
-  docImage: string
+  docImage: string | null
 }
 
 export interface CategoryType {
-  _id: string
   categoryName: string
   categoryUrl: string
   docs: DocType[]
 }
 
-const refModelEnum = ['Characters']
+export interface RecentType {
+  docs: DocType[]
+  lengthAllowed: number
+}
+
+const refModelEnum = ['Character']
+
+const docSchema = new Schema<DocType>(
+  {
+    docId: {
+      type: Schema.ObjectId,
+      ref: 'refModel',
+    },
+    docImage: {
+      type: String,
+    },
+    docName: {
+      type: String,
+    },
+    docType: {
+      type: String,
+    },
+    refModel: {
+      type: String,
+      enum: refModelEnum,
+      required: true,
+    },
+  },
+  {
+    _id: false,
+  }
+)
 
 const categorySchema = new Schema<CategoryType>(
   {
@@ -27,25 +59,7 @@ const categorySchema = new Schema<CategoryType>(
     categoryUrl: {
       type: String,
     },
-    docs: [
-      {
-        docId: {
-          type: Schema.ObjectId,
-          ref: 'refModel',
-        },
-        docName: {
-          type: String,
-        },
-        docType: {
-          type: String,
-        },
-        refModel: {
-          type: String,
-          enum: refModelEnum,
-          required: true,
-        },
-      },
-    ],
+    docs: [docSchema],
   },
   {
     _id: false,
@@ -56,7 +70,7 @@ interface CodexDocument extends Document {
   createdBy: Types.ObjectId
   codexName: string
   codexUrl: string
-  recent: string[]
+  recent: RecentType
   isCurrent: Boolean
   categories: CategoryType[]
 }
@@ -71,12 +85,17 @@ const codexSchema = new Schema<CodexDocument>(
     codexName: {
       type: String,
       required: true,
-      // unique: true,
     },
     codexUrl: {
       type: String,
     },
-    recent: [],
+    recent: {
+      docs: [docSchema],
+      lengthAllowed: {
+        type: Number,
+        default: 5,
+      },
+    },
     categories: [categorySchema],
     isCurrent: {
       type: Boolean,
@@ -105,16 +124,16 @@ codexSchema.pre('save', function (next) {
   next()
 })
 
-codexSchema.pre(
-  /^find/,
-  function (this: Query<CodexDocument[], CodexDocument>, next) {
-    this.populate({
-      path: 'recent',
-      select: '-__v',
-    })
-    next()
-  }
-)
+// codexSchema.pre(
+//   /^find/,
+//   function (this: Query<CodexDocument[], CodexDocument>, next) {
+//     this.populate({
+//       path: 'recent',
+//       select: '-__v',
+//     })
+//     next()
+//   }
+// )
 
 // Add codex to user
 codexSchema.pre('save', async function () {
@@ -127,10 +146,9 @@ codexSchema.pre('save', async function () {
         await user.save()
       }
     }
-
-    // next()
   } catch (error) {
-    // next()
+    console.error(error)
+    new AppError('Could add codex to user', 404)
   }
 })
 

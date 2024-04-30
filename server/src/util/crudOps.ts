@@ -4,7 +4,6 @@ import env from '../util/validateEnv'
 import { v2 } from 'cloudinary'
 
 import AppError from './appError'
-import addToRecent from '../middleware/addToRecent'
 import { Codex, CategoryType } from '../models/codexModel'
 
 v2.config({

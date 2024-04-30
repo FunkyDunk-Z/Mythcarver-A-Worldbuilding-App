@@ -129,6 +129,7 @@ userSchema.pre(
     this.find({ active: { $ne: false } })
 
     const codex = await import('./codexModel')
+    console.log('codex needed for populate', codex)
 
     this.populate({
       path: 'codex',

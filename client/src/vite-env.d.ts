@@ -103,6 +103,11 @@ interface CategoryType {
   docs: DocType[]
 }
 
+interface RecentType {
+  docs: DocType[]
+  lengthAllowed: number
+}
+
 interface CodexType {
   _id: string
   isCurrent: boolean
@@ -110,18 +115,7 @@ interface CodexType {
   codexName: string
   codexUrl: string
   categories: CategoryType[]
-  campaigns: string[]
-  characters: CharacterType[]
-  factions: string[]
-  species: string[]
-  traits: string[]
-  nations: string[]
-  locations: string[]
-  settlements: string[]
-  items: string[]
-  bestairy: string[]
-  lore: string[]
-  recent: CharacterType[]
+  recent: RecentType
 }
 
 type CodexStateType = CodexType | null
@@ -222,7 +216,7 @@ type AssociationsType = {
 interface CharacterType {
   _id?: string
   createdBy?: string
-  codex?: string | null
+  codexId?: string | null
   characterName: string
   avatarURL?: string
   characterType?: string
