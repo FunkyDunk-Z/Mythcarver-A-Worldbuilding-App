@@ -123,12 +123,14 @@ export const updateOne =
       // Get document
       const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
-        runValidators: true,
+        runValidators: false,
       })
 
       if (!doc) {
         return next(new AppError('No Document found with that ID', 404))
       }
+
+      // await doc.save()
 
       res.status(200).json({
         status: 'success',

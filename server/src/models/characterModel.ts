@@ -1,12 +1,17 @@
 import { Schema, Types, model, Document } from 'mongoose'
 
-import addToUserCodex from '../middleware/addToUserCodex'
+// Middleware
+import codexOps from '../middleware/codexOps'
 
+// Models
 import User from './userModel'
 import { Codex } from './codexModel'
+import { commonSchema, CommonSchemaType, docSchema } from './commonSchema'
+
+// Utils
 import AppError from '../util/appError'
 
-type ObjectType = { [key: string]: string }
+// type ObjectType = { [key: string]: string }
 
 type SavingThrowType = {
   isProficient: boolean
@@ -88,11 +93,8 @@ type AssociationsType = {
   affinity?: string
 }
 
-export interface CharacterType extends Document {
-  createdBy: Types.ObjectId
-  codexId: Types.ObjectId
-  categoryIndex: number
-  docName: string
+export interface CharacterType extends CommonSchemaType {
+  commonProps: CommonSchemaType
   characterType: string
   characterTitles: Types.ObjectId[]
   level: number
@@ -111,8 +113,6 @@ export interface CharacterType extends Document {
   description: DescriptionType
   associations: AssociationsType[]
 }
-
-const characterTypes = ['Player', 'Npc']
 
 const abilityNames = [
   'strength',
@@ -152,26 +152,7 @@ const senseNames = [
 
 const characterSchema = new Schema<CharacterType>(
   {
-    createdBy: {
-      type: Schema.ObjectId,
-      ref: 'User',
-    },
-    codexId: {
-      type: Schema.ObjectId,
-      ref: 'Codex',
-    },
-    categoryIndex: {
-      type: Number,
-    },
-    docName: {
-      type: String,
-      required: true,
-    },
-    characterType: {
-      type: String,
-      enum: characterTypes,
-      required: true,
-    },
+    commonProps: commonSchema,
     characterTitles: [
       {
         type: Schema.ObjectId,
@@ -341,10 +322,7 @@ const characterSchema = new Schema<CharacterType>(
     },
     associations: [
       {
-        person: {
-          type: Schema.ObjectId,
-          ref: 'Character',
-        },
+        person: docSchema,
         relation: String,
         affinity: String,
       },
@@ -466,28 +444,32 @@ characterSchema.pre('save', function (next) {
 // SAVE TO USER CODEX
 characterSchema.pre('save', async function (next) {
   try {
-    const currentUser = await User.findById(this.createdBy)
+    console.log('preSave')
+    const { createdBy, codexId, docType, docSubType } = this.commonProps
+
+    const currentUser = await User.findById(createdBy)
 
     if (!currentUser) {
       return next(new AppError('No user found with that ID', 404))
     }
 
-    const currentCodex = await Codex.findById(this.codexId)
+    const currentCodex = await Codex.findById(codexId)
 
     if (!currentCodex) {
       return next(new AppError('No Codex found with that ID', 404))
     }
 
-    addToUserCodex({
+    codexOps({
       categories: currentCodex.categories,
       doc: this,
-      docType: 'character',
+      docType: docType,
+      docSubType: docSubType,
       recent: currentCodex.recent,
       refModel: 'Character',
       reqType: 'create',
     })
 
-    currentCodex.save()
+    await currentCodex.save()
 
     next()
   } catch (error) {
@@ -499,13 +481,16 @@ characterSchema.pre('save', async function (next) {
 // Add to Recent on update
 characterSchema.post('findOneAndUpdate', async function (doc) {
   try {
-    const currentCodex = await Codex.findById(doc.codex)
+    console.log('postUpdate')
+
+    const currentCodex = await Codex.findById(doc.commonProps.codexId)
+    console.log(currentCodex)
 
     if (!currentCodex) {
       return new AppError('No Codex found with that ID', 404)
     }
 
-    addToUserCodex({
+    codexOps({
       doc,
       docType: 'character',
       recent: currentCodex.recent,
@@ -513,7 +498,31 @@ characterSchema.post('findOneAndUpdate', async function (doc) {
       reqType: 'update',
     })
 
-    currentCodex.save()
+    await currentCodex.save()
+  } catch (error) {
+    console.error(error)
+  }
+})
+
+// Delete from user codex
+characterSchema.post('findOneAndDelete', async function (doc) {
+  try {
+    const currentCodex = await Codex.findById(doc.commonProps.codexId)
+
+    if (!currentCodex) {
+      return new AppError('No Codex found with that ID', 404)
+    }
+
+    codexOps({
+      doc,
+      docType: 'character',
+      recent: currentCodex.recent,
+      categories: currentCodex.categories,
+      refModel: 'Character',
+      reqType: 'delete',
+    })
+
+    await currentCodex.save()
   } catch (error) {
     console.error(error)
   }

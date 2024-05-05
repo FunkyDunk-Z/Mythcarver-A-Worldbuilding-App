@@ -1,15 +1,8 @@
-import { Schema, model, Types, Document, Query } from 'mongoose'
+import { Schema, model, Types, Document } from 'mongoose'
 import User from './userModel'
-import { NextFunction } from 'express'
-import AppError from '../util/appError'
 
-export interface DocType {
-  docId: Types.ObjectId
-  refModel: string
-  docName: string
-  docType: string
-  docImage: string | null
-}
+import { docSchema, DocType } from './commonSchema'
+import AppError from '../util/appError'
 
 export interface CategoryType {
   categoryName: string
@@ -21,34 +14,6 @@ export interface RecentType {
   docs: DocType[]
   lengthAllowed: number
 }
-
-const refModelEnum = ['Character']
-
-const docSchema = new Schema<DocType>(
-  {
-    docId: {
-      type: Schema.ObjectId,
-      ref: 'refModel',
-    },
-    docImage: {
-      type: String,
-    },
-    docName: {
-      type: String,
-    },
-    docType: {
-      type: String,
-    },
-    refModel: {
-      type: String,
-      enum: refModelEnum,
-      required: true,
-    },
-  },
-  {
-    _id: false,
-  }
-)
 
 const categorySchema = new Schema<CategoryType>(
   {
