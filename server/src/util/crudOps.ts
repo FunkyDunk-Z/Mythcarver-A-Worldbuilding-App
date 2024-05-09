@@ -4,7 +4,7 @@ import env from '../util/validateEnv'
 import { v2 } from 'cloudinary'
 
 import AppError from './appError'
-import { Codex, CategoryType } from '../models/codexModel'
+import { CategoryType } from '../models/categoryModel'
 
 v2.config({
   cloud_name: env.CLOUDINARY_NAME,

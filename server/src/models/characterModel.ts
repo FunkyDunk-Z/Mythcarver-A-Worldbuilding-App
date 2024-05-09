@@ -5,8 +5,8 @@ import codexOps from '../middleware/codexOps'
 
 // Models
 import User from './userModel'
-import { Codex } from './codexModel'
-import { commonSchema, CommonSchemaType, docSchema } from './commonSchema'
+// import { CategoryType, Codex } from './codexModel'
+import { commonSchema, CommonSchemaType } from './commonSchema'
 
 // Utils
 import AppError from '../util/appError'
@@ -322,7 +322,7 @@ const characterSchema = new Schema<CharacterType>(
     },
     associations: [
       {
-        person: docSchema,
+        person: String,
         relation: String,
         affinity: String,
       },
@@ -444,36 +444,14 @@ characterSchema.pre('save', function (next) {
 // SAVE TO USER CODEX
 characterSchema.pre('save', async function (next) {
   try {
-    console.log('preSave')
-    const { createdBy, codexId, docType, docSubType } = this.commonProps
-
-    const currentUser = await User.findById(createdBy)
-
-    if (!currentUser) {
-      return next(new AppError('No user found with that ID', 404))
-    }
-
-    const currentCodex = await Codex.findById(codexId)
-
-    if (!currentCodex) {
-      return next(new AppError('No Codex found with that ID', 404))
-    }
-
+    this.commonProps.modelRef = 'Character'
     codexOps({
-      categories: currentCodex.categories,
-      doc: this,
-      docType: docType,
-      docSubType: docSubType,
-      recent: currentCodex.recent,
-      refModel: 'Character',
+      id: this._id,
+      commonProps: this.commonProps,
       reqType: 'create',
     })
-
-    await currentCodex.save()
-
-    next()
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next()
   }
 })
@@ -481,24 +459,11 @@ characterSchema.pre('save', async function (next) {
 // Add to Recent on update
 characterSchema.post('findOneAndUpdate', async function (doc) {
   try {
-    console.log('postUpdate')
-
-    const currentCodex = await Codex.findById(doc.commonProps.codexId)
-    console.log(currentCodex)
-
-    if (!currentCodex) {
-      return new AppError('No Codex found with that ID', 404)
-    }
-
     codexOps({
-      doc,
-      docType: 'character',
-      recent: currentCodex.recent,
-      refModel: 'Character',
+      id: doc._id,
+      commonProps: doc.commonProps,
       reqType: 'update',
     })
-
-    await currentCodex.save()
   } catch (error) {
     console.error(error)
   }
@@ -507,22 +472,11 @@ characterSchema.post('findOneAndUpdate', async function (doc) {
 // Delete from user codex
 characterSchema.post('findOneAndDelete', async function (doc) {
   try {
-    const currentCodex = await Codex.findById(doc.commonProps.codexId)
-
-    if (!currentCodex) {
-      return new AppError('No Codex found with that ID', 404)
-    }
-
     codexOps({
-      doc,
-      docType: 'character',
-      recent: currentCodex.recent,
-      categories: currentCodex.categories,
-      refModel: 'Character',
+      id: doc._id,
+      commonProps: doc.commonProps,
       reqType: 'delete',
     })
-
-    await currentCodex.save()
   } catch (error) {
     console.error(error)
   }

@@ -1,43 +1,20 @@
-import { Schema, model, Types, Document } from 'mongoose'
+import { Schema, model, Types, Document, Query } from 'mongoose'
+
+// Models
 import User from './userModel'
+import { docSchema, DocType } from './docSchema'
 
-import { docSchema, DocType } from './commonSchema'
+// Utils
 import AppError from '../util/appError'
-
-export interface CategoryType {
-  categoryName: string
-  categoryUrl: string
-  docs: DocType[]
-}
-
-export interface RecentType {
-  docs: DocType[]
-  lengthAllowed: number
-}
-
-const categorySchema = new Schema<CategoryType>(
-  {
-    categoryName: {
-      type: String,
-      required: true,
-    },
-    categoryUrl: {
-      type: String,
-    },
-    docs: [docSchema],
-  },
-  {
-    _id: false,
-  }
-)
+import { formatForUrl } from '../util/formatForUrl'
 
 interface CodexDocument extends Document {
   createdBy: Types.ObjectId
   codexName: string
   codexUrl: string
-  recent: RecentType
+  recent: DocType[]
   isCurrent: Boolean
-  categories: CategoryType[]
+  categories: Types.ObjectId[]
 }
 
 const codexSchema = new Schema<CodexDocument>(
@@ -54,14 +31,13 @@ const codexSchema = new Schema<CodexDocument>(
     codexUrl: {
       type: String,
     },
-    recent: {
-      docs: [docSchema],
-      lengthAllowed: {
-        type: Number,
-        default: 5,
+    recent: [docSchema],
+    categories: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Category',
       },
-    },
-    categories: [categorySchema],
+    ],
     isCurrent: {
       type: Boolean,
       default: true,
@@ -74,31 +50,21 @@ const codexSchema = new Schema<CodexDocument>(
 
 // Format codex and category names
 codexSchema.pre('save', function (next) {
-  if (this.codexName) {
-    const url = this.codexName.replace(/ /g, '-').toLowerCase()
-
-    this.codexUrl = url
-  }
-
-  if (this.categories) {
-    this.categories.map((el) => {
-      el.categoryUrl = el.categoryName.replace(/ /g, '-').toLowerCase()
-    })
-  }
+  this.codexUrl = formatForUrl(this.codexName)
 
   next()
 })
 
-// codexSchema.pre(
-//   /^find/,
-//   function (this: Query<CodexDocument[], CodexDocument>, next) {
-//     this.populate({
-//       path: 'recent',
-//       select: '-__v',
-//     })
-//     next()
-//   }
-// )
+codexSchema.pre(
+  /^find/,
+  function (this: Query<CodexDocument[], CodexDocument>, next) {
+    this.populate({
+      path: 'categories',
+      select: '-__v',
+    })
+    next()
+  }
+)
 
 // Add codex to user
 codexSchema.pre('save', async function () {

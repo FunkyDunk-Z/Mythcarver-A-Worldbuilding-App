@@ -11,10 +11,9 @@ import {
 
 const router = Router()
 
-router.use('/', protect)
+router.use(protect)
 
-router.get('/', getAllCodex)
-router.post('/create', createCodex)
+router.route('/').get(getAllCodex).post(createCodex)
 
 router.route('/:id').get(getCodex).patch(updateCodex).delete(deleteCodex)
 

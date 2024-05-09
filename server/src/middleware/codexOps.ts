@@ -1,82 +1,96 @@
-import { CategoryType, RecentType } from '../models/codexModel'
-import { CharacterType } from '../models/characterModel'
+import { Types } from 'mongoose'
 
+// Models
+import { Codex } from '../models/codexModel'
+import { DocType } from '../models/docSchema'
+import { Category } from '../models/categoryModel'
+import { CommonSchemaType } from '../models/commonSchema'
+
+// Utils
 import AppError from '../util/appError'
 
-type PropTypes = {
-  recent: RecentType
-  categories?: CategoryType[]
-  doc: CharacterType
-  refModel: string
-  docType: string
-  docSubType?: string
+interface PropTypes {
+  commonProps: CommonSchemaType
+  id: Types.ObjectId
   reqType: 'create' | 'update' | 'delete'
 }
 
-const codexOps = async ({
-  recent,
-  categories,
-  doc,
-  refModel,
-  docType,
-  docSubType,
-  reqType,
-}: PropTypes) => {
+const codexOps = async ({ id, commonProps, reqType }: PropTypes) => {
   try {
-    const docToAdd = {
-      docId: doc._id,
-      refModel,
-      docName: doc.commonProps.docName,
-      docType,
-      docSubType: docSubType ? doc.docSubType : undefined,
-      docImage: doc.avatarURL ? doc.avatarURL : null,
+    const { codexId, categoryId, modelRef } = commonProps
+
+    const docToAdd: DocType = {
+      docId: id,
+      modelRef,
     }
-    const docRecentIndex = recent.docs.findIndex(
-      (obj) => obj.docId.toHexString() === doc._id.toHexString()
-    )
+    const recentMaxLength = 5
+
+    const codex = await Codex.findById(codexId)
+
+    if (!codex) {
+      return new AppError('No codex found with that ID', 404)
+    }
+    const { recent } = codex
+
+    const category = await Category.findById(categoryId)
+
+    if (!category) {
+      return new AppError('No category found with that ID', 404)
+    }
+
+    // Remove doc from array
+    const spliceArray = (array: DocType[]) => {
+      const index = array.findIndex(
+        (obj) => obj.docId.toHexString() === id.toHexString()
+      )
+
+      if (index !== -1) {
+        array.splice(index, 1)
+      }
+    }
+
+    // Remove last doc from array
+    const popRecent = () => {
+      if (recent.length === recentMaxLength) {
+        recent.pop()
+      }
+    }
+
+    // Add doc to array
+    const pushCategory = () => {
+      category.docs.push(docToAdd)
+    }
+
+    // Add doc to begining of array
+    const unshiftRecent = () => {
+      recent.unshift(docToAdd)
+    }
 
     if (reqType === 'delete') {
-      if (categories) {
-        categories.map((el, i) => {
-          if (i === doc.commonProps.categoryIndex) {
-            const docCategoryIndex = el.docs.findIndex(
-              (obj) => obj.docId.toHexString() === doc._id.toHexString()
-            )
-
-            if (docCategoryIndex !== -1) {
-              el.docs.splice(docCategoryIndex, 1)
-            }
-          }
-        })
-        if (docRecentIndex !== -1) {
-          recent.docs.splice(docRecentIndex, 1)
-        }
+      if (category) {
+        spliceArray(category.docs)
       }
+      spliceArray(recent)
     }
 
     if (reqType === 'create') {
-      categories?.map((el, i) => {
-        if (i === doc.commonProps.categoryIndex) {
-          el.docs.push(docToAdd)
-        }
-        if (recent.docs.length === recent.lengthAllowed) {
-          recent.docs.pop()
-        }
-      })
-      recent.docs.unshift(docToAdd)
+      pushCategory()
+      popRecent()
+      unshiftRecent()
     }
 
     if (reqType === 'update') {
-      console.log('WE FOUND IT', docRecentIndex)
-
-      if (docRecentIndex !== -1) {
-        recent.docs.splice(docRecentIndex, 1)
+      if (category) {
+        spliceArray(category.docs)
+        pushCategory()
       }
-      if (recent.docs.length <= recent.lengthAllowed) {
-        recent.docs.pop()
-      }
-      recent.docs.unshift(docToAdd)
+      spliceArray(recent)
+      popRecent()
+      unshiftRecent()
     }
+
+    await category.save()
+    await codex.save()
   } catch (error) {
     console.error(error)
     return new AppError('Could not create or update doc', 404)

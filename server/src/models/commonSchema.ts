@@ -1,14 +1,5 @@
 import { Schema, Types, Document } from 'mongoose'
 
-export interface DocType {
-  docId: Types.ObjectId
-  refModel: string
-  docName: string
-  docType: string
-  docSubType?: string
-  docImage: string | null
-}
-
 export interface CommonSchemaType extends Document {
   createdBy: Types.ObjectId
   codexId: Types.ObjectId
@@ -16,47 +7,22 @@ export interface CommonSchemaType extends Document {
   docName: string
   docType: string
   docSubType?: string
-  categoryIndex: number
+  categoryId: Types.ObjectId
   modelRef: string
-  connections: DocType[]
+  connections: Types.ObjectId[]
 }
-
-export const docSchema = new Schema<DocType>(
-  {
-    docId: {
-      type: Schema.ObjectId,
-      ref: 'refModel',
-    },
-    docImage: {
-      type: String,
-    },
-    docName: {
-      type: String,
-    },
-    docType: {
-      type: String,
-    },
-    refModel: {
-      type: String,
-      //   required: true,
-    },
-  },
-  {
-    _id: false,
-  }
-)
 
 export const commonSchema = new Schema<CommonSchemaType>(
   {
     createdBy: {
       type: Schema.ObjectId,
       ref: 'User',
-      //   required: true,
+      required: true,
     },
     codexId: {
-      type: Schema.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'Codex',
-      //   required: true,
+      required: true,
     },
     isPublic: {
       type: Boolean,
@@ -64,23 +30,34 @@ export const commonSchema = new Schema<CommonSchemaType>(
     },
     docName: {
       type: String,
-      //   required: true,
+      required: true,
     },
     docType: {
       type: String,
-      //   required: true,
+      required: true,
     },
     docSubType: {
       type: String,
     },
-    categoryIndex: {
-      type: Number,
-      //   required: true,
+    categoryId: {
+      type: Schema.Types.ObjectId,
+      required: true,
     },
     modelRef: {
       type: String,
     },
-    connections: [docSchema],
+    connections: [
+      {
+        connectionId: {
+          type: Schema.Types.ObjectId,
+          ref: 'connectionRef',
+        },
+        connectionRef: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
   },
   {
     _id: false,

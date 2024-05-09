@@ -91,21 +91,14 @@ type AuthReducerType = SetUser | ClearUser
 
 interface DocType {
   docId: string
-  refModel: string
+  // refModel: string
   docName: string
-  docType: string
-  docImage: string
 }
 
 interface CategoryType {
   categoryName: string
   categoryUrl: string
   docs: DocType[]
-}
-
-interface RecentType {
-  docs: DocType[]
-  lengthAllowed: number
 }
 
 interface CodexType {
@@ -115,7 +108,7 @@ interface CodexType {
   codexName: string
   codexUrl: string
   categories: CategoryType[]
-  recent: RecentType
+  recent: DocType[]
 }
 
 type CodexStateType = CodexType | null
