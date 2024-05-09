@@ -11,7 +11,13 @@ function Dashboard() {
   return (
     <div className={styles.wrapper}>
       {codex?.recent.map((el, i) => {
-        return <Card key={i} cardName={el.docName} link={el.docId} />
+        return (
+          <Card
+            key={i}
+            cardName={el.docName}
+            link={`${el.categoryUrl}/${el.docId}`}
+          />
+        )
       })}
       {codex?.categories.map((el, i) => {
         return (

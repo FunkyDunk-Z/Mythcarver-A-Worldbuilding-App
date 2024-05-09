@@ -90,12 +90,17 @@ type AuthReducerType = SetUser | ClearUser
 //----------Codex Types-----------
 
 interface DocType {
-  docId: string
-  // refModel: string
+  docId: Types.ObjectId
+  // modelRef: string
+  thumbnail?: string
   docName: string
+  docType: string
+  docSubType?: string
+  categoryUrl: string
 }
 
 interface CategoryType {
+  _id: string
   categoryName: string
   categoryUrl: string
   docs: DocType[]

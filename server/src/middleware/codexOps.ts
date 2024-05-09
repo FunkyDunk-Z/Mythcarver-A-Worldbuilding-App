@@ -17,11 +17,26 @@ interface PropTypes {
 
 const codexOps = async ({ id, commonProps, reqType }: PropTypes) => {
   try {
-    const { codexId, categoryId, modelRef } = commonProps
+    const {
+      codexId,
+      categoryId,
+      // modelRef,
+      thumbnail,
+      docName,
+      docType,
+      docSubType,
+    } = commonProps
+
+    console.log(commonProps)
 
     const docToAdd: DocType = {
       docId: id,
-      modelRef,
+      // modelRef,
+      thumbnail,
+      docName,
+      docType,
+      docSubType,
+      categoryUrl: '',
     }
     const recentMaxLength = 5
 
@@ -33,6 +48,9 @@ const codexOps = async ({ id, commonProps, reqType }: PropTypes) => {
     const { recent } = codex
 
     const category = await Category.findById(categoryId)
+    if (category) {
+      docToAdd.categoryUrl = category.categoryUrl
+    }
 
     if (!category) {
       return new AppError('No category found with that ID', 404)

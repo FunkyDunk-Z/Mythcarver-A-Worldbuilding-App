@@ -5,12 +5,18 @@ import { formatForUrl } from '../util/formatForUrl'
 import { docSchema, DocType } from './docSchema'
 
 export interface CategoryType {
+  createdBy: Types.ObjectId
   categoryName: string
   categoryUrl: string
   docs: DocType[]
+  thumbnail: string
 }
 
 const categorySchema = new Schema<CategoryType>({
+  createdBy: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  },
   categoryName: {
     type: String,
     required: true,
@@ -19,6 +25,9 @@ const categorySchema = new Schema<CategoryType>({
     type: String,
   },
   docs: [docSchema],
+  thumbnail: {
+    type: String,
+  },
 })
 
 categorySchema.pre('save', function (next) {
@@ -32,7 +41,7 @@ categorySchema.pre(
   function (this: Query<CategoryType[], CategoryType>, next) {
     this.populate({
       path: 'docs',
-      select: '-__v',
+      select: '-__v -modelRef',
     })
     next()
   }

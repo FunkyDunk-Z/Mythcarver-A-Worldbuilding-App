@@ -444,7 +444,6 @@ characterSchema.pre('save', function (next) {
 // SAVE TO USER CODEX
 characterSchema.pre('save', async function (next) {
   try {
-    this.commonProps.modelRef = 'Character'
     codexOps({
       id: this._id,
       commonProps: this.commonProps,
