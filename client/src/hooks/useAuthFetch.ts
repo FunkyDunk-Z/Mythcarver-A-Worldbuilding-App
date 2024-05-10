@@ -10,7 +10,7 @@ export const useAuthFetch = () => {
   const [error, setError] = useState(null)
   const [message, setMessage] = useState('')
 
-  const authFetch = async (data: PropTypes) => {
+  const authFetch = async (data: FetchPropTypes) => {
     const { dataToSend, url, credentials, authType, requestType } = data
 
     setError(null)

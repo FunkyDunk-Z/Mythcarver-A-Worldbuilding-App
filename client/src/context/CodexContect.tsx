@@ -5,17 +5,17 @@ import { codexReducer } from '../reducers/codexReducer'
 const codexInit: CodexStateType = null
 
 type CodexContextType = {
-  codex: CodexStateType | CodexType
+  activeCodex: CodexStateType | CodexType
   dispatchCodexState: Dispatch<CodexReducerType>
 }
 
 export const CodexContext = createContext<CodexContextType | null>(null)
 
 export const CodexContextProvider = ({ children }: ReactProps) => {
-  const [codex, dispatchCodexState] = useReducer(codexReducer, codexInit)
+  const [activeCodex, dispatchCodexState] = useReducer(codexReducer, codexInit)
 
   const contextValues = {
-    codex,
+    activeCodex,
     dispatchCodexState,
   }
 

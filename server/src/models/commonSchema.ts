@@ -10,7 +10,7 @@ export interface CommonSchemaType extends Document {
   categoryId: Types.ObjectId
   modelRef: string
   connections: Types.ObjectId[]
-  thumbnail?: string
+  thumbnail: string
 }
 
 export const commonSchema = new Schema<CommonSchemaType>(

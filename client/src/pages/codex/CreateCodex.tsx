@@ -1,22 +1,24 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { useAuthFetch } from '../../hooks/useAuthFetch'
+import { useAuthContext } from '../../hooks/useAuthContext'
+import { useCodexContext } from '../../hooks/useCodexContext'
+import { useDocFetch } from '../../hooks/useDocFetch'
 
-import MyButton from '../../components/utils/MyButton'
+// Styles
+import styles from './css/CreateCodex.module.css'
 
-import styles from './css/SignUpPage.module.css'
+const CreateCodex = () => {
+  const { user } = useAuthContext()
+  const { dispatchCodexState } = useCodexContext()
+  const { docFetch } = useDocFetch()
 
-function SignUpPage() {
-  const [formData, setFormData] = useState<SignUpData>({
-    firstName: '',
-    lastName: '',
-    username: '',
-    email: '',
-    password: '',
-    passwordConfirm: '',
-    avatarURL: '',
+  const [formData, setFormData] = useState<CodexType>({
+    codexName: '',
+    codexUrl: '',
+    createdBy: '',
+    isCurrent: false,
+    recent: [],
+    categories: [],
   })
-  const { authFetch } = useAuthFetch()
 
   const handleChange = (e: InputEventType) => {
     const { name, value } = e.target
@@ -26,10 +28,10 @@ function SignUpPage() {
     }))
   }
 
-  const handleSignUp = async (e: FormEventType) => {
+  const handleCreateCodex = async (e: FormEventType) => {
     e.preventDefault()
 
-    await authFetch({
+    await docFetch({
       credentials: true,
       requestType: 'POST',
       url: 'users/sign-up',
@@ -38,18 +40,18 @@ function SignUpPage() {
     })
 
     setFormData({
-      firstName: '',
-      lastName: '',
-      username: '',
-      email: '',
-      password: '',
-      passwordConfirm: '',
-      avatarURL: '',
+      codexName: '',
+      codexUrl: '',
+      createdBy: '',
+      isCurrent: false,
+      recent: [],
+      categories: [],
     })
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapperPage}>
+      <h2>Create Codex</h2>
       <form onSubmit={handleSignUp} className={styles.form}>
         <label className={styles.label} htmlFor="firstName">
           First Name:
@@ -122,12 +124,8 @@ function SignUpPage() {
           onChange={handleChange}
         ></input>
         <MyButton type="submit">Create Account</MyButton>
+        {/* <button type="submit">Create Account</button> */}
       </form>
-      <Link className="link" to={'/login'}>
-        Already have an account? Login here
-      </Link>
     </div>
   )
 }
-
-export default SignUpPage

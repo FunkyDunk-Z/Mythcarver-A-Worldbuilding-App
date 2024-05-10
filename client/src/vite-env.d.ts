@@ -42,7 +42,13 @@ interface RecentType {
   recent: CharacterType[]
 }
 
-type DataType = LoginData | SignUpData | UpdateData | CharacterType | RecentType
+type DataType =
+  | LoginData
+  | SignUpData
+  | UpdateData
+  | CharacterType
+  | RecentType
+  | CodexType
 
 type AuthType =
   | 'login'
@@ -54,7 +60,7 @@ type AuthType =
 
 type RequestType = 'GET' | 'POST' | 'PATCH' | 'DELETE'
 
-type PropTypes = {
+type FetchPropTypes = {
   dataToSend?: DataType
   url: string
   credentials: boolean
@@ -91,29 +97,43 @@ type AuthReducerType = SetUser | ClearUser
 
 interface DocType {
   docId: Types.ObjectId
-  // modelRef: string
-  thumbnail?: string
+  thumbnail: string
   docName: string
   docType: string
   docSubType?: string
   categoryUrl: string
 }
 
+interface CommonSchemaType {
+  createdBy: Types.ObjectId
+  codexId: Types.ObjectId
+  isPublic: boolean
+  docName: string
+  docType: string
+  docSubType?: string
+  categoryId: Types.ObjectId
+  modelRef: string
+  connections: Types.ObjectId[]
+  thumbnail: string
+}
+
 interface CategoryType {
   _id: string
+  createdBy: Types.ObjectId
   categoryName: string
   categoryUrl: string
   docs: DocType[]
+  thumbnail: string
 }
 
-interface CodexType {
+interface CodexDocument {
   _id: string
-  isCurrent: boolean
-  createdBy: string
+  createdBy: Types.ObjectId
   codexName: string
   codexUrl: string
-  categories: CategoryType[]
   recent: DocType[]
+  isCurrent: boolean
+  categories: Types.ObjectId[]
 }
 
 type CodexStateType = CodexType | null
@@ -131,59 +151,59 @@ type CodexReducerType = SetCodex | ClearCodex
 
 //---------Character Types----------
 
-type InitiativeType = {
-  initiativeScore: number
-  hasAdvantage?: boolean
+interface SavingThrowType {
+  isProficient: boolean
+  savingThrowMod: number
+  hasAdvantage: boolean
 }
 
-type ArmourClassType = {
+interface AbilityType {
+  abilityName: string
+  abilityScore: number
+  abilityMod: number
+  savingThrow: SavingThrowType
+}
+
+interface SkillType {
+  skillName: string
+  skillAbility: string
+  isProficient: boolean
+  hasDoubleProficiency: boolean
+  skillMod: number
+  hasAdvantage: boolean
+}
+
+interface SenseType {
+  senseName: string
+  skillRequired: string
+  senseMod: number
+  hasAdvantage: boolean
+}
+
+interface InitiativeType {
+  initiativeScore: number
+  hasAdvantage: boolean
+}
+
+interface ArmourClassType {
   baseValue: number
   armourMod: number
 }
 
-type HealthPointsType = {
-  currentHP?: number
+interface HealthPointsType {
+  currentHP: number
   maxHP: number
-  temporaryHP?: number
-  hitDie?: number
+  temporaryHP: number
+  hitDie: number
 }
 
-type SpeedType = {
+interface SpeedType {
   walking: number
   swimming: number
   flying?: number
 }
 
-type SavingThrowType = {
-  isProficient?: boolean
-  savingThrowMod: number
-  hasAdvantage?: boolean
-}
-
-type AbilityType = {
-  abilityName: string
-  abilityScore?: number
-  abilityMod?: number
-  savingThrow?: SavingThrowType
-}
-
-type SkillType = {
-  skillName: string
-  skillAbility: string
-  isProficient?: boolean
-  hasDoubleProficiency?: boolean
-  skillMod: number
-  hasAdvantage?: boolean
-}[]
-
-type SenseType = {
-  senseName: string
-  skillRequired: string
-  senseMod?: number
-  hasAdvantage?: boolean
-}[]
-
-type AppearanceType = {
+interface AppearanceType {
   hair?: string
   eyes?: string
   height?: string
@@ -193,46 +213,43 @@ type AppearanceType = {
   tattoos?: string
 }
 
-type PersonalityType = {
+interface PersonalityType {
   ideals?: string
   flaws?: string
   likes?: string
   dislikes?: string
 }
 
-type DescriptionType = {
-  appearance?: AppearanceType
-  personality?: PersonalityType
+interface DescriptionType {
+  appearance: AppearanceType
+  personality: PersonalityType
 }
 
-type AssociationsType = {
-  person?: string
+interface AssociationsType {
+  person?: Types.ObjectId
   relation?: string
   affinity?: string
 }
 
-interface CharacterType {
-  _id?: string
-  createdBy?: string
-  codexId?: string | null
-  characterName: string
-  avatarURL?: string
-  characterType?: string
-  characterTitles?: string[]
-  level: string | undefined
-  species?: string
-  characterClass?: string
+interface CharacterType extends CommonSchemaType {
+  commonProps: CommonSchemaType
+  characterType: string
+  characterTitles: Types.ObjectId[]
+  level: number
+  species: Types.ObjectId | string
+  characterClass: Types.ObjectId | string
   abilities: AbilityType[]
-  skills: SkillType
-  senses: SenseType
-  proficiency?: number
-  initiative?: InitiativeType
-  armourClass?: ArmourClassType
+  skills: SkillType[]
+  senses: SenseType[]
+  proficiency: number
+  initiative: InitiativeType
+  armourClass: ArmourClassType
   healthPoints: HealthPointsType
-  speed?: SpeedType
-  hasDarkvision?: boolean
+  speed: SpeedType
+  hasDarkvision: boolean
+  avatarURL: string
   description: DescriptionType
-  associations?: AssociationsType[]
+  associations: AssociationsType[]
 }
 
 //----------- Reducer Types -----------

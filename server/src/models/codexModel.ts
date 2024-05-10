@@ -13,7 +13,7 @@ interface CodexDocument extends Document {
   codexName: string
   codexUrl: string
   recent: DocType[]
-  isCurrent: Boolean
+  isCurrent: boolean
   categories: Types.ObjectId[]
 }
 

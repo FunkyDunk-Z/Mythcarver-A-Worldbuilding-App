@@ -2,10 +2,9 @@ import { Schema, Types } from 'mongoose'
 
 export interface DocType {
   docId: Types.ObjectId
-  // modelRef: string
-  thumbnail?: string
-  docName?: string
-  docType?: string
+  thumbnail: string
+  docName: string
+  docType: string
   docSubType?: string
   categoryUrl: string
 }

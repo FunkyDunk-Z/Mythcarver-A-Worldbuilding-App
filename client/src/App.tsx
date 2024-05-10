@@ -32,8 +32,10 @@ import MyAccount from './pages/MyAccount'
 
 function App() {
   const { user, isLoading } = useAuthContext()
-  const { codex } = useCodexContext()
+  const { activeCodex } = useCodexContext()
   const { authFetch } = useAuthFetch()
+
+  console.log(activeCodex)
 
   //---------- Check if logged in ----------
   useEffect(() => {
@@ -58,7 +60,7 @@ function App() {
     }
 
     if (user && authUrl) {
-      return <Navigate to={`/${codex?.codexUrl}`} replace={true} />
+      return <Navigate to={`/${activeCodex?.codexUrl}`} replace={true} />
     }
 
     if (!user && !authUrl) {
@@ -74,7 +76,7 @@ function App() {
         <Header />
         <Routes>
           <Route
-            path={`/${codex?.codexUrl}/*`}
+            path={`/${activeCodex?.codexUrl}/*`}
             element={<LoadingComponent component={<CodexRoutes />} />}
           />
           <Route
