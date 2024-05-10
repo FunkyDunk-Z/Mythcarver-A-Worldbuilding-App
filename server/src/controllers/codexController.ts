@@ -26,8 +26,6 @@ export const createCodex = async (
 
     const categories = await Promise.all(categoryPromises)
 
-    console.log('categories', categories)
-
     if (!categories || categories.length === 0) {
       return next(new AppError('Could not create categories', 404))
     }
@@ -38,8 +36,6 @@ export const createCodex = async (
     }
 
     const doc = await Codex.create(codexBody)
-
-    console.log('document', doc)
 
     res.status(201).json({
       status: 'success',

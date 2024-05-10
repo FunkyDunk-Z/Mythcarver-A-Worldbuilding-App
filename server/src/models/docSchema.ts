@@ -13,11 +13,7 @@ export const docSchema = new Schema<DocType>(
   {
     docId: {
       type: Schema.Types.ObjectId,
-      // ref: 'modelRef',
     },
-    // modelRef: {
-    //   type: String,
-    // },
     thumbnail: {
       type: String,
     },

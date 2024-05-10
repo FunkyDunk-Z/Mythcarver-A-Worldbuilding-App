@@ -112,7 +112,6 @@ interface CommonSchemaType {
   docType: string
   docSubType?: string
   categoryId: Types.ObjectId
-  modelRef: string
   connections: Types.ObjectId[]
   thumbnail: string
 }

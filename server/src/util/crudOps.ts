@@ -22,14 +22,19 @@ export const createOne =
 
       // console.log(doc)
 
-      if (req.body.avatarURL) {
-        const result = await v2.uploader.upload(req.body.avatarURL, {
+      if (req.body.commonProps.thumbnail || req.body.thumbnail) {
+        const thumbnailToAdd = req.body.thumbnail
+          ? req.body.thumbnail
+          : req.body.commonProps.thumbnail
+        const result = await v2.uploader.upload(thumbnailToAdd, {
           public_id: doc._id,
           folder: `mythcarver/user-images`,
         })
         // console.log(result) // Log the result for debugging
 
-        req.body.avatarURL = result.secure_url
+        req.body.thumbnail
+          ? (req.body.thumbnail = result.secure_url)
+          : (req.body.commonProps.thumbnail = result.secure_url)
       }
 
       res.status(201).json({

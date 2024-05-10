@@ -8,7 +8,6 @@ export interface CommonSchemaType extends Document {
   docType: string
   docSubType?: string
   categoryId: Types.ObjectId
-  modelRef: string
   connections: Types.ObjectId[]
   thumbnail: string
 }
@@ -43,9 +42,6 @@ export const commonSchema = new Schema<CommonSchemaType>(
     categoryId: {
       type: Schema.Types.ObjectId,
       required: true,
-    },
-    modelRef: {
-      type: String,
     },
     connections: [
       {

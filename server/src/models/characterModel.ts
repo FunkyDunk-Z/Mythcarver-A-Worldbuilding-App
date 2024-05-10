@@ -4,14 +4,8 @@ import { Schema, Types, model, Document } from 'mongoose'
 import codexOps from '../middleware/codexOps'
 
 // Models
-import User from './userModel'
-// import { CategoryType, Codex } from './codexModel'
+
 import { commonSchema, CommonSchemaType } from './commonSchema'
-
-// Utils
-import AppError from '../util/appError'
-
-// type ObjectType = { [key: string]: string }
 
 type SavingThrowType = {
   isProficient: boolean
