@@ -1,4 +1,4 @@
-import { Model, Document, Types } from 'mongoose'
+import { Model, Document, Types, IfAny, Require_id } from 'mongoose'
 import { Request, Response, NextFunction } from 'express'
 import env from '../util/validateEnv'
 import { v2 } from 'cloudinary'
@@ -20,21 +20,37 @@ export const createOne =
     try {
       const doc = await Model.create(req.body)
 
-      // console.log(doc)
+      // Upload image to Cloudinary
+      const imageUploader = async (
+        doc: Document,
+        thumbnail: string,
+        reqBody: Request,
+        isCommonProp: boolean
+      ) => {
+        try {
+          const result = await v2.uploader.upload(thumbnail, {
+            public_id: doc._id,
+            folder: `mythcarver/user-images`,
+          })
 
-      if (req.body.commonProps.thumbnail || req.body.thumbnail) {
-        const thumbnailToAdd = req.body.thumbnail
-          ? req.body.thumbnail
-          : req.body.commonProps.thumbnail
-        const result = await v2.uploader.upload(thumbnailToAdd, {
-          public_id: doc._id,
-          folder: `mythcarver/user-images`,
-        })
-        // console.log(result) // Log the result for debugging
+          console.log(result) // Log the result for debugging
 
-        req.body.thumbnail
-          ? (req.body.thumbnail = result.secure_url)
-          : (req.body.commonProps.thumbnail = result.secure_url)
+          if (isCommonProp === true) {
+            reqBody.body.commonProps.thumbnail = result.secure_url
+          } else {
+            reqBody.body.thumbnail = result.secure_url
+          }
+
+          if (req.body.thumbnail) {
+            imageUploader(doc, req.body.thumbnail, req.body, false)
+          }
+          if (req.body.commonProps) {
+            imageUploader(doc, req.body.commonProps.thumbnail, req.body, true)
+          }
+        } catch (error) {
+          console.error(error)
+          return next(new AppError('Could not upload image', 404))
+        }
       }
 
       res.status(201).json({
@@ -43,7 +59,7 @@ export const createOne =
       })
     } catch (error) {
       console.error(error)
-      return next()
+      return next(new AppError('Could Not create document', 404))
     }
   }
 

@@ -3,19 +3,13 @@ import { hash, compare } from 'bcrypt'
 import { randomBytes, createHash } from 'crypto'
 // import Codex from './codexModel'
 
-type UserCodex = {
-  id: Types.ObjectId
-  codexName: string
-  createdby: Types.ObjectId
-}[]
-
 interface IUser {
   firstName: string
   lastName: string
   username: string
   email: string
   avatarURL?: string
-  codex: UserCodex
+  codex: Types.ObjectId[]
 }
 
 interface UserDocument extends IUser, Document {

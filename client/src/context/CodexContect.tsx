@@ -2,10 +2,10 @@ import { createContext, useReducer, Dispatch } from 'react'
 
 import { codexReducer } from '../reducers/codexReducer'
 
-const codexInit: CodexStateType = null
+const codexInit: CodexType | null = null
 
 type CodexContextType = {
-  activeCodex: CodexStateType | CodexType
+  activeCodex: CodexType | null
   dispatchCodexState: Dispatch<CodexReducerType>
 }
 

@@ -96,43 +96,45 @@ type AuthReducerType = SetUser | ClearUser
 //----------Codex Types-----------
 
 interface DocType {
-  docId: Types.ObjectId
+  docId: string
   thumbnail: string
   docName: string
   docType: string
   docSubType?: string
   categoryUrl: string
+  modelRef: string
 }
 
 interface CommonSchemaType {
-  createdBy: Types.ObjectId
-  codexId: Types.ObjectId
+  createdBy: string
+  codexId: string
   isPublic: boolean
   docName: string
   docType: string
   docSubType?: string
-  categoryId: Types.ObjectId
-  connections: Types.ObjectId[]
+  categoryId: string
+  connections: string[]
   thumbnail: string
 }
 
 interface CategoryType {
   _id: string
-  createdBy: Types.ObjectId
+  createdBy: string
+  codexId: string
   categoryName: string
   categoryUrl: string
   docs: DocType[]
   thumbnail: string
 }
 
-interface CodexDocument {
+interface CodexType {
   _id: string
-  createdBy: Types.ObjectId
+  createdBy: string
   codexName: string
   codexUrl: string
   recent: DocType[]
   isCurrent: boolean
-  categories: Types.ObjectId[]
+  categories: CategoryType[]
 }
 
 type CodexStateType = CodexType | null

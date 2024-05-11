@@ -14,7 +14,7 @@ import Dashboard from '../pages/Dashboard'
 import DynamicRoutes from './DynamicRoutes'
 
 export default function CodexRoutes() {
-  const { codex } = useCodexContext()
+  const { activeCodex } = useCodexContext()
 
   // use category name as the path .toLowercase
   // pass the docs to the dynamic page, docs are an array of objectids(strings)
@@ -23,7 +23,7 @@ export default function CodexRoutes() {
     <>
       <Routes>
         <Route path="/" index element={<Dashboard />} />
-        {codex?.categories.map((el, i) => (
+        {activeCodex?.categories.map((el, i) => (
           <Route
             key={i}
             path={`/${el.categoryName}/*`}

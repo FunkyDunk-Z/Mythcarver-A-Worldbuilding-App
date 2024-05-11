@@ -7,6 +7,7 @@ export interface DocType {
   docType: string
   docSubType?: string
   categoryUrl: string
+  modelRef: string
 }
 
 export const docSchema = new Schema<DocType>(
@@ -27,6 +28,9 @@ export const docSchema = new Schema<DocType>(
       type: String,
     },
     categoryUrl: {
+      type: String,
+    },
+    modelRef: {
       type: String,
     },
   },

@@ -5,14 +5,14 @@ import PageNotFound from '../pages/PageNotFound'
 
 // categories
 import DynamicCategory from '../pages/codex/DynamicCategory'
-import DynamicDocument from '../pages/codex/DynamicDocument'
+// import DynamicDocument from '../pages/codex/DynamicDocument'
 
 export default function DynamicRoutes() {
-  const { codex } = useCodexContext()
+  const { activeCodex } = useCodexContext()
 
   return (
     <Routes>
-      {codex?.categories.map((el, i) => {
+      {activeCodex?.categories.map((el, i) => {
         return (
           <Route
             key={i}
@@ -24,7 +24,7 @@ export default function DynamicRoutes() {
           />
         )
       })}
-      {codex?.categories.map((el) => {
+      {/* {activeCodex?.categories.map((el) => {
         return el.docs.map((el, i) => {
           return (
             <Route
@@ -34,7 +34,7 @@ export default function DynamicRoutes() {
             />
           )
         })
-      })}
+      })} */}
       <Route path="/*" element={<PageNotFound />} />
     </Routes>
   )

@@ -6,11 +6,11 @@ import Image from '../assets/d20.jpg'
 import styles from './css/Dashboard.module.css'
 
 function Dashboard() {
-  const { codex } = useCodexContext()
+  const { activeCodex } = useCodexContext()
 
   return (
     <div className={styles.wrapper}>
-      {codex?.recent.map((el, i) => {
+      {activeCodex?.recent.map((el, i) => {
         return (
           <Card
             key={i}
@@ -19,7 +19,7 @@ function Dashboard() {
           />
         )
       })}
-      {codex?.categories.map((el, i) => {
+      {activeCodex?.categories.map((el, i) => {
         return (
           <Card
             key={i}
