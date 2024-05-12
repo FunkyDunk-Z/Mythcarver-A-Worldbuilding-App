@@ -12,7 +12,7 @@ import styles from './css/Navbar.module.css'
 
 function Navbar() {
   const { user } = useAuthContext()
-  const { codex } = useCodexContext()
+  const { activeCodex } = useCodexContext()
   const { authFetch } = useAuthFetch()
   const mobile = window.innerWidth < 900
   const [isMobile, setIsMobile] = useState(mobile)
@@ -87,7 +87,7 @@ function Navbar() {
       </div>
       <div className={`${styles.wrapper} ${styles[openStatus]}`}>
         <Link
-          to={`${codex?.codexUrl}`}
+          to={`${activeCodex?.codexUrl}`}
           onClick={toggleNavBtn}
           className={styles.link}
         >

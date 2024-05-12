@@ -9,27 +9,31 @@ function Dashboard() {
   const { activeCodex } = useCodexContext()
 
   return (
-    <div className={styles.wrapper}>
-      {activeCodex?.recent.map((el, i) => {
-        return (
-          <Card
-            key={i}
-            cardName={el.docName}
-            link={`${el.categoryUrl}/${el.docId}`}
-          />
-        )
-      })}
-      {activeCodex?.categories.map((el, i) => {
-        return (
-          <Card
-            key={i}
-            cardName={el.categoryName}
-            image={Image}
-            link={el.categoryUrl}
-          />
-        )
-      })}
-    </div>
+    <>
+      <div className={styles.gallery}>
+        {activeCodex?.recent.map((el, i) => {
+          return (
+            <Card
+              key={i}
+              cardName={el.docName}
+              link={`${el.categoryUrl}/${el.docId}`}
+            />
+          )
+        })}
+      </div>
+      <div className={styles.wrapper}>
+        {activeCodex?.categories.map((el, i) => {
+          return (
+            <Card
+              key={i}
+              cardName={el.categoryName}
+              image={Image}
+              link={el.categoryUrl}
+            />
+          )
+        })}
+      </div>
+    </>
   )
 }
 

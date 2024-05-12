@@ -115,7 +115,9 @@ function MyAccount() {
                 alt="Preview"
               />
             )}
-            <button onClick={handleUpload}>Upload</button>
+            <MyButton type="button" handleClick={handleUpload}>
+              Upload
+            </MyButton>
             <label className={styles.label} htmlFor="firstName">
               First Name
             </label>

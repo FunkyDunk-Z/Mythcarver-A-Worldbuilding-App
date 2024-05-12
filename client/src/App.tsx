@@ -28,6 +28,7 @@ import PageUnderConstruction from './pages/PageUnderConstruction'
 // Pages
 import LoadingPage from './pages/LoadingPage'
 import MyAccount from './pages/MyAccount'
+import DynamicRoutes from './routes/DynamicRoutes'
 // import TurnTracker from "./pages/TurnTracker";
 
 function App() {
@@ -77,7 +78,7 @@ function App() {
         <Routes>
           <Route
             path={`/${activeCodex?.codexUrl}/*`}
-            element={<LoadingComponent component={<CodexRoutes />} />}
+            element={<LoadingComponent component={<DynamicRoutes />} />}
           />
           <Route
             path="/login"
