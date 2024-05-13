@@ -1,23 +1,12 @@
 @import '../../Global.css';
 
-.wrapper {
-  display: grid;
+.slider {
+  display: flex;
+  margin-top: 1rem;
+  padding: 1rem;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  margin: 1rem;
-  align-items: start;
-  justify-self: center;
-  width: 80%;
-  height: max-content;
+  overflow: auto;
 }
-
-.gallery {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  margin: 1rem;
-  align-items: start;
-  justify-self: center;
-  width: 90%;
-  max-height: max-content;
+.slider::-webkit-scrollbar {
+  display: none;
 }

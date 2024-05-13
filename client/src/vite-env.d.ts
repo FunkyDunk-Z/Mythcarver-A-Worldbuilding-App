@@ -63,7 +63,6 @@ type RequestType = 'GET' | 'POST' | 'PATCH' | 'DELETE'
 type FetchPropTypes = {
   dataToSend?: DataType
   url: string
-  credentials: boolean
   authType?: AuthType
   requestType: RequestType
 }
@@ -104,6 +103,19 @@ interface DocType {
   categoryUrl: string
   modelRef: string
 }
+
+type CurrentDocStateType = CharacterType | null
+
+type SetCurrentDoc = {
+  type: 'SET_CURRENT_DOC'
+  payload: CodexType
+}
+
+type ClearCurrentDoc = {
+  type: 'CLEAR_CURRENT_DOC'
+}
+
+type CurrentDocReducerType = SetCurrentDoc | ClearCurrentDoc
 
 interface CommonSchemaType {
   createdBy: string
@@ -233,6 +245,7 @@ interface AssociationsType {
 }
 
 interface CharacterType extends CommonSchemaType {
+  _id: string
   commonProps: CommonSchemaType
   characterType: string
   characterTitles: Types.ObjectId[]

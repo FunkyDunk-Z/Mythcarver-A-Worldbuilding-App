@@ -19,7 +19,6 @@ import Header from './components/layout/Header'
 import Footer from './components/layout/Footer'
 
 // Routes
-import CodexRoutes from './routes/CodexRoutes'
 
 // Errors
 import PageNotFound from './pages/PageNotFound'
@@ -36,13 +35,10 @@ function App() {
   const { activeCodex } = useCodexContext()
   const { authFetch } = useAuthFetch()
 
-  console.log(activeCodex)
-
   //---------- Check if logged in ----------
   useEffect(() => {
     authFetch({
       url: 'users/is-logged-in',
-      credentials: true,
       authType: 'isLoggedIn',
       requestType: 'POST',
     })

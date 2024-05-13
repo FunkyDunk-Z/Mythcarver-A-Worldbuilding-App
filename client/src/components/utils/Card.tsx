@@ -8,10 +8,11 @@ type CardProps = {
   link?: string
   image?: string
   cardName: string
-  size?: string
+  docType?: string
+  docSubType?: string
 }
 
-function Card({ link, image, cardName, size }: CardProps) {
+function Card({ link, image, cardName, docType, docSubType }: CardProps) {
   const navigate = useNavigate()
 
   const handleView = () => {
@@ -19,10 +20,7 @@ function Card({ link, image, cardName, size }: CardProps) {
   }
 
   return (
-    <div
-      className={`${styles.wrapper} ${size ? styles[size] : ''}`}
-      onClick={handleView}
-    >
+    <div className={styles.wrapper} onClick={handleView}>
       <img
         className={styles.image}
         src={image ? image : DefaultImage}
@@ -30,6 +28,8 @@ function Card({ link, image, cardName, size }: CardProps) {
       />
       <div className={styles.cardDetails}>
         <p className={styles.cardName}>{cardName}</p>
+        <p>{docType}</p>
+        <p>{docSubType}</p>
       </div>
     </div>
   )

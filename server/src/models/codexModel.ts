@@ -61,6 +61,9 @@ codexSchema.pre(
     this.populate({
       path: 'categories',
       select: '-__v',
+      options: {
+        sort: { categoryName: 1 },
+      },
     })
     next()
   }

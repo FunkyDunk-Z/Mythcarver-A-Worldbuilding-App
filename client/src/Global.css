@@ -64,3 +64,14 @@ h1 {
   display: grid;
   grid-template-rows: auto 1fr auto;
 }
+
+.gallery {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  margin: 1rem;
+  align-items: start;
+  justify-self: center;
+  width: 90%;
+  max-height: max-content;
+}

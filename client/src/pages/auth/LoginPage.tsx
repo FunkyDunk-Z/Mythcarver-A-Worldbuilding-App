@@ -30,7 +30,6 @@ function LoginPage() {
     await authFetch({
       dataToSend: formData,
       url: 'users/login',
-      credentials: true,
       authType: 'login',
       requestType: 'POST',
     })

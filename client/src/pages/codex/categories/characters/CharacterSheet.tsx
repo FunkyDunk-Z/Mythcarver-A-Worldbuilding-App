@@ -11,8 +11,12 @@ import Slider from '../../../../components/utils/Slider'
 
 import styles from './css/CharacterSheet.module.css'
 
-function CharacterSheet() {
-  const { setIsLoading, user } = useAuthContext()
+interface PropTypes {
+  currentCharacter: CharacterType
+}
+
+function CharacterSheet({ currentCharacter }: PropTypes) {
+  const { setIsLoading } = useAuthContext()
   const { docFetch } = useDocFetch()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [confirmDelete, setConfirmDelete] = useState(false)
@@ -20,11 +24,6 @@ function CharacterSheet() {
   const [manageHp, setManageHp] = useState(false)
   const [currentHealth, setCurrentHealth] = useState(0)
   const navigate = useNavigate()
-  const currentCodexId = localStorage.getItem('currentCodexId')
-  const currentCodex = user?.codex.find((codex) => codex._id === currentCodexId)
-  const id = localStorage.getItem('currentDocId')
-  const [currentCharacter, setCurrentCharacter] =
-    useState<CharacterType | null>(null)
 
   const toggleConfirmDelete = () => {
     setConfirmDelete(!confirmDelete)
@@ -38,20 +37,8 @@ function CharacterSheet() {
     setManageHp(!manageHp)
   }
 
-  useEffect(() => {
-    const character = currentCodex?.characters.filter(
-      (character) => character._id === id
-    )
-    if (character) {
-      setCurrentCharacter(character[0])
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   const handleDelete = (id: string | null) => {
     docFetch({
-      credentials: true,
       requestType: 'DELETE',
       url: `characters/delete/${id}`,
     })
@@ -72,7 +59,10 @@ function CharacterSheet() {
             </>
           ) : (
             <>
-              <MyButton theme="delete" handleClick={() => handleDelete(id)}>
+              <MyButton
+                theme="delete"
+                handleClick={() => handleDelete(currentCharacter._id)}
+              >
                 Confirm
               </MyButton>
               <MyButton handleClick={toggleConfirmDelete}>Cancel</MyButton>
@@ -141,10 +131,10 @@ function CharacterSheet() {
       }
   }
 
-  const CharacterSheet = () => {
+  const RenderCharacter = () => {
     if (currentCharacter) {
+      const { docName } = currentCharacter.commonProps
       const {
-        characterName,
         avatarURL,
         species,
         characterClass,
@@ -172,7 +162,7 @@ function CharacterSheet() {
                 <ManageCharacter />
               </div>
               <div className={styles.wrapperDetails}>
-                <h1 className={styles.characterName}>{characterName}</h1>
+                <h1 className={styles.characterName}>{docName}</h1>
                 <ManageHp />
                 <div className={styles.characterDetails}>
                   <p className={styles.detail}>
@@ -391,7 +381,7 @@ function CharacterSheet() {
 
   return (
     <>
-      <CharacterSheet />
+      <RenderCharacter />
     </>
   )
 }

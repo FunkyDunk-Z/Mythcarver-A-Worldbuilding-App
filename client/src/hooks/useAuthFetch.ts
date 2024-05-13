@@ -11,7 +11,7 @@ export const useAuthFetch = () => {
   const [message, setMessage] = useState('')
 
   const authFetch = async (data: FetchPropTypes) => {
-    const { dataToSend, url, credentials, authType, requestType } = data
+    const { dataToSend, url, authType, requestType } = data
 
     setError(null)
     try {
@@ -23,7 +23,7 @@ export const useAuthFetch = () => {
             headers: {
               'Content-Type': 'application/json',
             },
-            withCredentials: credentials,
+            withCredentials: true,
           })
           break
         case 'POST':
@@ -31,7 +31,7 @@ export const useAuthFetch = () => {
             headers: {
               'Content-Type': 'application/json',
             },
-            withCredentials: credentials,
+            withCredentials: true,
           })
           break
         case 'PATCH':
@@ -39,7 +39,7 @@ export const useAuthFetch = () => {
             headers: {
               'Content-Type': 'application/json',
             },
-            withCredentials: credentials,
+            withCredentials: true,
           })
           break
         case 'DELETE':
@@ -47,7 +47,7 @@ export const useAuthFetch = () => {
             headers: {
               'Content-Type': 'application/json',
             },
-            withCredentials: credentials,
+            withCredentials: true,
           })
           break
         default:
@@ -64,7 +64,6 @@ export const useAuthFetch = () => {
           authType === 'update'
         ) {
           const { user } = data
-          localStorage.setItem('user', JSON.stringify(user))
           dispatchUserState({ type: 'SET_STATE', payload: user })
 
           const currentCodex = user.codex.filter(
@@ -80,7 +79,6 @@ export const useAuthFetch = () => {
           setMessage(message)
           setIsLoading(false)
         } else {
-          localStorage.removeItem('user')
           dispatchUserState({ type: 'CLEAR_STATE' })
           setIsLoading(false)
         }
@@ -89,7 +87,6 @@ export const useAuthFetch = () => {
       // If signUp is a success
       if (response.status === 201) {
         const { user } = response.data
-        localStorage.setItem('user', JSON.stringify(user))
         dispatchUserState({ type: 'SET_STATE', payload: user })
         setIsLoading(false)
       } else {
@@ -108,12 +105,10 @@ export const useAuthFetch = () => {
       if (axios.isAxiosError<AxiosError, Record<string, unknown>>(error)) {
         if (error.response?.status === 500) {
           dispatchUserState({ type: 'CLEAR_STATE' })
-          localStorage.clear()
           console.log("Can't connect to Server")
           setIsLoading(false)
         } else {
           dispatchUserState({ type: 'CLEAR_STATE' })
-          localStorage.clear()
           console.log('User not loggedd in')
           setIsLoading(false)
         }

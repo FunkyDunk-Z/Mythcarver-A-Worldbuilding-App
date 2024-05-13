@@ -11,11 +11,16 @@ type PropType = {
 }
 
 function Slider({ children, currentIndex, setCurrentIndex }: PropType) {
+  const slides = children.filter((el) => {
+    if (el !== null) {
+      return el
+    }
+  })
+
   const nextSlide = () => {
-    if (currentIndex < children.length - 1) {
+    if (currentIndex < slides.length - 1) {
       setCurrentIndex(currentIndex + 1)
     }
-    console.log(currentIndex)
   }
   const prevSlide = () => {
     if (currentIndex > 0) {
@@ -29,7 +34,7 @@ function Slider({ children, currentIndex, setCurrentIndex }: PropType) {
         {currentIndex > 0 ? (
           <MyButton handleClick={prevSlide}>{`<<`}</MyButton>
         ) : null}
-        {currentIndex < children.length - 1 ? (
+        {currentIndex < slides.length - 1 ? (
           <MyButton handleClick={nextSlide}>{`>>`}</MyButton>
         ) : null}
       </div>

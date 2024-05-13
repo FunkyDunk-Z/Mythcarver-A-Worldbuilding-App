@@ -14,32 +14,29 @@ export default function DynamicRoutes() {
   return (
     <Routes>
       <Route path="/" index element={<Dashboard />} />
-      {activeCodex?.categories.map((el, i) => {
+      {activeCodex?.categories.map((el, i) => (
         // Categories
-        return (
+        <Route
+          key={i}
+          path={`/${el.categoryUrl}/*`}
+          index
+          element={
+            <DynamicCategory docs={el.docs} categoryName={el.categoryName} />
+          }
+        />
+      ))}
+      {activeCodex?.categories.map((el, i) =>
+        // Documents
+        el.docs.map((doc, j) => (
           <Route
-            key={i}
-            path={`/${el.categoryName}/*`}
-            index
+            key={`${i}-${j}`}
+            path={`/${el.categoryUrl}/${doc.docId}`}
             element={
-              <DynamicCategory docs={el.docs} categoryName={el.categoryName} />
+              <DynamicDocument categoryUrl={el.categoryUrl} docId={doc.docId} />
             }
           />
-        )
-      })}
-
-      {activeCodex?.categories.map((category) => {
-        // Documents
-        return category.docs.map((el, i) => {
-          return (
-            <Route
-              key={i}
-              path={`/${category.categoryName}/:id`}
-              element={<DynamicDocument docId={el.docId} />}
-            />
-          )
-        })
-      })}
+        ))
+      )}
       <Route path="/*" element={<PageNotFound />} />
     </Routes>
   )
