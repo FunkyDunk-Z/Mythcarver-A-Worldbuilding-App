@@ -1,48 +1,18 @@
-// import { useState } from 'react'
-// import { useAuthContext } from './useAuthContext'
-// import { useCodexContext } from './useCodexContext'
+import { useAuthContext } from './useAuthContext'
+import { useCodexContext } from './useCodexContext'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 
 export const useDocFetch = () => {
-  // const { dispatchUserState, setIsLoading } = useAuthContext()
-  // const { dispatchCodexState, activeCodex } = useCodexContext()
-  // const [error, setError] = useState(null)
-
-  // const createOrDelete = (
-  //   response: AxiosResponse,
-  //   user: UserStateType,
-  //   codexId: string,
-  //   dispatchUserState: React.Dispatch<ReducerType>
-  // ) => {
-  //   if (user && activeCodex) {
-  //         if (response.status === 201) {
-  //           const { doc } = response.data
-  //           activeCodex.categories.map((el) => el._id === doc.categoryId).push(doc)
-
-  //           currentCodex.recent.push(doc)
-  //           // must update the codex for the pushed doc to remain
-  //           docFetch({
-  //             requestType: 'PATCH',
-  //             url: `/codex/${activeCodex._id}`,
-  //             credentials: true,
-  //             dataToSend: {
-  //               recent: activeCodex.recent,
-  //             },
-  //           })
-  //         } else if (response.status === 204) {
-  //           const updatedCharacters = currentCodex.characters.filter(
-  //             (char) => char._id !== currentDocId
-  //           )
-  //           currentUser.codex[currentCodexIndex].characters = updatedCharacters
-  //         }
-  //       }
-  //     }
-  //     dispatchUserState({ type: 'SET_STATE', payload: user })
-  //   }
+  const { user } = useAuthContext()
+  const { dispatchCodexState, activeCodex } = useCodexContext()
 
   const docFetch = async (data: FetchPropTypes) => {
     {
       const { dataToSend, url, requestType } = data
+
+      if (!activeCodex || !user) {
+        return new Error('no user or active codex')
+      }
       try {
         let response: AxiosResponse
 
@@ -84,26 +54,46 @@ export const useDocFetch = () => {
         }
 
         //---------- GET & PATCH ----------
-        if (response.status === 200) {
-          const { data } = response
-          const { doc } = data
+        if (response.status === 200 || response.status === 204) {
+          const { doc } = response.data
 
           return doc
         }
 
-        //---------- CREATE & DELETE ----------
+        //---------- CREATE ----------
+        if (response.status === 201) {
+          const { doc } = response.data
 
-        // if (response.status === 201 || response.status === 204) {
-        //     // createOrDelete(response, user, activeCodex._id, dispatchUserState)
-        //     // createdOrDeleted = (
-        //     //     response: AxiosResponse,
-        //     //     user: UserStateType,
-        //     //     codexId: string,
-        //     //     dispatchUserState: React.Dispatch<ReducerType>
-        //     //   ) => {
+          const {
+            docType,
+            thumbnail,
+            docName,
+            docSubType,
+            categoryUrl,
+            categoryId,
+          } = doc.commonProps
 
-        //     //   }
-        // }
+          const docToAdd = {
+            docId: doc._id,
+            modelRef: docType,
+            thumbnail,
+            docName,
+            docType,
+            docSubType,
+            categoryUrl,
+          }
+
+          activeCodex.recent.push(docToAdd)
+          activeCodex.categories.map((el) => {
+            if (el._id.toString() === categoryId.toString()) {
+              el.docs.push(docToAdd)
+            }
+          })
+          dispatchCodexState({
+            type: 'SET_CURRENT_CODEX',
+            payload: activeCodex,
+          })
+        }
       } catch (error) {
         if (axios.isAxiosError<AxiosError, Record<string, unknown>>(error)) {
           if (error.response?.status === 500) {
