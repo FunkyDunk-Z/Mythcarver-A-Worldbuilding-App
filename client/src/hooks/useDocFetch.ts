@@ -95,14 +95,14 @@ export const useDocFetch = () => {
 
         // if (response.status === 201 || response.status === 204) {
         //     // createOrDelete(response, user, activeCodex._id, dispatchUserState)
-        //     createdOrDeleted = (
-        //         response: AxiosResponse,
-        //         user: UserStateType,
-        //         codexId: string,
-        //         dispatchUserState: React.Dispatch<ReducerType>
-        //       ) => {
+        //     // createdOrDeleted = (
+        //     //     response: AxiosResponse,
+        //     //     user: UserStateType,
+        //     //     codexId: string,
+        //     //     dispatchUserState: React.Dispatch<ReducerType>
+        //     //   ) => {
 
-        //       }
+        //     //   }
         // }
       } catch (error) {
         if (axios.isAxiosError<AxiosError, Record<string, unknown>>(error)) {

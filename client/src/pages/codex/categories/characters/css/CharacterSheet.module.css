@@ -126,6 +126,7 @@
 }
 
 .ability {
+  position: relative;
   display: grid;
   border: 1px solid black;
   border-radius: 4px;
@@ -158,13 +159,22 @@
   justify-items: center;
 }
 
+.savingAdvantage {
+  position: absolute;
+  top: 25%;
+  left: 25%;
+  color: green;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
 .wrapperSkills {
   display: grid;
   gap: 0.5rem;
   border: 1px solid black;
   border-radius: 5px;
   padding: 0.5rem;
-  margin-inline: auto;
+  /* margin-inline: auto; */
 }
 
 .skill {
@@ -184,6 +194,11 @@
   min-width: 30px;
   text-align: center;
 }
+
+/* .skillName {
+  justify-self: start;
+  margin-left: 2rem;
+} */
 
 .circle {
   width: 10px;

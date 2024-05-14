@@ -131,6 +131,8 @@ function CharacterSheet({ currentCharacter }: PropTypes) {
       }
   }
 
+  // console.log(currentCharacter)
+
   const RenderCharacter = () => {
     if (currentCharacter) {
       const { docName } = currentCharacter.commonProps
@@ -247,6 +249,9 @@ function CharacterSheet({ currentCharacter }: PropTypes) {
                 return (
                   <div className={styles.ability} key={i}>
                     <p className={styles.abilityName}>{abilityName}</p>
+                    {el.savingThrow.isProficient ? (
+                      <p className={styles.savingAdvantage}>A</p>
+                    ) : null}
                     <span
                       className={
                         el.savingThrow?.isProficient
@@ -312,7 +317,7 @@ function CharacterSheet({ currentCharacter }: PropTypes) {
                       }
                     ></span>
 
-                    <p className={styles.abilityName}>{skillName} :</p>
+                    <p className={styles.skillName}>{skillName} :</p>
                     <p className={styles.skillMod}>
                       {skillMod ? skillMod : null}
                     </p>
