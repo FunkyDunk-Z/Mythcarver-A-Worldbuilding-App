@@ -54,7 +54,6 @@ function MyAccount() {
     await authFetch({
       url: '/users/update-my-account',
       requestType: 'PATCH',
-      credentials: false,
       dataToSend: formData,
       authType: 'update',
     })

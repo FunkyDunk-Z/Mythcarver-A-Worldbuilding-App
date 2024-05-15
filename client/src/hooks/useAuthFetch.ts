@@ -6,7 +6,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios'
 
 export const useAuthFetch = () => {
   const { dispatchUserState, setIsLoading } = useAuthContext()
-  const { dispatchCodexState } = useCodexContext()
+  const { dispatchCodexState, dispatchCategoryState } = useCodexContext()
   const [error, setError] = useState(null)
   const [message, setMessage] = useState('')
 
@@ -69,10 +69,20 @@ export const useAuthFetch = () => {
           const currentCodex = user.codex.filter(
             (el: CodexType) => el.isCurrent === true
           )
+          const currentCategory = currentCodex[0].categories.filter(
+            (el: CategoryType) => el.isCurrent === true
+          )
+
           dispatchCodexState({
             type: 'SET_CURRENT_CODEX',
             payload: currentCodex[0],
           })
+
+          dispatchCategoryState({
+            type: 'SET_CURRENT_CATEGORY',
+            payload: currentCategory[0],
+          })
+
           setIsLoading(false)
         } else if (authType === 'forgotPassword') {
           const { message } = data

@@ -129,3 +129,5 @@ const CreateCodex = () => {
     </div>
   )
 }
+
+export default CreateCodex

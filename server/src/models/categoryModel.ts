@@ -15,7 +15,9 @@ export interface CategoryType extends Document {
   categoryName: string
   categoryUrl: string
   docs: DocType[]
+  docType: string
   thumbnail?: string
+  isCurrent: boolean
 }
 
 const categorySchema = new Schema<CategoryType>({
@@ -35,14 +37,22 @@ const categorySchema = new Schema<CategoryType>({
     type: String,
   },
   docs: [docSchema],
+  docType: {
+    type: String,
+  },
   thumbnail: {
     type: String,
+  },
+  isCurrent: {
+    type: Boolean,
+    default: false,
   },
 })
 
 categorySchema.pre('save', async function (next) {
   try {
     this.categoryUrl = formatForUrl(this.categoryName)
+    this.docType = this.categoryName
 
     if (this.isNew) {
       const codex = await Codex.findById(this.codexId)

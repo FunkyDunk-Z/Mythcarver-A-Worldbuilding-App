@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { useDocFetch } from '../../../../hooks/useDocFetch'
 import { useAuthContext } from '../../../../hooks/useAuthContext'
+import { useCodexContext } from '../../../../hooks/useCodexContext'
 import {
   abilitiyStats,
   senseStats,
@@ -14,19 +15,20 @@ import Select from '../../../../components/utils/Select'
 
 import styles from './css/CreateCharacter.module.css'
 
-interface PropTypes {
-  selectType: string
-}
-
 // MISSING FEATURES
 // Description
 
-function CreateCharacter({ selectType }: PropTypes) {
+interface PropTypes {
+  type: string
+  categoryId: string
+}
+
+function CreateCharacter({ type, categoryId }: PropTypes) {
   const { user } = useAuthContext()
+  const { activeCodex } = useCodexContext()
   const navigate = useNavigate()
   const { docFetch } = useDocFetch()
   const url = window.location.href.split('/')[3]
-  const currentCodexId = localStorage.getItem('currentCodexId')
   const [avatar, setAvatar] = useState('')
 
   const speciesOptions = [
@@ -90,12 +92,20 @@ function CreateCharacter({ selectType }: PropTypes) {
   >(levelOptions[0])
 
   const [formData, setFormData] = useState<CharacterType>({
-    createdBy: user?.id,
-    codex: currentCodexId,
-    characterName: '',
+    commonProps: {
+      createdBy: user?.id,
+      codexId: activeCodex?._id,
+      categoryId: categoryId,
+      isPublic: false,
+      docName: '',
+      docType: type,
+      docSubType: '',
+      connections: [],
+      thumbnail: '',
+    },
     avatarURL: avatar,
-    characterType: selectType,
-    level: '1',
+    characterType: type,
+    level: 1,
     abilities: abilitiyStats,
     skills: skillStats,
     senses: senseStats,

@@ -3,5 +3,8 @@
 .wrapperPage {
   display: grid;
   justify-items: center;
-  margin-block: 1rem;
+}
+
+.categoryName {
+  margin: 1rem;
 }

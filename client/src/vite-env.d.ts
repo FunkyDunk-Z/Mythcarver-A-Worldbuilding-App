@@ -1,6 +1,8 @@
 /// <reference types="vite/client" />
 
-type ObjectType = { [key: string]: string }
+interface I_Object {
+  [key: string]: string | number | boolean | []
+}
 
 type ReactProps = {
   children: ReactNode
@@ -49,6 +51,7 @@ type DataType =
   | CharacterType
   | RecentType
   | CodexType
+  | CategoryType
 
 type AuthType =
   | 'login'
@@ -61,7 +64,7 @@ type AuthType =
 type RequestType = 'GET' | 'POST' | 'PATCH' | 'DELETE'
 
 type FetchPropTypes = {
-  dataToSend?: DataType
+  dataToSend?: any
   url: string
   authType?: AuthType
   requestType: RequestType
@@ -104,22 +107,9 @@ interface DocType {
   modelRef: string
 }
 
-type CurrentDocStateType = CharacterType | null
-
-type SetCurrentDoc = {
-  type: 'SET_CURRENT_DOC'
-  payload: CodexType
-}
-
-type ClearCurrentDoc = {
-  type: 'CLEAR_CURRENT_DOC'
-}
-
-type CurrentDocReducerType = SetCurrentDoc | ClearCurrentDoc
-
 interface CommonSchemaType {
-  createdBy: string
-  codexId: string
+  createdBy: string | undefined
+  codexId: string | undefined
   isPublic: boolean
   docName: string
   docType: string
@@ -136,8 +126,23 @@ interface CategoryType {
   categoryName: string
   categoryUrl: string
   docs: DocType[]
+  docType: string
   thumbnail: string
+  isCurrent: boolean
 }
+
+type CategoryStateType = CategoryType | null
+
+type SetCurrentCategory = {
+  type: 'SET_CURRENT_CATEGORY'
+  payload: CategoryType
+}
+
+type ClearCurrentCategory = {
+  type: 'CLEAR_CURRENT_CATEGORY'
+}
+
+type CategoryReducerType = SetCurrentCategory | ClearCurrentCategory
 
 interface CodexType {
   _id: string
@@ -165,32 +170,32 @@ type CodexReducerType = SetCodex | ClearCodex
 //---------Character Types----------
 
 interface SavingThrowType {
-  isProficient: boolean
-  savingThrowMod: number
-  hasAdvantage: boolean
+  isProficient?: boolean
+  savingThrowMod?: number
+  hasAdvantage?: boolean
 }
 
 interface AbilityType {
   abilityName: string
   abilityScore: number
-  abilityMod: number
-  savingThrow: SavingThrowType
+  abilityMod?: number
+  savingThrow?: SavingThrowType
 }
 
 interface SkillType {
   skillName: string
   skillAbility: string
-  isProficient: boolean
-  hasDoubleProficiency: boolean
+  isProficient?: boolean
+  hasDoubleProficiency?: boolean
   skillMod: number
-  hasAdvantage: boolean
+  hasAdvantage?: boolean
 }
 
 interface SenseType {
   senseName: string
   skillRequired: string
-  senseMod: number
-  hasAdvantage: boolean
+  senseMod?: number
+  hasAdvantage?: boolean
 }
 
 interface InitiativeType {
@@ -204,10 +209,10 @@ interface ArmourClassType {
 }
 
 interface HealthPointsType {
-  currentHP: number
+  currentHP?: number
   maxHP: number
-  temporaryHP: number
-  hitDie: number
+  temporaryHP?: number
+  hitDie?: number
 }
 
 interface SpeedType {

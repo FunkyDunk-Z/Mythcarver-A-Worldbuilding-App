@@ -163,6 +163,49 @@ export const updateOne =
     }
   }
 
+//----------Update Many---------
+
+export const updateMany =
+  <T extends Document>(Model: Model<T>) =>
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const updates = req.body.updates // Assuming updates are sent as an array of objects
+
+      if (!Array.isArray(updates) || updates.length === 0) {
+        return next(new AppError('No updates provided', 400))
+      }
+
+      const bulkOps = updates.map((update) => ({
+        updateOne: {
+          filter: { _id: update.id }, // The ID of the document to update
+          update: { $set: update.fields }, // The fields to update
+        },
+      }))
+
+      const bulkWriteResult = await Model.bulkWrite(bulkOps)
+
+      // Check if any documents were actually updated
+      if (bulkWriteResult.modifiedCount === 0) {
+        return next(new AppError('No documents were updated', 400))
+      }
+
+      // Collect the IDs of the updated documents
+      const updatedIds = updates.map((update) => update.id)
+
+      // Retrieve the updated documents
+      const docs = await Model.find({ _id: { $in: updatedIds } })
+
+      res.status(200).json({
+        status: 'success',
+        results: docs.length,
+        docs,
+      })
+    } catch (error) {
+      console.error(error)
+      return next(new AppError('Could not update documents', 500))
+    }
+  }
+
 //----------Delete One----------
 
 export const deleteOne =

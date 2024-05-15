@@ -1,6 +1,6 @@
 import { Reducer } from 'react'
 
-export const codexReducer: Reducer<CodexType | null, CodexReducerType> = (
+export const codexReducer: Reducer<CodexStateType, CodexReducerType> = (
   state,
   action
 ) => {

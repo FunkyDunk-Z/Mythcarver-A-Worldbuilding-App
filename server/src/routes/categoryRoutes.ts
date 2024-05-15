@@ -6,6 +6,7 @@ import {
   getAllCategories,
   getCategory,
   updateCategory,
+  updateCategories,
   deleteCategory,
 } from '../controllers/categoryController'
 
@@ -13,7 +14,11 @@ const router = Router()
 
 router.use(protect)
 
-router.route('/').get(getAllCategories).post(createCategory)
+router
+  .route('/')
+  .get(getAllCategories)
+  .post(createCategory)
+  .patch(updateCategories)
 
 router
   .route('/:id')

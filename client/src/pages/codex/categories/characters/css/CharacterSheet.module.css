@@ -68,8 +68,8 @@
 
 .manageHp {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: -60%;
+  right: 5%;
 }
 
 .healthPoints {

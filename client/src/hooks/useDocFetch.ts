@@ -55,9 +55,15 @@ export const useDocFetch = () => {
 
         //---------- GET & PATCH ----------
         if (response.status === 200 || response.status === 204) {
-          const { doc } = response.data
+          if (response.data.doc) {
+            const { doc } = response.data
 
-          return doc
+            return doc
+          } else {
+            const { docs } = response.data
+
+            return docs
+          }
         }
 
         //---------- CREATE ----------
