@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+
+// Context
 import { useAuthContext } from '../../../../hooks/useAuthContext'
+import { useCodexContext } from '../../../../hooks/useCodexContext'
 
 // import Sidebar from '../../../../components/layout/Sidebar'
 
@@ -12,15 +15,12 @@ import styles from './css/Characters.module.css'
 
 function Characters() {
   const { user } = useAuthContext()
+  const { currentCodex } = useCodexContext()
   const navigate = useNavigate()
-  const currentCodexId = localStorage.getItem('currentCodexId')
-  const [characters, setCharacters] = useState<CharacterType[]>([])
+  const [characters, setCharacters] = useState<DocType[] | null>([])
 
   useEffect(() => {
     if (user) {
-      const currentCodex = user.codex.find(
-        (codex) => codex._id === currentCodexId
-      )
       if (currentCodex) {
         const characterArray = currentCodex.categories.map((el) =>
           el.categoryName === 'Characters' ? el.docs : null
@@ -33,7 +33,7 @@ function Characters() {
         // setCharacters(currentCodex.categories.map((el) => el.categoryName === "Characters" ? ))
       }
     }
-  }, [user, currentCodexId])
+  }, [user, currentCodex])
 
   const handleToCreatePage = (option: string) => {
     navigate(`create/${option}`)
@@ -50,13 +50,14 @@ function Characters() {
         </MyButton>
       </div>
       <div className={styles.characterGallery}>
-        {characters.map((el, i) => (
+        {characters?.map((el, i) => (
           <Card
             key={i}
-            cardName={el.characterName}
-            link={el._id}
-            docId={el._id}
-            image={el.avatarURL ? el.avatarURL : Image}
+            cardName={el.docName}
+            link={el.docId}
+            docType={el.docType}
+            docSubType={el.docSubType}
+            image={el.thumbnail ? el.thumbnail : Image}
           />
         ))}
       </div>

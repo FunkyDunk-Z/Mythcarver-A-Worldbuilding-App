@@ -249,7 +249,7 @@ function CharacterSheet({ currentCharacter }: PropTypes) {
                 return (
                   <div className={styles.ability} key={i}>
                     <p className={styles.abilityName}>{abilityName}</p>
-                    {el.savingThrow.isProficient ? (
+                    {el.savingThrow?.isProficient ? (
                       <p className={styles.savingAdvantage}>A</p>
                     ) : null}
                     <span

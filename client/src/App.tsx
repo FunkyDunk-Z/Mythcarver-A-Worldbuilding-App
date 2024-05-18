@@ -27,12 +27,13 @@ import PageUnderConstruction from './pages/PageUnderConstruction'
 // Pages
 import LoadingPage from './pages/LoadingPage'
 import MyAccount from './pages/MyAccount'
+import CreateCodex from './pages/codex/CreateCodex'
 import DynamicRoutes from './routes/DynamicRoutes'
 // import TurnTracker from "./pages/TurnTracker";
 
 function App() {
   const { user, isLoading } = useAuthContext()
-  const { activeCodex } = useCodexContext()
+  const { currentCodex } = useCodexContext()
   const { authFetch } = useAuthFetch()
 
   //---------- Check if logged in ----------
@@ -57,7 +58,7 @@ function App() {
     }
 
     if (user && authUrl) {
-      return <Navigate to={`/${activeCodex?.codexUrl}`} replace={true} />
+      return <Navigate to={`/${currentCodex?.codexUrl}`} replace={true} />
     }
 
     if (!user && !authUrl) {
@@ -73,9 +74,10 @@ function App() {
         <Header />
         <Routes>
           <Route
-            path={`/${activeCodex?.codexUrl}/*`}
+            path={`/${currentCodex?.codexUrl}/*`}
             element={<LoadingComponent component={<DynamicRoutes />} />}
           />
+          <Route path="/create-codex" element={<CreateCodex />} />
           <Route
             path="/login"
             element={<LoadingComponent component={<LoginPage />} />}

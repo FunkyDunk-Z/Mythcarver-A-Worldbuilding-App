@@ -13,8 +13,8 @@ interface CodexDocument extends Document {
   codexName: string
   codexUrl: string
   recent: DocType[]
-  isCurrent: boolean
   categories: Types.ObjectId[]
+  isCurrent: boolean
 }
 
 const codexSchema = new Schema<CodexDocument>(

@@ -4,13 +4,13 @@ import axios, { AxiosError, AxiosResponse } from 'axios'
 
 export const useDocFetch = () => {
   const { user } = useAuthContext()
-  const { dispatchCodexState, activeCodex } = useCodexContext()
+  const { dispatchCodexState, currentCodex } = useCodexContext()
 
   const docFetch = async (data: FetchPropTypes) => {
     {
       const { dataToSend, url, requestType } = data
 
-      if (!activeCodex || !user) {
+      if (!currentCodex || !user) {
         return new Error('no user or active codex')
       }
       try {
@@ -89,15 +89,15 @@ export const useDocFetch = () => {
             categoryUrl,
           }
 
-          activeCodex.recent.push(docToAdd)
-          activeCodex.categories.map((el) => {
+          currentCodex.recent.push(docToAdd)
+          currentCodex.categories.map((el) => {
             if (el._id.toString() === categoryId.toString()) {
               el.docs.push(docToAdd)
             }
           })
           dispatchCodexState({
             type: 'SET_CURRENT_CODEX',
-            payload: activeCodex,
+            payload: currentCodex,
           })
         }
       } catch (error) {

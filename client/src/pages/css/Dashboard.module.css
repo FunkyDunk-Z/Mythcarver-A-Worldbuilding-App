@@ -1,5 +1,11 @@
 @import '../../Global.css';
 
+.wrapperPage {
+  display: grid;
+  justify-items: center;
+  margin-block: 1rem;
+}
+
 .slider {
   display: flex;
   margin-top: 1rem;

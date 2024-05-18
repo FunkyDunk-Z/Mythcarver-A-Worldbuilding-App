@@ -3,43 +3,82 @@ import { useAuthContext } from '../../hooks/useAuthContext'
 import { useCodexContext } from '../../hooks/useCodexContext'
 import { useDocFetch } from '../../hooks/useDocFetch'
 
+// pages
+import LoadingPage from '../LoadingPage'
+
+// Components
+import MyButton from '../../components/utils/MyButton'
+import Select from '../../components/utils/Select'
+
 // Styles
 import styles from './css/CreateCodex.module.css'
 
 const CreateCodex = () => {
   const { user } = useAuthContext()
-  const { dispatchCodexState } = useCodexContext()
+  const { dispatchCodexState, currentCodex } = useCodexContext() // Assuming currentCodex is available here
   const { docFetch } = useDocFetch()
 
   const [formData, setFormData] = useState<CodexType>({
+    _id: '',
+    createdBy: '',
     codexName: '',
     codexUrl: '',
-    createdBy: '',
-    isCurrent: false,
     recent: [],
     categories: [],
+    isCurrent: true,
   })
 
-  const handleChange = (e: InputEventType) => {
-    const { name, value } = e.target
+  const [categoryInputs, setCategoryInputs] = useState<string[]>([''])
+  const [docType, setDocType] = useState<string>('')
+
+  if (!user || !currentCodex) {
+    return <LoadingPage />
+  }
+
+  formData.createdBy = user.id
+
+  const handleCategoryChange = (index: number, value: string) => {
+    const newCategoryInputs = [...categoryInputs]
+    newCategoryInputs[index] = value
+    setCategoryInputs(newCategoryInputs)
+
+    const newCategories = newCategoryInputs.map((name) => ({
+      _id: '',
+      createdBy: user.id,
+      codexId: currentCodex._id,
+      categoryName: name,
+      categoryUrl: '',
+      docs: [],
+      docType: '',
+      thumbnail: '',
+      isCurrent: true,
+    }))
+
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: value,
+      categories: newCategories,
     }))
+  }
+
+  const addCategoryInput = () => {
+    setCategoryInputs([...categoryInputs, ''])
+  }
+
+  const handleChangeDocType = (docType: string) => {
+    console.log(docType)
   }
 
   const handleCreateCodex = async (e: FormEventType) => {
     e.preventDefault()
 
     await docFetch({
-      credentials: true,
       requestType: 'POST',
-      url: 'users/sign-up',
-      authType: 'signUp',
+      url: 'codex',
       dataToSend: formData,
     })
 
     setFormData({
+      _id: '',
       codexName: '',
       codexUrl: '',
       createdBy: '',
@@ -47,84 +86,55 @@ const CreateCodex = () => {
       recent: [],
       categories: [],
     })
+
+    setCategoryInputs([''])
   }
+
+  // console.log(formData)
+  console.log(categoryInputs)
 
   return (
     <div className={styles.wrapperPage}>
-      <h2>Create Codex</h2>
-      <form onSubmit={handleSignUp} className={styles.form}>
-        <label className={styles.label} htmlFor="firstName">
-          First Name:
+      <form onSubmit={handleCreateCodex} className={styles.form}>
+        <label className={styles.label} htmlFor="codexName">
+          Codex Name:
         </label>
         <input
           className={styles.input}
           type="text"
-          name="firstName"
-          id="firstName"
+          name="codexName"
+          id="codexName"
           autoComplete="off"
-          value={formData.firstName}
-          onChange={handleChange}
+          value={formData.codexName}
+          onChange={(e) =>
+            setFormData({ ...formData, codexName: e.target.value })
+          }
         ></input>
-        <label className={styles.label} htmlFor="lastName">
-          Last Name:
-        </label>
-        <input
-          className={styles.input}
-          type="text"
-          name="lastName"
-          id="lastName"
-          autoComplete="off"
-          value={formData.lastName}
-          onChange={handleChange}
-        ></input>
-        <label className={styles.label} htmlFor="username">
-          Username:
-        </label>
-        <input
-          className={styles.input}
-          type="text"
-          name="username"
-          id="username"
-          autoComplete="off"
-          value={formData.username}
-          onChange={handleChange}
-        ></input>
-        <label className={styles.label} htmlFor="email">
-          Email:
-        </label>
-        <input
-          className={styles.input}
-          type="text"
-          name="email"
-          id="email"
-          autoComplete="off"
-          value={formData.email}
-          onChange={handleChange}
-        ></input>
-        <label className={styles.label} htmlFor="password">
-          Password:
-        </label>
-        <input
-          className={styles.input}
-          type="password"
-          name="password"
-          id="password"
-          value={formData.password}
-          onChange={handleChange}
-        ></input>
-        <label className={styles.label} htmlFor="passwordConfirm">
-          Password Confirm:
-        </label>
-        <input
-          className={styles.input}
-          type="password"
-          name="passwordConfirm"
-          id="passwordConfirm"
-          value={formData.passwordConfirm}
-          onChange={handleChange}
-        ></input>
-        <MyButton type="submit">Create Account</MyButton>
-        {/* <button type="submit">Create Account</button> */}
+
+        {categoryInputs.map((category, i) => (
+          <div className={styles.wrapperCategories} key={i}>
+            <label className={styles.label} htmlFor={`category-${i}`}>
+              Category Name:
+            </label>
+            <input
+              className={styles.input}
+              type="text"
+              name={`category-${i}`}
+              id={`category-${i}`}
+              value={category}
+              onChange={(e) => handleCategoryChange(i, e.target.value)}
+            ></input>
+            <Select
+              onChange={() => handleChangeDocType('character')}
+              options={['Character', 'Item', 'Lore']}
+            />
+          </div>
+        ))}
+        <MyButton type="button" handleClick={addCategoryInput}>
+          Add Category
+        </MyButton>
+
+        <MyButton type="submit">Create Codex</MyButton>
       </form>
     </div>
   )

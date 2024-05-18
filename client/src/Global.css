@@ -75,3 +75,31 @@ h1 {
   width: 90%;
   max-height: max-content;
 }
+
+/* Global Forms */
+
+.form {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+}
+.input {
+  min-height: 20px;
+  min-width: 300px;
+  max-width: 60%;
+  font-style: inherit;
+  font-size: 1rem;
+  place-self: center;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 0.5rem;
+}
+
+.input::-webkit-outer-spin-button,
+.input::-webkit-inner-spin-button {
+  appearance: none;
+}
+
+.label {
+  font-size: 1.3rem;
+}

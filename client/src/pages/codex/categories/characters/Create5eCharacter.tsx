@@ -25,7 +25,7 @@ interface PropTypes {
 
 function CreateCharacter({ type, categoryId }: PropTypes) {
   const { user } = useAuthContext()
-  const { activeCodex } = useCodexContext()
+  const { currentCodex } = useCodexContext()
   const navigate = useNavigate()
   const { docFetch } = useDocFetch()
   const url = window.location.href.split('/')[3]
@@ -94,7 +94,7 @@ function CreateCharacter({ type, categoryId }: PropTypes) {
   const [formData, setFormData] = useState<CharacterType>({
     commonProps: {
       createdBy: user?.id,
-      codexId: activeCodex?._id,
+      codexId: currentCodex?._id,
       categoryId: categoryId,
       isPublic: false,
       docName: '',

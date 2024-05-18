@@ -8,17 +8,17 @@ import CreateStandardCharacter from './categories/characters/CreateStandardChara
 import styles from './css/DynamicCreate.module.css'
 
 function DynamicCreate() {
-  const { activeCategory } = useCodexContext()
-  console.log(activeCategory)
+  const { currentCategory } = useCodexContext()
+  console.log(currentCategory)
 
-  // if (!activeCategory) {
+  // if (!currentCategory) {
   //   return new Error('no active category')
   // }
 
-  // const { docType, _id } = activeCategory
+  // const { docType, _id } = currentCategory
 
   const RenderForm = () => {
-    switch (activeCategory?.docType) {
+    switch (currentCategory?.docType) {
       case 'Character':
         return <CreateStandardCharacter />
 
@@ -31,7 +31,7 @@ function DynamicCreate() {
   return (
     <div className={styles.wrapper}>
       <p>DynamicCreate</p>
-      <p>{activeCategory?._id}</p>
+      <p>{currentCategory?._id}</p>
       <RenderForm />
     </div>
   )

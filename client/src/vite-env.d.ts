@@ -150,8 +150,8 @@ interface CodexType {
   codexName: string
   codexUrl: string
   recent: DocType[]
-  isCurrent: boolean
   categories: CategoryType[]
+  isCurrent: boolean
 }
 
 type CodexStateType = CodexType | null

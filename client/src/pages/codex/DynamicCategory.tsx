@@ -30,23 +30,24 @@ function DynamicCategory({ category }: I_Props) {
   const navigate = useNavigate()
   const { docFetch } = useDocFetch()
   const {
-    activeCategory,
-    activeCodex,
+    currentCategory,
+    currentCodex,
     dispatchCodexState,
     dispatchCategoryState,
   } = useCodexContext()
 
   useEffect(() => {
     const compareCategories = () => {
-      if (!activeCategory) {
-        return new Error('No Active Category')
+      if (!currentCategory) {
+        return console.log('no category')
       }
-      if (!activeCodex) {
-        return new Error('No Active Codex')
+      if (!currentCodex) {
+        return console.log('no codex')
       }
-      if (category._id !== activeCategory?._id) {
+
+      if (category._id !== currentCategory?._id) {
         category.isCurrent = true
-        activeCategory.isCurrent = false
+        currentCategory.isCurrent = false
         const docsToPush: I_UpdateMany = {
           updates: [],
         }
@@ -59,7 +60,7 @@ function DynamicCategory({ category }: I_Props) {
           },
         })
         updates.push({
-          id: activeCategory._id,
+          id: currentCategory._id,
           fields: {
             isCurrent: false,
           },
@@ -67,12 +68,15 @@ function DynamicCategory({ category }: I_Props) {
 
         dispatchCodexState({
           type: 'SET_CURRENT_CODEX',
-          payload: activeCodex,
+          payload: currentCodex,
         })
         dispatchCategoryState({
           type: 'SET_CURRENT_CATEGORY',
           payload: category,
         })
+
+        // console.log('category', currentCategory)
+        // console.log('codex', currentCodex)
 
         docFetch({
           requestType: 'PATCH',
@@ -83,8 +87,8 @@ function DynamicCategory({ category }: I_Props) {
     }
     compareCategories()
   }, [
-    activeCodex,
-    activeCategory,
+    currentCodex,
+    currentCategory,
     dispatchCategoryState,
     dispatchCodexState,
     docFetch,
@@ -96,10 +100,10 @@ function DynamicCategory({ category }: I_Props) {
   }
   return (
     <div className={styles.wrapperPage}>
-      <h1 className={styles.categoryName}>{activeCategory?.categoryName}</h1>
+      <h1 className={styles.categoryName}>{currentCategory?.categoryName}</h1>
       <MyButton handleClick={handleNavigate}>Create New</MyButton>
       <div className={styles.gallery}>
-        {activeCategory?.docs.map((el, i) => {
+        {currentCategory?.docs.map((el, i) => {
           return (
             <Card
               key={i}

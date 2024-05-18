@@ -1,0 +1,12 @@
+@import '../../../Global.css';
+
+.wrapperPage {
+  display: grid;
+  align-items: start;
+  margin-block: 1rem;
+}
+
+.wrapperCategories {
+  display: grid;
+  justify-items: center;
+}

@@ -69,6 +69,7 @@ export const useAuthFetch = () => {
           const currentCodex = user.codex.filter(
             (el: CodexType) => el.isCurrent === true
           )
+
           const currentCategory = currentCodex[0].categories.filter(
             (el: CategoryType) => el.isCurrent === true
           )

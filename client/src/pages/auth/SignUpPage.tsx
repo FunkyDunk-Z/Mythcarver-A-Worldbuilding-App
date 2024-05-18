@@ -30,7 +30,6 @@ function SignUpPage() {
     e.preventDefault()
 
     await authFetch({
-      credentials: true,
       requestType: 'POST',
       url: 'users/sign-up',
       authType: 'signUp',

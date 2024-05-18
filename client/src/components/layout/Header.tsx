@@ -8,11 +8,11 @@ import styles from './css/Header.module.css'
 
 function Header() {
   const { user } = useAuthContext()
-  const { activeCodex } = useCodexContext()
+  const { currentCodex } = useCodexContext()
   const navigate = useNavigate()
 
   const handleNavigate = () => {
-    navigate(`/${activeCodex?.codexUrl}`)
+    navigate(`/${currentCodex?.codexUrl}`)
   }
 
   return (

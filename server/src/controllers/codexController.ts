@@ -19,6 +19,8 @@ export const createCodex = async (
 ) => {
   try {
     const { createdBy, codexName, categories } = req.body
+    console.log(req.body)
+
     const user = await User.findById(createdBy)
 
     if (!user) {

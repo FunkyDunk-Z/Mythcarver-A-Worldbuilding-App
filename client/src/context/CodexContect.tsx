@@ -7,8 +7,8 @@ const codexInit: CodexStateType = null
 const categoryInit: CategoryStateType = null
 
 type CodexContextType = {
-  activeCodex: CodexStateType
-  activeCategory: CategoryStateType
+  currentCodex: CodexStateType
+  currentCategory: CategoryStateType
   dispatchCodexState: Dispatch<CodexReducerType>
   dispatchCategoryState: Dispatch<CategoryReducerType>
 }
@@ -16,16 +16,16 @@ type CodexContextType = {
 export const CodexContext = createContext<CodexContextType | null>(null)
 
 export const CodexContextProvider = ({ children }: ReactProps) => {
-  const [activeCodex, dispatchCodexState] = useReducer(codexReducer, codexInit)
-  const [activeCategory, dispatchCategoryState] = useReducer(
+  const [currentCodex, dispatchCodexState] = useReducer(codexReducer, codexInit)
+  const [currentCategory, dispatchCategoryState] = useReducer(
     categoryReducer,
     categoryInit
   )
 
   const contextValues = {
-    activeCodex,
+    currentCodex,
     dispatchCodexState,
-    activeCategory,
+    currentCategory,
     dispatchCategoryState,
   }
 

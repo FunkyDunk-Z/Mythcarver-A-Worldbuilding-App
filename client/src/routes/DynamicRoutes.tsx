@@ -5,19 +5,18 @@ import PageNotFound from '../pages/PageNotFound'
 
 // Pages
 import Dashboard from '../pages/Dashboard'
-import CreateCodex from '../pages/codex/CreateCodex'
 import DynamicCategory from '../pages/codex/DynamicCategory'
 import DynamicDocument from '../pages/codex/DynamicDocument'
 import DynamicCreateDocument from '../pages/codex/DynamicCreateDocument'
 
 export default function DynamicRoutes() {
-  const { activeCodex } = useCodexContext()
+  const { currentCodex } = useCodexContext()
+  const categories = currentCodex?.categories.map((el) => el)
 
   return (
     <Routes>
       <Route path="/" index element={<Dashboard />} />
-      <Route path="/create-codex" element={<CreateCodex />} />
-      {activeCodex?.categories.map((el, i) => (
+      {categories?.map((el, i) => (
         // Categories
         <Route
           key={i}
@@ -26,7 +25,7 @@ export default function DynamicRoutes() {
           element={<DynamicCategory category={el} />}
         />
       ))}
-      {activeCodex?.categories.map((el, i) => (
+      {categories?.map((el, i) => (
         // Create Doc
         <Route
           key={i}
@@ -35,7 +34,7 @@ export default function DynamicRoutes() {
           element={<DynamicCreateDocument />}
         />
       ))}
-      {activeCodex?.categories.map((el, i) =>
+      {categories?.map((el, i) =>
         // Documents
         el.docs.map((doc, j) => (
           <Route
