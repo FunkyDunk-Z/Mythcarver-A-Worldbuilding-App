@@ -35,21 +35,26 @@ function App() {
   const { user, isLoading } = useAuthContext()
   const { currentCodex } = useCodexContext()
   const { authFetch } = useAuthFetch()
+  // const [isLoading, setIsLoading] = useState(false)
+  // const isLoading = useRef(false)
 
   //---------- Check if logged in ----------
+
   useEffect(() => {
     authFetch({
       url: 'users/is-logged-in',
       authType: 'isLoggedIn',
       requestType: 'POST',
     })
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  console.log(user)
 
   //---------- Authorised Navigation ----------
   function LoadingComponent({ component }: { component: React.JSX.Element }) {
     const url = window.location.href.split('/')[3]
-
     const authUrl =
       url === 'login' || url === 'sign-up' || url === 'forgot-password'
 

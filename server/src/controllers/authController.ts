@@ -174,7 +174,7 @@ const protect: RequestHandler = async (req, res, next) => {
     const token = extractToken(req)
 
     if (!token) {
-      return res.status(401).json({ message: 'Unatuhorized' })
+      return res.status(401).json({ message: 'Please Log in' })
     }
 
     const { iat, _id } = jwt.verify(token, env.JWT_SECRET) as JwtPayload

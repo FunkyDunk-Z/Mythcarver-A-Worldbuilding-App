@@ -53,7 +53,7 @@ function Dashboard() {
             <Card
               key={i}
               cardName={el.categoryName}
-              image={el.thumbnail}
+              // image={el.thumbnail}
               link={el.categoryUrl}
             />
           ))}

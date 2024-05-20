@@ -3,6 +3,7 @@
 .wrapperPage {
   display: grid;
   justify-items: center;
+  align-items: start;
   margin-block: 1rem;
 }
 

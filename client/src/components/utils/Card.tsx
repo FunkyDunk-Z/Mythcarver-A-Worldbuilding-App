@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 
-import DefaultImage from '../../assets/D&D.jpg'
+// import DefaultImage from '../../assets/D&D.jpg'
 
 import styles from './css/Card.module.css'
 
@@ -21,11 +21,10 @@ function Card({ link, image, cardName, docType, docSubType }: CardProps) {
 
   return (
     <div className={styles.wrapper} onClick={handleView}>
-      <img
-        className={styles.image}
-        src={image ? image : DefaultImage}
-        alt="image of category"
-      />
+      {image ? (
+        <img className={styles.image} src={image} alt="image of category" />
+      ) : null}
+
       <div className={styles.cardDetails}>
         <p className={styles.cardName}>{cardName}</p>
         <p>{docType}</p>

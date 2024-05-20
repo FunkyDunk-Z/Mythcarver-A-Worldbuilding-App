@@ -66,6 +66,12 @@ function DynamicCategory({ category }: I_Props) {
           },
         })
 
+        docFetch({
+          requestType: 'PATCH',
+          url: 'category',
+          dataToSend: docsToPush,
+        })
+
         dispatchCodexState({
           type: 'SET_CURRENT_CODEX',
           payload: currentCodex,
@@ -73,15 +79,6 @@ function DynamicCategory({ category }: I_Props) {
         dispatchCategoryState({
           type: 'SET_CURRENT_CATEGORY',
           payload: category,
-        })
-
-        // console.log('category', currentCategory)
-        // console.log('codex', currentCodex)
-
-        docFetch({
-          requestType: 'PATCH',
-          url: 'category',
-          dataToSend: docsToPush,
         })
       }
     }

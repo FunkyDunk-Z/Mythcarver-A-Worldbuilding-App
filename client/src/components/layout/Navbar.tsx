@@ -20,6 +20,7 @@ function Navbar() {
   const [openStatus, setOpenStatus] = useState('')
   const navbarRef = useRef<HTMLDivElement>(null)
 
+  // Resize
   useEffect(() => {
     function handleResize() {
       if (window.innerWidth >= 900) {
@@ -37,6 +38,7 @@ function Navbar() {
     }
   }, [])
 
+  // Click outside Nav
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (navbarRef.current && !navbarRef.current.contains(e.target as Node)) {
@@ -52,6 +54,7 @@ function Navbar() {
     }
   }, [openStatus, isActive])
 
+  // Toggle isActive
   const toggleNavBtn = () => {
     setIsActive(!isActive)
 
@@ -64,6 +67,7 @@ function Navbar() {
     }
   }
 
+  // Logout
   const handleLogout = () => {
     toggleNavBtn()
     authFetch({
@@ -75,15 +79,17 @@ function Navbar() {
 
   return (
     <>
-      <div
-        ref={navbarRef}
-        className={`${styles.burgerIcon} ${isActive ? styles.active : ''}`}
-        onClick={toggleNavBtn}
-      >
-        <span className={styles.line}></span>
-        <span className={styles.line}></span>
-        <span className={styles.line}></span>
-      </div>
+      {user ? (
+        <div
+          ref={navbarRef}
+          className={`${styles.burgerIcon} ${isActive ? styles.active : ''}`}
+          onClick={toggleNavBtn}
+        >
+          <span className={styles.line}></span>
+          <span className={styles.line}></span>
+          <span className={styles.line}></span>
+        </div>
+      ) : null}
       <div className={`${styles.wrapper} ${styles[openStatus]}`}>
         <Link
           to={`${currentCodex?.codexUrl}`}

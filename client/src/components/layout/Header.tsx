@@ -12,15 +12,20 @@ function Header() {
   const navigate = useNavigate()
 
   const handleNavigate = () => {
-    navigate(`/${currentCodex?.codexUrl}`)
+    if (user) {
+      navigate(`/${currentCodex?.codexUrl}`)
+    }
   }
 
   return (
     <div id="header" className={styles.wrapper}>
-      <h1 className={styles.title} onClick={handleNavigate}>
+      <h1
+        className={`${styles.title} ${user ? styles.pointer : ''}`}
+        onClick={handleNavigate}
+      >
         Mythcarver
       </h1>
-      {user ? <Navbar /> : null}
+      <Navbar />
     </div>
   )
 }

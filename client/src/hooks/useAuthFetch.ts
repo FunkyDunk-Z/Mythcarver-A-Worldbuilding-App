@@ -5,15 +5,13 @@ import { useCodexContext } from './useCodexContext'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 
 export const useAuthFetch = () => {
-  const { dispatchUserState, setIsLoading } = useAuthContext()
+  const { dispatchUserState, setError, setIsLoading } = useAuthContext()
   const { dispatchCodexState, dispatchCategoryState } = useCodexContext()
-  const [error, setError] = useState(null)
   const [message, setMessage] = useState('')
 
   const authFetch = async (data: FetchPropTypes) => {
     const { dataToSend, url, authType, requestType } = data
-
-    setError(null)
+    setIsLoading(true)
     try {
       let response: AxiosResponse
 
@@ -66,6 +64,8 @@ export const useAuthFetch = () => {
           const { user } = data
           dispatchUserState({ type: 'SET_STATE', payload: user })
 
+          localStorage.setItem('user', JSON.stringify(user))
+
           const currentCodex = user.codex.filter(
             (el: CodexType) => el.isCurrent === true
           )
@@ -83,15 +83,11 @@ export const useAuthFetch = () => {
             type: 'SET_CURRENT_CATEGORY',
             payload: currentCategory[0],
           })
-
-          setIsLoading(false)
         } else if (authType === 'forgotPassword') {
           const { message } = data
           setMessage(message)
-          setIsLoading(false)
         } else {
           dispatchUserState({ type: 'CLEAR_STATE' })
-          setIsLoading(false)
         }
       }
 
@@ -99,36 +95,38 @@ export const useAuthFetch = () => {
       if (response.status === 201) {
         const { user } = response.data
         dispatchUserState({ type: 'SET_STATE', payload: user })
-        setIsLoading(false)
       } else {
         setError(response.data.error)
-        setIsLoading(false)
       }
 
       // If delete user is a success
       if (response.status === 204) {
-        setIsLoading(true)
+        console.log('deletion success')
       } else {
         setError(response.data.error)
-        setIsLoading(false)
       }
     } catch (error) {
-      if (axios.isAxiosError<AxiosError, Record<string, unknown>>(error)) {
-        if (error.response?.status === 500) {
-          dispatchUserState({ type: 'CLEAR_STATE' })
-          console.log("Can't connect to Server")
-          setIsLoading(false)
+      if (
+        axios.isAxiosError<AxiosError, Record<string, unknown>>(error) &&
+        error.response
+      ) {
+        const { status, data } = error.response
+        const { message } = data
+        localStorage.clear()
+        if (status === 500) {
+          setError('Server down. Please try again later')
+        } else if (status === 401) {
+          setError('')
         } else {
-          dispatchUserState({ type: 'CLEAR_STATE' })
-          console.log('User not loggedd in')
-          setIsLoading(false)
+          setError(message)
         }
       } else {
         console.error(error)
-        setIsLoading(false)
       }
+    } finally {
+      setIsLoading(false)
     }
   }
 
-  return { authFetch, message, error }
+  return { authFetch, message }
 }
