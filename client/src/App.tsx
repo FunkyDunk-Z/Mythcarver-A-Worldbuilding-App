@@ -50,7 +50,7 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  console.log(user)
+  // console.log(user)
 
   //---------- Authorised Navigation ----------
   function LoadingComponent({ component }: { component: React.JSX.Element }) {

@@ -8,10 +8,10 @@ type Option = string | undefined
 
 type OptionTypes = {
   options: Option[]
-  value?: string
+  value: string
   onChange: (value: Option) => void
   theme?: string
-  selectName?: string
+  selectName: string
 }
 
 function Select({ options, onChange, value, theme, selectName }: OptionTypes) {
@@ -37,12 +37,12 @@ function Select({ options, onChange, value, theme, selectName }: OptionTypes) {
       tabIndex={0}
       className={`${styles.wrapper} ${!theme ? '' : styles[theme]}`}
     >
-      <span className={styles.value}>{value}</span>
-      {!theme ? (
-        <MyButton type="button" theme="clear" handleClick={clearOptions}>
-          &times;
-        </MyButton>
-      ) : null}
+      <span className={styles.value}>
+        {!value ? `Choose a ${selectName}` : value}
+      </span>
+      <MyButton type="button" theme="clear" handleClick={clearOptions}>
+        &times;
+      </MyButton>
       <div className={styles.divider}></div>
       <div className={`${styles.caret} ${isOpen ? styles.open : ''}`}></div>
       <ul className={`${styles.options}  ${isOpen ? styles.show : ''}`}>

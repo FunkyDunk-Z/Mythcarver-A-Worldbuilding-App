@@ -1,6 +1,11 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+// Context
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { useCodexContext } from '../../hooks/useCodexContext'
+
+// Hooks
 import { useDocFetch } from '../../hooks/useDocFetch'
 
 // pages
@@ -13,9 +18,13 @@ import Select from '../../components/utils/Select'
 // Styles
 import styles from './css/CreateCodex.module.css'
 
+// Data
+import Categories from '../../data/Categories'
+
 const CreateCodex = () => {
   const { user } = useAuthContext()
-  const { dispatchCodexState, currentCodex } = useCodexContext() // Assuming currentCodex is available here
+  const navigate = useNavigate()
+  const { currentCodex } = useCodexContext() // Assuming currentCodex is available here
   const { docFetch } = useDocFetch()
 
   const [formData, setFormData] = useState<CodexType>({
@@ -28,8 +37,9 @@ const CreateCodex = () => {
     isCurrent: true,
   })
 
-  const [categoryInputs, setCategoryInputs] = useState<string[]>([''])
-  const [docType, setDocType] = useState<string>('')
+  const [categoryInputs, setCategoryInputs] = useState<
+    { name: string; docType: string }[]
+  >([{ name: '', docType: '' }])
 
   if (!user || !currentCodex) {
     return <LoadingPage />
@@ -39,18 +49,28 @@ const CreateCodex = () => {
 
   const handleCategoryChange = (index: number, value: string) => {
     const newCategoryInputs = [...categoryInputs]
-    newCategoryInputs[index] = value
+    newCategoryInputs[index].name = value
     setCategoryInputs(newCategoryInputs)
 
-    const newCategories = newCategoryInputs.map((name) => ({
-      _id: '',
-      createdBy: user.id,
-      codexId: currentCodex._id,
-      categoryName: name,
-      categoryUrl: '',
-      docs: [],
-      docType: '',
-      thumbnail: '',
+    const newCategories = newCategoryInputs.map((input) => ({
+      categoryName: input.name,
+      docType: input.docType,
+    }))
+
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      categories: newCategories,
+    }))
+  }
+
+  const handleDocTypeChange = (index: number, docType: string) => {
+    const newCategoryInputs = [...categoryInputs]
+    newCategoryInputs[index].docType = docType
+    setCategoryInputs(newCategoryInputs)
+
+    const newCategories = newCategoryInputs.map((input) => ({
+      categoryName: input.name,
+      docType: input.docType,
       isCurrent: true,
     }))
 
@@ -61,15 +81,13 @@ const CreateCodex = () => {
   }
 
   const addCategoryInput = () => {
-    setCategoryInputs([...categoryInputs, ''])
+    setCategoryInputs([...categoryInputs, { name: '', docType: '' }])
   }
 
-  const handleChangeDocType = (docType: string) => {
-    console.log(docType)
-  }
-
-  const handleCreateCodex = async (e: FormEventType) => {
+  const handleCreateCodex = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    const navTo = formData.codexName.replace(/ /g, '-').toLowerCase()
 
     await docFetch({
       requestType: 'POST',
@@ -87,17 +105,15 @@ const CreateCodex = () => {
       categories: [],
     })
 
-    setCategoryInputs([''])
+    setCategoryInputs([{ name: '', docType: '' }])
+    navigate(`/${navTo}`)
   }
-
-  // console.log(formData)
-  console.log(categoryInputs)
 
   return (
     <div className={styles.wrapperPage}>
       <form onSubmit={handleCreateCodex} className={styles.form}>
         <label className={styles.label} htmlFor="codexName">
-          Codex Name:
+          Codex Name
         </label>
         <input
           className={styles.input}
@@ -111,22 +127,29 @@ const CreateCodex = () => {
           }
         ></input>
 
+        <p className={styles.label}>Categories</p>
         {categoryInputs.map((category, i) => (
           <div className={styles.wrapperCategories} key={i}>
-            <label className={styles.label} htmlFor={`category-${i}`}>
+            {/* <label className={styles.label} htmlFor={`category-${i}`}>
               Category Name:
-            </label>
+            </label> */}
             <input
               className={styles.input}
               type="text"
               name={`category-${i}`}
               id={`category-${i}`}
-              value={category}
+              value={category.name}
+              spellCheck="false"
+              autoComplete="off"
               onChange={(e) => handleCategoryChange(i, e.target.value)}
             ></input>
             <Select
-              onChange={() => handleChangeDocType('character')}
-              options={['Character', 'Item', 'Lore']}
+              options={Categories}
+              value={category.docType}
+              onChange={(value) =>
+                value ? handleDocTypeChange(i, value) : null
+              }
+              selectName="Document Type"
             />
           </div>
         ))}

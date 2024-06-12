@@ -24,7 +24,7 @@
 }
 
 .divider {
-  background-color: #777;
+  background-color: var(--primary-hover);
   align-self: stretch;
   width: 1px;
 }
@@ -32,12 +32,12 @@
 .caret {
   translate: 0 25%;
   border: 0.5rem solid transparent;
-  border-top-color: #777;
+  border-top-color: var(--primary-hover);
 }
 .caret.open {
   transform: translateY(-50%);
   border-top-color: transparent;
-  border-bottom-color: #777;
+  border-bottom-color: var(--primary-hover);
 }
 
 .options {

@@ -70,31 +70,33 @@ export const useDocFetch = () => {
         if (response.status === 201) {
           const { doc } = response.data
 
-          const {
-            docType,
-            thumbnail,
-            docName,
-            docSubType,
-            categoryUrl,
-            categoryId,
-          } = doc.commonProps
+          if (doc.commonProps) {
+            const {
+              docType,
+              thumbnail,
+              docName,
+              docSubType,
+              categoryUrl,
+              categoryId,
+            } = doc.commonProps
 
-          const docToAdd = {
-            docId: doc._id,
-            modelRef: docType,
-            thumbnail,
-            docName,
-            docType,
-            docSubType,
-            categoryUrl,
-          }
-
-          currentCodex.recent.push(docToAdd)
-          currentCodex.categories.map((el) => {
-            if (el._id.toString() === categoryId.toString()) {
-              el.docs.push(docToAdd)
+            const docToAdd = {
+              docId: doc._id,
+              modelRef: docType,
+              thumbnail,
+              docName,
+              docType,
+              docSubType,
+              categoryUrl,
             }
-          })
+
+            currentCodex.recent.push(docToAdd)
+            currentCodex.categories.map((el) => {
+              if (el._id.toString() === categoryId.toString()) {
+                el.docs.push(docToAdd)
+              }
+            })
+          }
           dispatchCodexState({
             type: 'SET_CURRENT_CODEX',
             payload: currentCodex,
